@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AREMOS 總體經濟資料庫實務與 AI 協同視覺化教學</title>
+    
+    <!-- 1. 引入 Chart.js 用於繪製圖表 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 2. 引入 MathJax 解決 LaTeX 數學公式渲染問題 -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --navy-dark: #0f172a;
+            --navy-main: #1e3a8a;
+            --blue-accent: #2563eb;
+            --blue-light: #eff6ff;
+            --emerald: #059669;
+            --rose: #e11d48;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding-bottom: 3rem;
+        }
+
+        /* 頂部 Header */
+        header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
+            color: white;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            color: #93c5fd;
+            font-size: 1.1rem;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 老師的話 Panel */
+        .teacher-note {
+            background: var(--blue-light);
+            border-left: 5px solid var(--blue-accent);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .teacher-note h3 {
+            color: var(--navy-main);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* 導覽頁籤 */
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 0.9rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: var(--blue-accent);
+            border-bottom-color: var(--blue-accent);
+        }
+
+        /* 內容卡片 */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            color: var(--navy-main);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-slate);
+            padding-bottom: 0.5rem;
+        }
+
+        /* 網格系統 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* AREMOS 入口按鈕卡片 */
+        .db-link-card {
+            background: linear-gradient(to right, #1e3a8a, #2563eb);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .db-link-card a {
+            background: white;
+            color: var(--navy-main);
+            padding: 0.7rem 1.4rem;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .db-link-card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Code Block & Prompt 盒 */
+        .prompt-box {
+            background: var(--navy-dark);
+            color: #f1f5f9;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-family: "Fira Code", Consolas, Monaco, monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-top: 0.8rem;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* 圖表容器 */
+        .chart-box {
+            position: relative;
+            height: 380px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* 標籤與特色清單 */
+        .badge {
+            background: var(--blue-light);
+            color: var(--blue-accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        ul.eco-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.eco-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        ul.eco-list li::before {
+            content: "➔";
+            position: absolute;
+            left: 0;
+            color: var(--blue-accent);
+            font-weight: bold;
+        }
+
+        /* 數學公式渲染加強外觀 */
+        .math-block {
+            background: #f1f5f9;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>AREMOS 經濟資料庫實務與 AI 協同視覺化</h1>
+            <p>淡江大學經濟學系講義 ── 總體經濟數據檢索、研判與圖表生成</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 老師的話 -->
+        <div class="teacher-note">
+            <h3>🎓 課前說明</h3>
+            <p>各位同學好！當代經濟學研究不只要有理論觀念，更要有<strong>數據處理能力</strong>。這份教材將帶大家透過國內最權威的 <strong>AREMOS/Web 資料庫</strong> 調取真實統計，並學習如何下精準的 <strong>AI Prompt (提示詞)</strong>，讓 AI 成為我們繪製專業雙 Y 軸經濟圖表的協同助手。</p>
+        </div>
+
+        <!-- 官方連結導向卡片 -->
+        <div class="db-link-card">
+            <div>
+                <h3 style="font-size:1.1rem; margin-bottom:0.2rem;">🔗 AREMOS/Web 官方資料庫入口</h3>
+                <p style="font-size:0.9rem; opacity:0.9;">請點擊連結登入（校外請先開啟學校 VPN 授權）：</p>
+            </div>
+            <a href="https://net.aremos.org.tw/index.php" target="_blank">進入 AREMOS 網頁版 ➔</a>
+        </div>
+
+        <!-- Tab 導覽列 -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('tab1')">1. 核心指標與經濟學理</button>
+            <button class="tab-btn" onclick="switchTab('tab2')">2. AREMOS 實務檢索步驟</button>
+            <button class="tab-btn" onclick="switchTab('tab3')">3. AI 協同 Prompt 策略</button>
+            <button class="tab-btn" onclick="switchTab('tab4')">4. 實務動態視覺化 Demo</button>
+        </div>
+
+        <!-- Tab 1: 核心指標與經濟學理 -->
+        <div id="tab1" class="tab-content active">
+            <div class="card">
+                <h2>📌 總體經濟指標的三大觀念突破</h2>
+                <p>在 AREMOS 資料庫勾選變數前，請務必釐清以下觀念，避免做出錯誤的經濟研判：</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h2>1. 通膨指數：原始值 vs. 年增率 (YoY)</h2>
+                    <ul class="eco-list">
+                        <li><strong>原始指數 (Index)</strong>：如 CPI = 105.2，僅代表相較於基期的相對價格，單看無法代表通膨。</li>
+                        <li><strong>年增率 (YoY, %)</strong>：新聞所說的「通膨率 2%」，是指與<strong>去年同期相比</strong>的增幅：
+                            <div class="math-block">
+                                $$\text{CPI YoY}_t = \frac{\text{CPI}_t - \text{CPI}_{t-12}}{\text{CPI}_{t-12}} \times 100\%$$
+                            </div>
+                        </li>
+                        <li><span class="badge">實務要求</span> 期末簡報討論通膨時，一律使用 <strong>YoY (年增率)</strong>。</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>2. 資金總量：M1B vs. M2 黃金交叉</h2>
+                    <ul class="eco-list">
+                        <li><strong>M1B (狹義貨幣)</strong>：現金 + 活期存款，代表市場上的「熱錢/交易資金」。</li>
+                        <li><strong>M2 (廣義貨幣)</strong>：M1B + 定期存款 + 外匯存款，代表總資金水庫。</li>
+                        <li><strong>黃金交叉 (M1B YoY > M2 YoY)</strong>：代表民眾解約定存轉入活存，市場資金極度活絡，通常為<strong>股市資金動能強勁</strong>的訊號。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: AREMOS 實務檢索步驟 -->
+        <div id="tab2" class="tab-content">
+            <div class="card">
+                <h2>💻 AREMOS/Web 網頁版 4 步驟檢索 SOP</h2>
+                <p>請依照以下操作流程，從 <span class="badge">net.aremos.org.tw</span> 匯出研究所需的 CSV 檔案：</p>
+                
+                <div style="margin-top:1.5rem;">
+                    <p><strong>第一步：分類樹搜尋與變數勾選</strong></p>
+                    <p style="color:var(--text-secondary); margin-left:1rem; margin-bottom:1rem;">
+                        進入系統後，利用搜尋欄輸入關鍵字：<br>
+                        - 搜尋 <code style="color:var(--rose);">CPI</code> ➔ 選擇「消費者物價總指數 - 年增率 (YoY)」<br>
+                        - 搜尋 <code style="color:var(--rose);">M1B</code> / <code style="color:var(--rose);">M2</code> ➔ 選擇「貨幣總計數 - 年增率 (YoY)」
+                    </p>
+
+                    <p><strong>第二步：時間區間與頻率對齊</strong></p>
+                    <p style="color:var(--text-secondary); margin-left:1rem; margin-bottom:1rem;">
+                        選擇近 5 ~ 10 年的時間範圍（例：2020M01 至 2025M12）。注意 CPI 與 M1B 均為<strong>月資料 (Monthly)</strong>，頻率一致不需額外轉換。
+                    </p>
+
+                    <p><strong>第三步：匯出數據與下載</strong></p>
+                    <p style="color:var(--text-secondary); margin-left:1rem;">
+                        點選「匯出檔案」➔ 格式選擇 <strong>CSV</strong> 或 <strong>Excel (.xlsx)</strong> 下載至本機。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: AI 協同 Prompt 策略 -->
+        <div id="tab3" class="tab-content">
+            <div class="card">
+                <h2>🤖 模組化 Prompt (提示詞) 三階段策略</h2>
+                <p>我們不需要手寫 HTML/JS 程式碼，只要將 AREMOS 匯出的數據，搭配以下三階段 Prompt 貼給 AI (ChatGPT/Gemini)，即可生成專業視覺化網頁：</p>
+            </div>
+
+            <div class="card">
+                <h2>【Prompt 範本】直接複製並貼給 AI</h2>
+                <p><strong>階段 1：定義角色與雙 Y 軸結構</strong></p>
+                <div class="prompt-box">
+                    <button class="copy-btn" onclick="copyPrompt('p1')">複製 Prompt</button>
+                    <code id="p1">你是一位資深的前端工程師與經濟數據視覺化專家。我正在製作一份總體經濟報告，請幫我使用 Chart.js 繪製一張現代化的「雙 Y 軸互動式折線圖」。
+
+要求規格：
+1. 單一 HTML 檔案包含 CSS/JS，樣式需高級簡潔。
+2. 左側 Y 軸：CPI 通膨年增率 (%)，使用紅色。
+3. 右側 Y 軸：M1B 年增率 (%) 與 M2 年增率 (%)，使用藍色與綠色，右軸不要顯示網格線以免雜亂。
+4. 圖表需支援 Tooltip 滑鼠懸停同時顯示三個指標。</code>
+                </div>
+
+                <p style="margin-top:1.5rem;"><strong>階段 2：輸入 AREMOS 真實數據</strong></p>
+                <div class="prompt-box">
+                    <button class="copy-btn" onclick="copyPrompt('p2')">複製 Prompt</button>
+                    <code id="p2">這是我從 AREMOS 資料庫匯出的真實統計數據，請將其替換掉剛才程式碼中的範例數據：
+
+時間軸 (Labels)：[貼上你的月份，如 2021Q1, 2021Q2...]
+CPI YoY (%)：[貼上你的 CPI 年增率數據]
+M1B YoY (%)：[貼上你的 M1B 數據]
+M2 YoY (%)：[貼上你的 M2 數據]
+
+請確保輸出為完整的單一 HTML 檔案。</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: 實務動態視覺化 Demo -->
+        <div id="tab4" class="tab-content">
+            <div class="card">
+                <h2>📈 AI 產出成果：台灣 CPI 通膨與資金流動性雙 Y 軸圖表</h2>
+                <p>此圖表即為使用上述 Prompt 協同生成的成果，完全符合專業學術報告標準：</p>
+                
+                <div class="chart-box">
+                    <canvas id="mainChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🔍 經濟系老師觀點導讀</h2>
+                <ul class="eco-list">
+                    <li><strong>通膨趨勢分析</strong>：紅線 (CPI) 代表物價壓力。當紅線高過 2% 警戒線時，代表通膨升溫，央行有升息壓力。</li>
+                    <li><strong>資金動能分析</strong>：藍線 (M1B) 代表熱錢。當藍線由下往上穿越綠線 (M2) 時，形成**「黃金交叉」**，說明資金從定期存款流入活期存款，台股市場通常會展現強勁資金動能。</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 淡江大學經濟學系 | AREMOS 統計資料庫與 AI 協同編程教學教材</p>
+    </footer>
+
+    <script>
+        // Tab 切換邏輯
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            if (tabId === 'tab4') {
+                renderChart();
+            }
+        }
+
+        // Prompt 複製功能
+        function copyPrompt(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Prompt 已成功複製到剪貼簿！');
+            });
+        }
+
+        // Chart.js 圖表渲染
+        let chartRendered = false;
+        function renderChart() {
+            if (chartRendered) return;
+
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2022Q1', '2022Q2', '2022Q3', '2022Q4', '2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3'],
+                    datasets: [
+                        {
+                            label: 'CPI 年增率 (%) [左軸]',
+                            data: [3.1, 3.4, 2.8, 2.7, 2.6, 2.3, 2.4, 2.9, 2.2, 2.1, 2.0],
+                            borderColor: '#e11d48',
+                            backgroundColor: 'rgba(225, 29, 72, 0.08)',
+                            borderWidth: 2.5,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'M1B 年增率 (%) [右軸]',
+                            data: [11.1, 8.5, 7.5, 4.2, 3.8, 3.1, 3.8, 4.2, 4.5, 5.2, 5.8],
+                            borderColor: '#2563eb',
+                            borderWidth: 2.5,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'M2 年增率 (%) [右軸]',
+                            data: [8.0, 7.6, 6.9, 7.1, 6.7, 6.6, 6.5, 5.8, 5.6, 5.4, 5.3],
+                            borderColor: '#059669',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'CPI 年增率 (%)', color: '#e11d48' },
+                            suggestedMin: 0
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: '貨幣供給年增率 (%)', color: '#2563eb' },
+                            suggestedMin: 0
+                        }
+                    }
+                }
+            });
+            chartRendered = true;
+        }
+    </script>
+</body>
+</html>

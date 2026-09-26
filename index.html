@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 與經濟研究報告 - 課程教材導覽首頁</title>
+    <style>
+        :root {
+            --navy-dark: #0f172a;
+            --navy-main: #1e3a8a;
+            --blue-accent: #2563eb;
+            --blue-light: #eff6ff;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 3rem;
+        }
+
+        /* 頁首 Header */
+        header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+        }
+
+        header p {
+            color: #93c5fd;
+            font-size: 1.1rem;
+        }
+
+        /* 主內容區 */
+        .container {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .intro-box {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--blue-accent);
+        }
+
+        .intro-box h2 {
+            font-size: 1.2rem;
+            color: var(--navy-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .intro-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* 檔案連結卡片列表 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue-accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+            width: fit-content;
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            color: var(--navy-main);
+            margin-bottom: 0.6rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: var(--blue-accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.4rem;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+            width: fit-content;
+        }
+
+        .btn-link:hover {
+            background-color: var(--navy-main);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            margin-top: 3.5rem;
+        }
+
+        footer a {
+            color: var(--blue-accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AI 與經濟研究報告</h1>
+        <p>GitHub Pages 課程互動教材與實務導覽首頁</p>
+    </header>
+
+    <div class="container">
+
+        <div class="intro-box">
+            <h2>📌 頁面導覽說明</h2>
+            <p>歡迎來到本課程的教材資源庫。點擊下方卡片即可直接存取相對應的 HTML 互動教學模組與數據視覺化範例。</p>
+        </div>
+
+        <div class="card-grid">
+
+            <!-- 檔案 1 卡片 -->
+            <div class="card">
+                <div>
+                    <span class="card-tag">基礎模組</span>
+                    <h3>總體經濟指標實務與動向預測</h3>
+                    <p>介紹 AREMOS 經濟資料庫數據檢索流程、CPI/M1B/M2 等總體經濟變數研判，以及基礎互動介面範例。</p>
+                </div>
+                <a href="./總體經濟指標實務與動向預測.html" class="btn-link">
+                    開啟教材頁面 ➔
+                </a>
+            </div>
+
+            <!-- 檔案 2 卡片 -->
+            <div class="card">
+                <div>
+                    <span class="card-tag">進階實務 & AI 協同</span>
+                    <h3>AREMOS 總體經濟資料庫實務與 AI 協同視覺化教學</h3>
+                    <p>整合 MathJax 數學公式渲染、三階段 AI Prompt 提示詞策略、AREMOS 操作 SOP 以及 Chart.js 雙 Y 軸實務圖表。</p>
+                </div>
+                <a href="./AREMOS 總體經濟資料庫實務與 AI 協同視覺化教學.html" class="btn-link">
+                    開啟教材頁面 ➔
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© AI與經濟研究報告 | Hosted on <a href="https://github.com/brianchih/AIEconomics" target="_blank">GitHub Repository</a></p>
+    </footer>
+
+</body>
+</html>
