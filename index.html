@@ -10,6 +10,8 @@
             --navy-main: #1e3a8a;
             --blue-accent: #2563eb;
             --blue-light: #eff6ff;
+            --emerald: #059669;
+            --emerald-light: #ecfdf5;
             --bg-slate: #f8fafc;
             --card-bg: #ffffff;
             --text-primary: #1e293b;
@@ -53,7 +55,7 @@
 
         /* 主內容區 */
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
         }
@@ -81,7 +83,7 @@
         /* 檔案連結卡片列表 */
         .card-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
@@ -115,15 +117,21 @@
             width: fit-content;
         }
 
+        .card-tag.green {
+            background: var(--emerald-light);
+            color: var(--emerald);
+        }
+
         .card h3 {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             color: var(--navy-main);
             margin-bottom: 0.6rem;
+            line-height: 1.4;
         }
 
         .card p {
             color: var(--text-secondary);
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             margin-bottom: 1.5rem;
         }
 
@@ -144,6 +152,14 @@
 
         .btn-link:hover {
             background-color: var(--navy-main);
+        }
+
+        .btn-link.green {
+            background-color: var(--emerald);
+        }
+
+        .btn-link.green:hover {
+            background-color: #047857;
         }
 
         footer {
@@ -174,7 +190,7 @@
 
         <div class="intro-box">
             <h2>📌 頁面導覽說明</h2>
-            <p>歡迎來到本課程的教材資源庫。點擊下方卡片即可直接存取相對應的 HTML 互動教學模組與數據視覺化範例。</p>
+            <p>歡迎來到本課程的教材資源庫。點擊下方卡片即可存取相對應的 HTML 互動教學模組、Prompt 策略與數據視覺化範例。</p>
         </div>
 
         <div class="card-grid">
@@ -200,6 +216,18 @@
                 </div>
                 <a href="./AREMOS 總體經濟資料庫實務與 AI 協同視覺化教學.html" class="btn-link">
                     開啟教材頁面 ➔
+                </a>
+            </div>
+
+            <!-- 檔案 3 卡片 (新新增) -->
+            <div class="card">
+                <div>
+                    <span class="card-tag green">專題發想 & Prompt 策略</span>
+                    <h3>10 大經濟研究專題發想指南</h3>
+                    <p>結合 10 個有趣經濟現象（如實質薪資、M1B/M2 黃金交叉、晶片出口等），提供 AREMOS 變數代碼檢索路徑與 AI Prompt 提示詞設計。</p>
+                </div>
+                <a href="./經濟研究專題發想指南.html" class="btn-link green">
+                    開啟發想指南 ➔
                 </a>
             </div>
 

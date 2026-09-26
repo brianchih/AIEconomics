@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AREMOS 數據與 AI Prompt 策略：10 大經濟研究專題發想指南</title>
+    
+    <!-- 1. MathJax 數學公式渲染引擎 -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --navy-dark: #0f172a;
+            --navy-main: #1e3a8a;
+            --blue-accent: #2563eb;
+            --blue-light: #eff6ff;
+            --emerald: #059669;
+            --rose: #e11d48;
+            --amber: #d97706;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding-bottom: 4rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
+            color: white;
+            padding: 3rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+        }
+
+        header p {
+            color: #93c5fd;
+            font-size: 1.15rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 方法論卡片 */
+        .methodology-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--blue-accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .methodology-card h2 {
+            color: var(--navy-main);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .flow-step-box {
+            background: var(--bg-slate);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .flow-step-box h3 {
+            font-size: 1.05rem;
+            color: var(--blue-accent);
+            margin-bottom: 0.4rem;
+        }
+
+        /* 專題卡片容器 */
+        .topic-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .topic-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px solid var(--bg-slate);
+            padding-bottom: 0.8rem;
+        }
+
+        .topic-num {
+            background: var(--navy-main);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .topic-title {
+            font-size: 1.4rem;
+            color: var(--navy-main);
+            font-weight: 700;
+        }
+
+        /* 表格與標籤 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box {
+            background: var(--bg-slate);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .info-box h4 {
+            color: var(--navy-dark);
+            font-size: 1rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .code-tag {
+            background: #e2e8f0;
+            color: var(--rose);
+            font-family: monospace;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+        }
+
+        /* Code Block & Copy Button */
+        .prompt-box {
+            background: var(--navy-dark);
+            color: #f1f5f9;
+            padding: 1.4rem;
+            border-radius: 8px;
+            font-family: "Fira Code", Consolas, Monaco, monospace;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            position: relative;
+            margin-top: 0.8rem;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: none;
+            padding: 0.35rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* 題目清單 */
+        .paper-title-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--emerald);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1.2rem;
+        }
+
+        .paper-title-box h4 {
+            color: var(--emerald);
+            font-size: 1.05rem;
+            margin-bottom: 0.6rem;
+        }
+
+        ul.title-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.title-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        ul.title-list li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>AREMOS 數據與 AI Prompt 策略指南</h1>
+            <p>國立大學經濟學系講義 ── 10 大經濟專題發想、AREMOS 變數鏈結與提示詞工程</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 方法論介紹 -->
+        <div class="methodology-card">
+            <h2>💡 研究發想三部曲：從 AREMOS 原始數據到學術題目</h2>
+            <p>本講義專為《AI與經濟研究報告》設計，展示如何透過 **AREMOS 資料庫統計量**，結合結構化 **AI Prompt 提示詞**，讓 AI 成為引導經濟思考與撰寫報告題目的智慧助理。</p>
+
+            <div class="flow-steps">
+                <div class="flow-step-box">
+                    <h3>1. 鎖定 AREMOS 核心變數</h3>
+                    <p>從 `net.aremos.org.tw` 選擇具備理論關聯性的指標（如 CPI、M1B、實質 GDP）。</p>
+                </div>
+                <div class="flow-step-box">
+                    <h3>2. 設計角色化 AI Prompt</h3>
+                    <p>賦予 AI 經濟學者角色，輸入數據傳導邏輯與限制條件（Persona + Constraints）。</p>
+                </div>
+                <div class="flow-step-box">
+                    <h3>3. 生成實證研究題目</h3>
+                    <p>產出具備明確問題意識、假說與對應計量或圖表分析架構的專題報告題目。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主題 1 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 01</span>
+                <span class="topic-title">實質薪資 vs. CPI 通膨拉鋸戰（購買力侵蝕）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>當名目薪資成長率低於 CPI 通膨率時，即出現「實質薪資負成長」。這代表薪資調幅被物價吃掉，民眾實質購買力下降，可能近一步壓縮民間非必需品消費。</p>
+                    <p style="margin-top:0.5rem;">$$\text{Real Wage Growth}_t = \text{Nominal Wage Growth}_t - \text{CPI YoY}_t$$</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`物價變動` 與 `人力資源、薪資與生產力`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">CPICH.Q</span>（消費者物價指數年增率，季資料）<br>
+                    - <span class="code-tag">SALARY.Q</span>（受僱員工每人每月總薪資）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p1')">複製 Prompt</button>
+                <code id="p1">你是一位勞動經濟學家。我目前正從 AREMOS 資料庫下載台灣近十年的受僱員工總薪資 (SALARY) 與消費者物價指數年增率 (CPICH)。
+
+請根據「實質薪資負成長會侵蝕民間購買力」的理論，幫我設計 2 個具備深度問題意識的專題報告題目。
+題目需包含：
+1. 研究題目（吸引人且具備學術規範）
+2. 核心研究假說（Hypothesis）
+3. 建議採用的視覺化圖表類型與分析方向。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>追不上物價的加薪：台灣實質薪資負成長對餐飲與零售業消費衝擊之實證分析</li>
+                    <li>通膨環境下的名目薪資黏性與民眾實質購買力流失：基於 AREMOS 季數據的觀測</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 2 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 02</span>
+                <span class="topic-title">M1B 與 M2 黃金交叉（熱錢與股市資金動能）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>M1B 代表流動性極高的交易資金（活存），M2 為總資金池（包含定存）。當 $\text{M1B YoY} > \text{M2 YoY}$（黃金交叉/資金剪刀差），代表資金解約進入股市，為資金面看漲之強烈訊號。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`金融、利率與匯率` $\rightarrow$ `貨幣總計數`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">M1BCH.Q</span>（M1B 貨幣供給年增率）<br>
+                    - <span class="code-tag">M2CH.Q</span>（M2 貨幣供給年增率）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p2')">複製 Prompt</button>
+                <code id="p2">你是一位總體金融與資產配置專家。我有 AREMOS 中的 M1B (M1BCH) 與 M2 (M2CH) 年增率數據。
+
+請結合「貨幣供給剪刀差（M1B-M2）與市場熱錢流動性」的觀念，幫我發想 2 個研究專題題目，著重探討貨幣供給對實體經濟或資產價格的傳導滯後效應 (Lag Effect)。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>熱錢去哪裡？M1B-M2 成長剪刀差對台灣加權指數與通膨率之傳導時滯分析</li>
+                    <li>貨幣總計數黃金交叉對民間消費與資產市場活絡度之牽引效應</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 3 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 03</span>
+                <span class="topic-title">百貨、餐飲與電商營業額體檢（民間消費動能）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>民間消費 (NCP) 佔台灣 GDP 相當大比重。觀察百貨、零售與餐飲業營業額，能即時反映民眾對未來景氣的信心以及「體驗型消費」與「實體 vs. 電商」的轉型趨勢。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`商業營業額` 與 `國民消費與儲蓄`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">RETAIL.Q</span>（零售業營業額）<br>
+                    - <span class="code-tag">CATER.Q</span>（餐飲業營業額）<br>
+                    - <span class="code-tag">NCPCH.Q</span>（民間消費實質成長率）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p3')">複製 Prompt</button>
+                <code id="p3">你是一位商業經濟研究員。我準備調取 AREMOS 中的零售業 (RETAIL)、餐飲業 (CATER) 營業額與民間消費 (NCPCH)。
+
+請幫我設計 2 個研究題目，重點放在「疫後消費行為轉變」或「通膨下體驗型消費與實體零售的復甦分化 (K型復甦)」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>K型消費復甦？體驗型餐飲與實體零售在通膨環境下的消長與 GDP 牽引力</li>
+                    <li>從 AREMOS 商業營業額看台灣內需消費韌性：零售與餐飲業的周期性抵抗力</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 4 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 04</span>
+                <span class="topic-title">海關進出口與科技業景氣寒暑表（半導體與矽盾）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>台灣為小型開放經濟體，出口為 GDP 成長之核心引擎。其中「電子零組件」（包含半導體晶片）出口表現，直接決定了台灣製造業與整體 GDP 的起伏（科技週期 Tech Cycle）。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`進出口貿易` $\rightarrow$ `海關出口主要貨品`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">EXPELE.Q</span>（電子零組件出口金額）<br>
+                    - <span class="code-tag">EXPICT.Q</span>（資通與視訊產品出口金額）<br>
+                    - <span class="code-tag">GDPRCH.Q</span>（實質 GDP 成長率）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p4')">複製 Prompt</button>
+                <code id="p4">你是一位產業與國際貿易經濟學者。我有 AREMOS 中海關出口的電子零組件 (EXPELE)、資通產品 (EXPICT) 以及實質 GDP 成長率 (GDPRCH)。
+
+請幫我設計 2 個專題題目，著重探討「全球半導體庫存調整週期對台灣出口與經濟成長的溢出效應 (Spillover Effect)」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>矽盾的另一面：電子零組件出口對台灣 GDP 波動之溢出效應與風險集中度分析</li>
+                    <li>全球科技換機潮與庫存週期：基於海關資通訊出口數據之實質 GDP 預測</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 5 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 05</span>
+                <span class="topic-title">央行升息與銀行房貸利率傳導機制（貨幣政策傳導）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>中央銀行調整政策利率（如重貼現率）後，需要經過一段傳導時間（Interest Rate Pass-Through），才會反映在五大商業銀行的實際購屋貸款利率上，進而影響房市需求。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`金融、利率與匯率` $\rightarrow$ `中央銀行與五大銀行利率`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">DISCOUNT.M/Q</span>（央行重貼現率）<br>
+                    - <span class="code-tag">MORTGAGE.M/Q</span>（五大銀行新承做購屋貸款利率）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p5')">複製 Prompt</button>
+                <code id="p5">你是一位貨幣政策計量專家。我調取了 AREMOS 中央銀行重貼現率 (DISCOUNT) 與五大銀行新承做房貸利率 (MORTGAGE)。
+
+請幫我設計 2 個研究題目，重點分析「央行利率政策傳導至商業銀行房貸利率的時滯 (Lag) 與非對稱性 (Asymmetry)」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>貨幣政策的最後一哩路：央行升息對五大銀行房貸利率傳導之非對稱性與時滯研究</li>
+                    <li>利率上升對購屋貸款成本之衝擊估算：基於 AREMOS 利率時間序列的傳導檢驗</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 6 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 06</span>
+                <span class="topic-title">製造業生產指數 vs. 工業用電量（不說謊的硬指標）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>財務報表與問卷調查可能具備主觀偏差，但「電力消費量」是實體工廠開工運轉的硬指標。將製造業生產指數與工業用電量交叉比對，可用於經濟實時預測 (Nowcasting)。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`工業生產` 與 `能源與交通`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">IPM.Q</span>（製造業生產指數）<br>
+                    - <span class="code-tag">POWERIND.Q</span>（工業用電量）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p6')">複製 Prompt</button>
+                <code id="p6">你是一位實體經濟與能源經濟學者。我有 AREMOS 資料庫中的製造業生產指數 (IPM) 以及工業用電量 (POWERIND)。
+
+請幫我發想 2 個題目，著重研究「如何利用工業用電量作為製造業景氣與實質 GDP 實時預估 (Nowcasting) 之替代指標」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>電力不會說謊：工業用電量作為台灣製造業 GDP 實時預估 (Nowcasting) 之有效性</li>
+                    <li>從能源消耗看產業景氣：工業用電量與製造業生產指數之長期協整關係</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 7 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 07</span>
+                <span class="topic-title">稅收超徵、短徵與國債餘額（財政健康度）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>「稅收超徵」反映經濟擴張超乎預期或租稅估算誤差；將營利事業所得稅、證券交易稅與政府債務餘額對照，可評估國家財政可持續性（Fiscal Sustainability）。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`財政` $\rightarrow$ `賦稅收入與政府債務`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">TAXINT.A</span>（所得稅收入）<br>
+                    - <span class="code-tag">TAXBUS.A</span>（營業稅收入）<br>
+                    - <span class="code-tag">DEBT.A</span>（中央政府債務未償餘額）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p7')">複製 Prompt</button>
+                <code id="p7">你是一位公共財政學家。我正在分析 AREMOS 中的賦稅收入 (TAXINT, TAXBUS) 與政府債務餘額 (DEBT)。
+
+請幫我設計 2 個研究題目，重點討論「稅收波動、財政自動穩定器 (Automatic Stabilizers) 與國債累積速度之關係」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>超徵是經濟好還是估算失準？台灣租稅負擔率與財政可持續性之經驗實證</li>
+                    <li>賦稅收入結構轉變對國債未償餘額累積速度之牽引效應：基於 AREMOS 財政資料庫</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 8 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 08</span>
+                <span class="topic-title">觀光逆差與旅行收支（國人出國 vs. 外客來台）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>國人熱衷出國消費屬於「服務進口（支出）」，外國旅客來台為「服務出口（收入）」。兩者形成的「旅行收支逆差」，直接影響國際收支帳與服務業 GDP。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`能源與交通` 與 `國際收支`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">OUTBOUND.Q</span>（國人出國人次）<br>
+                    - <span class="code-tag">INBOUND.Q</span>（來台旅客人次）<br>
+                    - <span class="code-tag">BOPTRA.Q</span>（國際收支-旅行帳淨額）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p8')">複製 Prompt</button>
+                <code id="p8">你是一位開放經濟與觀光經濟專家。我有 AREMOS 的出入境人次 (OUTBOUND, INBOUND) 與國際收支旅行帳 (BOPTRA)。
+
+請幫我設計 2 個題目，著重探討「觀光逆差擴大對台灣內需服務業 GDP 及外匯準備之淨影響」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>機場爆滿背後的經濟帳：旅行收支逆差對台灣服務業 GDP 成長之流失效應</li>
+                    <li>國人海外消費 vs. 外客來台支出：基於 AREMOS 國際收支帳之觀光逆差分析</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 9 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 09</span>
+                <span class="topic-title">四大權威機構的 GDP 預測大比拼（預測誤差評估）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>主計總處 (DGBAS)、中研院 (IEAS)、中經院 (CIER) 與台經院 (TRI) 均會發布 GDP 預測。透過對比各家預測值與實際發布值，可評估經濟預測模型之準確度與誤差 (RMSE)。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`台灣總體經濟預測`</p>
+                    <p><b>變數代碼：</b><br>
+                    - 包含主計總處、中研院、中經院、台經院之未來四季 GDP 成長率預測序列。
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p9')">複製 Prompt</button>
+                <code id="p9">你是一位經濟計量與預測專家。我有 AREMOS 中國內四大機構（主計總處、中研院、中經院、台經院）對台灣 GDP 的歷年預測數據與實際值。
+
+請幫我設計 2 個研究題目，評估「各大機構預測誤差 (RMSE / MAE) 之異同，以及如何建立組合預測 (Forecast Combination)」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>誰預測得最準？台灣四大權威機構 GDP 預測誤差 (RMSE) 比較與組合預測模型構建</li>
+                    <li>經濟預測的修正與滯後：主計總處與民間智庫 GDP 預測偏誤之實證研究</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主題 10 -->
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-num">Topic 10</span>
+                <span class="topic-title">50年經濟轉型與長期脈絡（人均 GNP 與經濟奇蹟）</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📌 核心經濟學理與現象</h4>
+                    <p>調取自 1960 年代以來的長期序列，觀察台灣如何從農業社會、加工出口區、十大建設，一路轉型為半導體高科技產業，呈現總體全要素生產力 (TFP) 之躍升。</p>
+                </div>
+                <div class="info-box">
+                    <h4>📊 AREMOS 檢索路徑與關鍵變數</h4>
+                    <p><b>路徑：</b>`國民所得帳` $\rightarrow$ `歷史長期序列`</p>
+                    <p><b>變數代碼：</b><br>
+                    - <span class="code-tag">GNPCAP.A</span>（平均每人 GNP，美金）<br>
+                    - <span class="code-tag">GDP_R.A</span>（實質 GDP 連鎖值）
+                    </p>
+                </div>
+            </div>
+
+            <p><strong>🤖 AI Prompt 提示詞設計：</strong></p>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt('p10')">複製 Prompt</button>
+                <code id="p10">你是一位經濟史與發展經濟學者。我調取了 AREMOS 資料庫自 1960 年至今之平均每人 GNP (GNPCAP) 與實質 GDP (GDP_R) 長期歷史序列。
+
+請幫我設計 2 個專題題目，著重探討「台灣半個世紀以來之產業結構轉型、經濟奇蹟與中等收入陷阱之跨越」。</code>
+            </div>
+
+            <div class="paper-title-box">
+                <h4>💡 AI 生成之延伸研究題目範例：</h4>
+                <ul class="title-list">
+                    <li>從客廳即工廠到半導體帝國：台灣 50 年總體全要素生產力 (TFP) 與結構轉型實證</li>
+                    <li>跨越中等收入陷阱：基於 AREMOS 長期歷史序列的人均 GNP 成長軌跡解析</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 國立大學經濟學系 | AREMOS 統計資料庫與 AI 協同編程教學教材</p>
+    </footer>
+
+    <script>
+        // Prompt 複製功能
+        function copyPrompt(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Prompt 提示詞已成功複製到剪貼簿！');
+            });
+        }
+    </script>
+</body>
+</html>
