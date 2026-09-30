@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>淡江大學經濟系 - AI與經濟分析 階段情境模擬實做測驗</title>
-
+    <title>《AI 與經濟分析》階段測驗：AREMOS × 總體經濟 × AI Prompt</title>
+    
     <style>
         :root {
             --navy-dark: #0f172a;
@@ -12,9 +12,7 @@
             --blue-accent: #2563eb;
             --blue-light: #eff6ff;
             --emerald: #059669;
-            --emerald-light: #ecfdf5;
             --rose: #e11d48;
-            --rose-light: #fff1f2;
             --amber: #d97706;
             --bg-slate: #f8fafc;
             --card-bg: #ffffff;
@@ -24,7 +22,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-slate); color: var(--text-primary); line-height: 1.65; padding-bottom: 5rem; }
+        body { background-color: var(--bg-slate); color: var(--text-primary); line-height: 1.6; padding-bottom: 5rem; }
 
         header {
             background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
@@ -47,7 +45,7 @@
             background: rgba(255,255,255,0.2);
             color: white;
             border: 1px solid rgba(255,255,255,0.4);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.1rem;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
@@ -56,6 +54,19 @@
         .teacher-btn:hover { background: rgba(255,255,255,0.35); }
 
         .container { max-width: 950px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        .quiz-info-bar {
+            background: var(--blue-light);
+            border-left: 5px solid var(--blue-accent);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--navy-dark);
+        }
 
         .card {
             background: var(--card-bg);
@@ -72,18 +83,6 @@
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--bg-slate);
             padding-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .scenario-box {
-            background: var(--blue-light);
-            border-left: 5px solid var(--blue-accent);
-            padding: 1.2rem;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 1.5rem;
-            font-size: 0.98rem;
         }
 
         .student-info-grid {
@@ -93,7 +92,7 @@
         }
 
         label { font-weight: 600; font-size: 0.92rem; color: var(--navy-dark); display: block; margin-bottom: 0.4rem; }
-        input[type="text"], select {
+        input[type="text"] {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border);
@@ -101,74 +100,127 @@
             font-size: 0.95rem;
             outline: none;
         }
-        input:focus { border-color: var(--blue-accent); }
+        input[type="text"]:focus { border-color: var(--blue-accent); }
 
-        .stage-badge {
-            background: var(--navy-main);
+        .section-header {
+            background: var(--navy-dark);
             color: white;
-            padding: 0.25rem 0.7rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            margin: 2rem 0 1.2rem 0;
+            font-size: 1.15rem;
             font-weight: 700;
         }
 
-        .option-group { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.65rem; }
-        
-        .option-card {
+        .q-item {
+            margin-bottom: 1.6rem;
+            padding-bottom: 1.4rem;
+            border-bottom: 1px dashed var(--border);
+        }
+        .q-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .q-title {
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
+            gap: 0.5rem;
+        }
+
+        .q-type-badge {
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-top: 0.1rem;
+        }
+        .badge-single { background: var(--blue-accent); }
+        .badge-multi { background: var(--amber); }
+        .badge-match { background: #7c3aed; }
+
+        .q-desc {
             background: var(--bg-slate);
-            padding: 0.9rem 1.2rem;
-            border-radius: 8px;
-            border: 1.5px solid var(--border);
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            white-space: pre-line;
+        }
+
+        .option-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+        
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            background: var(--bg-slate);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 0.95rem;
         }
+        .option-label:hover { background: var(--blue-light); border-color: var(--blue-accent); }
+        .option-label input { margin-top: 0.25rem; }
 
-        .option-card:hover {
-            border-color: var(--blue-accent);
+        /* 配對題專用表格 */
+        .match-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.6rem;
+        }
+        .match-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .match-select {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
             background: white;
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+            font-size: 0.9rem;
         }
-
-        .option-card input[type="radio"] { margin-top: 0.3rem; }
 
         .btn-submit {
             background: var(--emerald);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1.15rem;
+            padding: 1.1rem 2rem;
+            font-size: 1.2rem;
             font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: background 0.2s;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
         .btn-submit:hover { background: #047857; }
 
-        /* Modal 視窗與後台 */
+        /* Modal 後台視窗 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.75);
             display: none; justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-body {
-            background: white; border-radius: 12px; padding: 2.2rem; max-width: 850px; width: 92%; max-height: 88vh; overflow-y: auto;
+            background: white; border-radius: 12px; padding: 2rem; max-width: 900px; width: 92%; max-height: 88vh; overflow-y: auto;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.92rem; }
-        th, td { padding: 0.75rem; border: 1px solid var(--border); text-align: left; }
-        th { background: var(--navy-dark); color: white; }
+        table.teacher-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.88rem; }
+        table.teacher-table th, table.teacher-table td { padding: 0.65rem; border: 1px solid var(--border); text-align: left; }
+        table.teacher-table th { background: var(--navy-dark); color: white; white-space: nowrap; }
 
         .score-pill {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
+            display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 700; font-size: 0.85rem;
         }
         .score-high { background: #dcfce7; color: #15803d; }
         .score-mid { background: #fef3c7; color: #b45309; }
@@ -180,8 +232,8 @@
     <header>
         <div class="header-container">
             <div>
-                <h1>AI 與經濟分析：實務決策鏈與情境模擬測驗</h1>
-                <p style="color:#93c5fd; font-size:0.95rem;">淡江大學經濟學系 | 全自動評分與多階段誤導決策樹系統</p>
+                <h1>《AI 與經濟分析》階段測驗</h1>
+                <p style="color:#93c5fd; font-size:0.95rem;">AREMOS × 總體經濟 × AI Prompt 線上互動測驗系統</p>
             </div>
             <button class="teacher-btn" onclick="openTeacherModal()">🎓 教師專區 (登入)</button>
         </div>
@@ -189,14 +241,14 @@
 
     <div class="container">
 
-        <!-- 任務情境背景 -->
-        <div class="scenario-box">
-            <h3 style="color:var(--navy-main); margin-bottom:0.4rem;">🎯 測驗情境任務描述：</h3>
-            <p>你是某大型金融機構的總體經濟研究員。主管交辦了一項任務：<b>「請分析台灣近五年（2020-2025）通膨壓力（CPI）、熱錢流動性（M1B/M2）與民眾實質薪資變化的連動關係，並製作一份動態互動簡報。」</b></p>
-            <p style="margin-top:0.4rem; color:var(--text-secondary);">全卷包含 5 個階段的實務決策關卡，系統將根據你的每一個選擇路徑進行全自動綜合客觀評分。</p>
+        <div class="quiz-info-bar">
+            <div>⏱️ 建議時間：<b>30–35 分鐘</b></div>
+            <div>📝 總題數：<b>25 題</b></div>
+            <div>💯 總分：<b>100 分</b></div>
+            <div>✨ 題型：<b>單選、複選、配對（全自動考卷閱讀）</b></div>
         </div>
 
-        <!-- 學生資料卡 -->
+        <!-- 學生基本資料卡 -->
         <div class="card">
             <h2>📋 考生基本資料</h2>
             <div class="student-info-grid">
@@ -213,142 +265,368 @@
 
         <form id="quizForm" onsubmit="handleFormSubmit(event)">
 
-            <!-- 階段一：AREMOS 數據資料庫選擇 -->
+            <!-- 第一部分：AREMOS 數據檢索 -->
+            <div class="section-header">第一部分｜AREMOS 數據檢索（8 題，共 30 分）</div>
+            
             <div class="card">
-                <h2><span class="stage-badge">階段一</span> AREMOS 資料庫與頻率檢索決策 (20分)</h2>
-                <p>為了分析通膨（CPI）、資金流動性（M1B、M2）與薪資變化，你在進入 AREMOS 網頁版（<code>net.aremos.org.tw</code>）時，會如何執行資料檢索？</p>
-                
-                <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="s1" value="A" required>
-                        <div>
-                            <b>選項 A (最佳解)：</b> 至 <code>PRICE/CPI</code> 模組勾選 CPI 年增率（季資料 .Q），至 <code>FNA/FSM</code> 模組勾選 M1B 與 M2 年增率（.Q），並至 <code>MAN/WAGE</code> 模組勾選受僱員工總薪資（.Q）。全數對齊為季資料下載。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s1" value="B">
-                        <div>
-                            <b>選項 B (誤導陷阱 - 頻率不齊)：</b> 進入 <code>CPI</code> 下載 CPI 月資料 (.M)，同時進入 <code>FNA</code> 下載 M1B/M2 季資料 (.Q)，再到 <code>NIA</code> 下載年 GDP (.A)，直接將不同頻率的序列匯出到同一張 Excel 表。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s1" value="C">
-                        <div>
-                            <b>選項 C (誤導陷阱 - 概念混淆)：</b> 至 <code>BCI</code> 資料庫下載景氣對策燈號分數，並至 <code>TRADE</code> 下載海關出口額，認為這兩項就能直接代表 CPI 通膨率與 M1B 貨幣供給。
-                        </div>
-                    </label>
+                <!-- Q1 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 1. 如果研究者希望取得臺灣 CPI、M1B、M2 等官方經濟統計資料，最適合使用下列哪一項？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q1" value="A"> A. ChatGPT</label>
+                        <label class="option-label"><input type="radio" name="q1" value="B"> B. AREMOS</label>
+                        <label class="option-label"><input type="radio" name="q1" value="C"> C. Canva</label>
+                        <label class="option-label"><input type="radio" name="q1" value="D"> D. PowerPoint</label>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 2. 研究題目要求分析「2020Q1～2025Q4」的資料，其中 Q 代表：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q2" value="A"> A. 日資料</label>
+                        <label class="option-label"><input type="radio" name="q2" value="B"> B. 月資料</label>
+                        <label class="option-label"><input type="radio" name="q2" value="C"> C. 季資料</label>
+                        <label class="option-label"><input type="radio" name="q2" value="D"> D. 年資料</label>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 3. 下列哪一項最符合「消費者物價指數年增率」的概念？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q3" value="A"> A. CPI 的水準值</label>
+                        <label class="option-label"><input type="radio" name="q3" value="B"> B. CPI 相較前一期的變化</label>
+                        <label class="option-label"><input type="radio" name="q3" value="C"> C. CPI 相較去年同一期的百分比變化</label>
+                        <label class="option-label"><input type="radio" name="q3" value="D"> D. CPI 的累積人口數</label>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 4. 下列哪一組是本次測驗所要求比較的兩種貨幣供給指標？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q4" value="A"> A. M0 與 M1</label>
+                        <label class="option-label"><input type="radio" name="q4" value="B"> B. M1B 與 M2</label>
+                        <label class="option-label"><input type="radio" name="q4" value="C"> C. M2 與 GDP</label>
+                        <label class="option-label"><input type="radio" name="q4" value="D"> D. CPI 與 M2</label>
+                    </div>
+                </div>
+
+                <!-- Q5 (配對題) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-match">配對題 (4.5分)</span> 5. 請將左欄研究指標與右欄概念配對：</div>
+                    <table class="match-table">
+                        <tr>
+                            <th>研究指標</th>
+                            <th>概念對應</th>
+                        </tr>
+                        <tr>
+                            <td>A. CPI 年增率</td>
+                            <td>
+                                <select id="q5_A" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 廣義貨幣供給成長</option>
+                                    <option value="2">2. 消費者物價變動</option>
+                                    <option value="3">3. 狹義貨幣供給成長</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B. M1B 年增率</td>
+                            <td>
+                                <select id="q5_B" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 廣義貨幣供給成長</option>
+                                    <option value="2">2. 消費者物價變動</option>
+                                    <option value="3">3. 狹義貨幣供給成長</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>C. M2 年增率</td>
+                            <td>
+                                <select id="q5_C" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 廣義貨幣供給成長</option>
+                                    <option value="2">2. 消費者物價變動</option>
+                                    <option value="3">3. 狹義貨幣供給成長</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Q6 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 6. 若題目要求「2020Q1～2025Q4」，完整資料應包含幾季？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q6" value="A"> A. 20 季</label>
+                        <label class="option-label"><input type="radio" name="q6" value="B"> B. 24 季</label>
+                        <label class="option-label"><input type="radio" name="q6" value="C"> C. 25 季</label>
+                        <label class="option-label"><input type="radio" name="q6" value="D"> D. 30 季</label>
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 7. 學生發現匯出的 CPI 是「月資料」，M1B 是「季資料」，最適當的處理方式是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q7" value="A"> A. 直接把兩者畫在一起</label>
+                        <label class="option-label"><input type="radio" name="q7" value="B"> B. 刪掉 CPI</label>
+                        <label class="option-label"><input type="radio" name="q7" value="C"> C. 將資料頻率處理至一致後再比較</label>
+                        <label class="option-label"><input type="radio" name="q7" value="D"> D. 把 CPI 的數值全部乘以 4</label>
+                    </div>
+                </div>
+
+                <!-- Q8 (複選) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-multi">複選 (4分)</span> 8. 下列哪些項目屬於研究者在 AREMOS 檢索時應確認的資料資訊？（複選）</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="checkbox" name="q8" value="A"> A. 變數名稱</label>
+                        <label class="option-label"><input type="checkbox" name="q8" value="B"> B. 資料頻率</label>
+                        <label class="option-label"><input type="checkbox" name="q8" value="C"> C. 資料期間</label>
+                        <label class="option-label"><input type="checkbox" name="q8" value="D"> D. 資料單位</label>
+                        <label class="option-label"><input type="checkbox" name="q8" value="E"> E. PowerPoint 字型</label>
+                    </div>
                 </div>
             </div>
 
-            <!-- 階段二：數據清洗與轉型 -->
-            <div class="card">
-                <h2><span class="stage-badge">階段二</span> Excel 數據轉型與繪圖前處理 (20分)</h2>
-                <p>從 AREMOS 匯出 CSV 後，你發現直接選取數據在 Excel 中繪製折線圖時，圖表呈現一片空白，數值全部趴在底座 0 的位置。你該如何處理？</p>
+            <!-- 第二部分：總體經濟指標判讀 -->
+            <div class="section-header">第二部分｜總體經濟指標判讀（9 題，共 35 分）</div>
 
-                <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="s2" value="A" required>
-                        <div>
-                            <b>選項 A (最佳解)：</b> 識別出下載的文字字串格式問題，使用格式轉換或 <code>VALUE()</code> 函數將文字轉為純數字（Numeric），並確保時間軸 (2020Q1...) 與數值正確分離。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s2" value="B">
-                        <div>
-                            <b>選項 B (誤導陷阱 - 錯誤處置)：</b> 認為是 AREMOS 伺服器壞掉給了錯誤數據，直接將空白圖表截圖，並在報告中註明「資料庫無法繪圖」。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s2" value="C">
-                        <div>
-                            <b>選項 C (誤導陷阱 - 粗暴刪除)：</b> 手動將有小數點的數據通通去尾法改成整數，並刪除時間軸欄位，隨意填入 1, 2, 3, 4 代替年份。
-                        </div>
-                    </label>
+            <div class="card">
+                <!-- Q9 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 9. 若某季 CPI 年增率為 2.8%，相較於 2% 的通膨警戒線，應判斷為：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q9" value="A"> A. 低於警戒線</label>
+                        <label class="option-label"><input type="radio" name="q9" value="B"> B. 等於警戒線</label>
+                        <label class="option-label"><input type="radio" name="q9" value="C"> C. 高於警戒線</label>
+                        <label class="option-label"><input type="radio" name="q9" value="D"> D. 無法判斷</label>
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 10. 某季 CPI 年增率為 0%，最合理的解讀是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q10" value="A"> A. 物價完全不存在</label>
+                        <label class="option-label"><input type="radio" name="q10" value="B"> B. 該期間物價水準相較去年同期沒有變化</label>
+                        <label class="option-label"><input type="radio" name="q10" value="C"> C. GDP 為 0</label>
+                        <label class="option-label"><input type="radio" name="q10" value="D"> D. 所有商品價格都完全不變</label>
+                    </div>
+                </div>
+
+                <!-- Q11 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 11. 若 CPI 年增率由 1% 上升至 3%，最直接代表：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q11" value="A"> A. 通膨壓力提高</label>
+                        <label class="option-label"><input type="radio" name="q11" value="B"> B. 失業率必然下降</label>
+                        <label class="option-label"><input type="radio" name="q11" value="C"> C. GDP 必然下降</label>
+                        <label class="option-label"><input type="radio" name="q11" value="D"> D. 股市必然上漲</label>
+                    </div>
+                </div>
+
+                <!-- Q12 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 12. 假設國際原油價格上升，運輸與生產成本增加，臺灣 CPI 年增率提高，最符合此情境的是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q12" value="A"> A. 成本推動型物價壓力</label>
+                        <label class="option-label"><input type="radio" name="q12" value="B"> B. 貨幣需求完全消失</label>
+                        <label class="option-label"><input type="radio" name="q12" value="C"> C. 人口突然下降</label>
+                        <label class="option-label"><input type="radio" name="q12" value="D"> D. 股票市場停止交易</label>
+                    </div>
+                </div>
+
+                <!-- Q13 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (3.5分)</span> 13. 若 M1B 年增率 = 10%，M2 年增率 = 6%，則：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q13" value="A"> A. M1B &lt; M2</label>
+                        <label class="option-label"><input type="radio" name="q13" value="B"> B. M1B = M2</label>
+                        <label class="option-label"><input type="radio" name="q13" value="C"> C. M1B &gt; M2</label>
+                        <label class="option-label"><input type="radio" name="q13" value="D"> D. 無法比較</label>
+                    </div>
+                </div>
+
+                <!-- Q14 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 14. 若出現 M1B 年增率 &gt; M2 年增率，較適當的解讀是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q14" value="A"> A. 資金相對偏向流動性較高的貨幣型態</label>
+                        <label class="option-label"><input type="radio" name="q14" value="B"> B. 所有資金都流入房地產</label>
+                        <label class="option-label"><input type="radio" name="q14" value="C"> C. CPI 必然下降</label>
+                        <label class="option-label"><input type="radio" name="q14" value="D"> D. GDP 必然成長</label>
+                    </div>
+                </div>
+
+                <!-- Q15 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 15. 民眾把定期性、低流動性資金轉向活期存款等易使用型態，比較可能造成：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q15" value="A"> A. M1B 相對成長較快</label>
+                        <label class="option-label"><input type="radio" name="q15" value="B"> B. M2 完全消失</label>
+                        <label class="option-label"><input type="radio" name="q15" value="C"> C. CPI 必然為負</label>
+                        <label class="option-label"><input type="radio" name="q15" value="D"> D. GDP 必然為負</label>
+                    </div>
+                </div>
+
+                <!-- Q16 (複選) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-multi">複選 (4.5分)</span> 16. 下列關於判讀 M1B/M2 時的敘述，哪些較合理？（複選）</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="checkbox" name="q16" value="A"> A. M1B、M2 可以用來觀察貨幣與流動性變化</label>
+                        <label class="option-label"><input type="checkbox" name="q16" value="B"> B. M1B &gt; M2 時，可以直接證明股市一定上漲</label>
+                        <label class="option-label"><input type="checkbox" name="q16" value="C"> C. 資金流動性變化可能與金融市場資金動能有關</label>
+                        <label class="option-label"><input type="checkbox" name="q16" value="D"> D. 單一指標不能直接證明股市未來一定會如何</label>
+                        <label class="option-label"><input type="checkbox" name="q16" value="E"> E. 必須搭配其他總體經濟資料進行分析</label>
+                    </div>
+                </div>
+
+                <!-- Q17 (配對題) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-match">配對題 (4.5分)</span> 17. 請將左欄經濟現象與右欄可能解釋配對：</div>
+                    <table class="match-table">
+                        <tr>
+                            <th>經濟現象</th>
+                            <th>可能解釋對應</th>
+                        </tr>
+                        <tr>
+                            <td>A. CPI 年增率上升</td>
+                            <td>
+                                <select id="q17_A" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 流動性資金相對增加</option>
+                                    <option value="2">2. 物價壓力增加</option>
+                                    <option value="3">3. 生產與運輸成本可能增加</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B. M1B 年增率 &gt; M2 年增率</td>
+                            <td>
+                                <select id="q17_B" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 流動性資金相對增加</option>
+                                    <option value="2">2. 物價壓力增加</option>
+                                    <option value="3">3. 生產與運輸成本可能增加</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>C. 原油價格上升</td>
+                            <td>
+                                <select id="q17_C" class="match-select">
+                                    <option value="">--請選擇--</option>
+                                    <option value="1">1. 流動性資金相對增加</option>
+                                    <option value="2">2. 物價壓力增加</option>
+                                    <option value="3">3. 生產與運輸成本可能增加</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
-            <!-- 階段三：AI Prompt 結構與視覺化規格 -->
-            <div class="card">
-                <h2><span class="stage-badge">階段三</span> AI 協同繪圖與 Prompt 提示詞設計 (20分)</h2>
-                <p>準備將數據交給 AI (ChatGPT/Gemini) 撰寫 Chart.js 雙 Y 軸互動網頁時，以下哪一個 Prompt (提示詞) 結構最符合商業與學術視覺化規範？</p>
+            <!-- 第三部分：AI Prompt 與資料視覺化 -->
+            <div class="section-header">第三部分｜AI Prompt 與資料視覺化（8 題，共 35 分）</div>
 
-                <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="s3" value="A" required>
-                        <div>
-                            <b>選項 A (最佳解)：</b> 明確角色設定，指定單一 HTML/Chart.js 輸出。要求「左 Y 軸為 CPI 年增率(紅色)；右 Y 軸為 M1B/M2 年增率(藍/綠色)；右軸隱藏背景網格線；支援 Hover 滑鼠懸停同時顯示三指標」。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s3" value="B">
-                        <div>
-                            <b>選項 B (誤導陷阱 - 規格缺失)：</b> 直接貼上數據並輸入：「幫我畫一張漂亮的折線圖。」沒有指定雙 Y 軸與變數單位，導致 CPI (2%) 與 M1B (15%) 被擠在同一個 Y 軸，CPI 折線近乎平躺。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s3" value="C">
-                        <div>
-                            <b>選項 C (誤導陷阱 - 視覺雜亂)：</b> 要求 AI 繪製包含 3 個 Y 軸、背景充滿紫色網格線、且每條折線都加上閃爍動畫與 3D 立體效果的複雜圖表。
-                        </div>
-                    </label>
+            <div class="card">
+                <!-- Q18 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 18. 下列哪一個 Prompt 最符合專業資料視覺化任務的角色設定？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q18" value="A"> A. 「幫我畫漂亮一點。」</label>
+                        <label class="option-label"><input type="radio" name="q18" value="B"> B. 「你自己決定怎麼畫。」</label>
+                        <label class="option-label"><input type="radio" name="q18" value="C"> C. 「請扮演資深前端工程師與經濟數據視覺化專家。」</label>
+                        <label class="option-label"><input type="radio" name="q18" value="D"> D. 「畫圖。」</label>
+                    </div>
+                </div>
+
+                <!-- Q19 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 19. 如果希望 AI 不要自行捏造數據，Prompt 最重要的是加入：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q19" value="A"> A. 更多 emoji</label>
+                        <label class="option-label"><input type="radio" name="q19" value="B"> B. 真實資料與明確數值序列</label>
+                        <label class="option-label"><input type="radio" name="q19" value="C"> C. 更長的故事</label>
+                        <label class="option-label"><input type="radio" name="q19" value="D"> D. 更多顏色</label>
+                    </div>
+                </div>
+
+                <!-- Q20 (複選) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-multi">複選 (4.5分)</span> 20. 下列哪些內容適合放入本次測驗的專業 AI Prompt 中？（複選）</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="checkbox" name="q20" value="A"> A. AI 角色</label>
+                        <label class="option-label"><input type="checkbox" name="q20" value="B"> B. 資料內容</label>
+                        <label class="option-label"><input type="checkbox" name="q20" value="C"> C. 圖表類型</label>
+                        <label class="option-label"><input type="checkbox" name="q20" value="D"> D. X/Y 軸定義</label>
+                        <label class="option-label"><input type="checkbox" name="q20" value="E"> E. 色彩與視覺規格</label>
+                        <label class="option-label"><input type="checkbox" name="q20" value="F"> F. 「請做得很漂亮」而不提供任何規格</label>
+                    </div>
+                </div>
+
+                <!-- Q21 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 21. 如果 CPI 與 M1B/M2 的數值尺度不同，最適合的圖表設計可能是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q21" value="A"> A. 雙 Y 軸折線圖</label>
+                        <label class="option-label"><input type="radio" name="q21" value="B"> B. 圓餅圖</label>
+                        <label class="option-label"><input type="radio" name="q21" value="C"> C. 雷達圖</label>
+                        <label class="option-label"><input type="radio" name="q21" value="D"> D. 樹狀圖</label>
+                    </div>
+                </div>
+
+                <!-- Q22 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (4分)</span> 22. 若指定左軸為 CPI 年增率，右軸為 M1B、M2 年增率，下列哪一項符合要求？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q22" value="A"> A. 三個指標全部放左軸</label>
+                        <label class="option-label"><input type="radio" name="q22" value="B"> B. CPI 放左軸，M1B/M2 放右軸</label>
+                        <label class="option-label"><input type="radio" name="q22" value="C"> C. CPI 放右軸，M1B/M2 放左軸</label>
+                        <label class="option-label"><input type="radio" name="q22" value="D"> D. 三個指標都不需要 Y 軸</label>
+                    </div>
+                </div>
+
+                <!-- Q23 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單选 (4分)</span> 23. 學生的 Prompt：「請幫我畫一張臺灣通膨與貨幣供給圖，資料自己找，最好看一點。」最大的問題是：</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q23" value="A"> A. 沒有指定資料來源與真實數據</label>
+                        <label class="option-label"><input type="radio" name="q23" value="B"> B. 使用中文</label>
+                        <label class="option-label"><input type="radio" name="q23" value="C"> C. 沒有使用 emoji</label>
+                        <label class="option-label"><input type="radio" name="q23" value="D"> D. 太短所以一定不能使用 AI</label>
+                    </div>
+                </div>
+
+                <!-- Q24 (複選) -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-multi">複選 (4.5分)</span> 24. 若希望 AI 根據 AREMOS 真實資料製圖、防止幻覺，下列哪些做法較適當？（複選）</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="checkbox" name="q24" value="A"> A. 把實際數據貼給 AI</label>
+                        <label class="option-label"><input type="checkbox" name="q24" value="B"> B. 明確要求「不得自行編造資料」</label>
+                        <label class="option-label"><input type="checkbox" name="q24" value="C"> C. 提供資料期間</label>
+                        <label class="option-label"><input type="checkbox" name="q24" value="D"> D. 要求 AI 自己猜測缺失數值</label>
+                        <label class="option-label"><input type="checkbox" name="q24" value="E"> E. 要求圖表使用提供的資料序列</label>
+                    </div>
+                </div>
+
+                <!-- Q25 -->
+                <div class="q-item">
+                    <div class="q-title"><span class="q-type-badge badge-single">單選 (6分)</span> 25. 綜合題：以下哪一個 Prompt 最符合本次測驗要求？</div>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q25" value="A"> A. 幫我做一張漂亮的 CPI 圖。</label>
+                        <label class="option-label"><input type="radio" name="q25" value="B"> B. 請畫臺灣經濟圖表。</label>
+                        <label class="option-label"><input type="radio" name="q25" value="C"> C. 請扮演資深資料視覺化專家。使用我提供的 2020Q1–2025Q4 臺灣 CPI、M1B、M2 真實資料，製作雙 Y 軸互動折線圖。左 Y 軸為 CPI 年增率，右 Y 軸為 M1B 與 M2 年增率；不得自行編造或修改數據，並清楚標示時間軸、指標名稱與單位。</label>
+                        <label class="option-label"><input type="radio" name="q25" value="D"> D. 請用 AI 幫我分析經濟，越專業越好。</label>
+                    </div>
                 </div>
             </div>
 
-            <!-- 階段四：貨幣黃金交叉與總體經濟判讀 -->
-            <div class="card">
-                <h2><span class="stage-badge">階段四</span> M1B/M2 剪刀差與資金面判讀 (20分)</h2>
-                <p>當 AI 生成圖表後，你觀察到特定季度出現 <b>「M1B 年增率 > M2 年增率（黃金交叉/剪刀差）」</b>，在報告中你該如何對主管進行經濟學學理分析？</p>
-
-                <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="s4" value="A" required>
-                        <div>
-                            <b>選項 A (最佳解)：</b> 正確指出此現象代表民眾解約定期存款、轉入高流動性的活期存款。市場交易熱錢充沛，通常為股市資金動能強勁與消費活絡的領先訊號。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s4" value="B">
-                        <div>
-                            <b>選項 B (誤導陷阱 - 概念顛倒)：</b> 解釋為民眾對經濟極度悲觀，紛紛將活期存款轉為定存封存，市場流動性陷入急凍，股市即將大幅暴跌。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s4" value="C">
-                        <div>
-                            <b>選項 C (誤導陷阱 - 無關推論)：</b> 解釋為此現象代表中央銀行正在大規模發行新台幣實體紙鈔，與民間存款結構完全無關。
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- 階段五：通膨與實質薪資拉鋸分析 -->
-            <div class="card">
-                <h2><span class="stage-badge">階段五</span> 通膨警戒與實質購買力政策結論 (20分)</h2>
-                <p>主管要求你在報告最後一頁提出政策結論。若圖中顯示 CPI 年增率突破 2% 通膨警戒線，且同期名目薪資僅成長 1.2%，你會給出何種結論？</p>
-
-                <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="s5" value="A" required>
-                        <div>
-                            <b>選項 A (最佳解)：</b> 正確推導出「實質薪資負成長（1.2% - 2% = -0.8%）」。指出名目薪資加薪被通膨侵蝕，民眾實質購買力下降，將對非必需品消費（如零售餐飲）造成實質壓抑。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s5" value="B">
-                        <div>
-                            <b>選項 B (誤導陷阱 - 計算錯誤)：</b> 認為只要名目薪資有成長 1.2%，民眾就代表實質變富有，通膨 2% 完全不會影響購買力。
-                        </div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="s5" value="C">
-                        <div>
-                            <b>選項 C (誤導陷阱 - 邏輯悖論)：</b> 建議央行應該立刻將利率調降至 0%，發行更多貨幣來壓低 CPI 物價。
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-submit">🚀 提交情境測驗並計算成績 (Submit)</button>
+            <button type="submit" class="btn-submit">🚀 提交試卷並計算成績 (Submit Quiz)</button>
         </form>
     </div>
 
@@ -356,8 +634,8 @@
     <div id="studentSuccessModal" class="modal-overlay">
         <div class="modal-body" style="text-align: center;">
             <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
-            <h2 style="color: var(--emerald); margin-bottom: 0.5rem;">情境測驗提交成功！</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">你的 5 階段決策選擇已全數加密存入系統中。<br><b>系統已完成全自動客觀評分</b>，最終成績單將由授課老師登入後統一下載。</p>
+            <h2 style="color: var(--emerald); margin-bottom: 0.5rem;">測驗提交成功！</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">你的 25 題答題紀錄已加密上傳至系統。<br><b>系統已完成自動閱卷</b>，分數與成績單將由授課老師登入後統一下載處理。</p>
             <button onclick="closeStudentModal()" style="background:var(--navy-main); color:white; border:none; padding:0.6rem 1.8rem; border-radius:6px; cursor:pointer; font-size:1rem;">確定關閉</button>
         </div>
     </div>
@@ -366,15 +644,15 @@
     <div id="teacherModal" class="modal-overlay">
         <div class="modal-body">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:2px solid var(--bg-slate); padding-bottom:0.5rem;">
-                <h2 style="color:var(--navy-main);">🎓 教師後台評分與成績單下載</h2>
+                <h2 style="color:var(--navy-main);">🎓 教師後台閱卷與成績單下載</h2>
                 <button onclick="closeTeacherModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
             </div>
 
             <!-- 密碼驗證 -->
             <div id="authBox">
-                <p style="margin-bottom: 0.8rem; color:var(--text-secondary);">請輸入教師專屬登入密碼（預設：<code style="color:var(--rose);">tku2026</code>）：</p>
+                <p style="margin-bottom: 0.8rem; color:var(--text-secondary);">請輸入教師專屬登入密碼（預設：<code style="color:var(--rose);">*******</code>）：</p>
                 <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
-                    <input type="password" id="teacherPass" placeholder="輸入密碼..." style="flex:1;">
+                    <input type="password" id="teacherPass" placeholder="輸入密碼..." style="flex:1; padding:0.6rem; border:1px solid var(--border); border-radius:6px;">
                     <button onclick="verifyTeacherPass()" style="background:var(--blue-accent); color:white; border:none; padding:0.5rem 1.2rem; border-radius:6px; cursor:pointer; font-weight:600;">驗證登入</button>
                 </div>
                 <p id="passError" style="color:var(--rose); font-size:0.85rem; display:none;">密碼錯誤，請重新輸入！</p>
@@ -391,17 +669,14 @@
                 </div>
 
                 <div style="overflow-x:auto;">
-                    <table>
+                    <table class="teacher-table">
                         <thead>
                             <tr>
                                 <th>學號</th>
                                 <th>姓名</th>
                                 <th>總得分</th>
-                                <th>階段1</th>
-                                <th>階段2</th>
-                                <th>階段3</th>
-                                <th>階段4</th>
-                                <th>階段5</th>
+                                <th>答對題數</th>
+                                <th>答錯題號</th>
                                 <th>提交時間</th>
                             </tr>
                         </thead>
@@ -415,19 +690,41 @@
     </div>
 
     <script>
-        // 5 個階段的精確配分與得分矩陣 (全自動評分權重)
-        const scoreMatrix = {
-            s1: { A: 20, B: 5, C: 0 },   // 階段 1：資料庫與頻率
-            s2: { A: 20, B: 0, C: 5 },   // 階段 2：數據轉型
-            s3: { A: 20, B: 5, C: 0 },   // 階段 3：AI Prompt 規格
-            s4: { A: 20, B: 0, C: 5 },   // 階段 4：貨幣黃金交叉
-            s5: { A: 20, B: 5, C: 0 }    // 階段 5：實質薪資與通膨
+        // 25 題標準答案與精確配分對照表 (總分 100 分)
+        const answerKey = {
+            q1: { type: 'single', ans: 'B', pts: 3.5 },
+            q2: { type: 'single', ans: 'C', pts: 3.5 },
+            q3: { type: 'single', ans: 'C', pts: 4.0 },
+            q4: { type: 'single', ans: 'B', pts: 3.5 },
+            q5: { type: 'match', ans: { A: '2', B: '3', C: '1' }, pts: 4.5 },
+            q6: { type: 'single', ans: 'B', pts: 3.5 },
+            q7: { type: 'single', ans: 'C', pts: 3.5 },
+            q8: { type: 'multi', ans: ['A', 'B', 'C', 'D'], pts: 4.0 },
+            
+            q9: { type: 'single', ans: 'C', pts: 3.5 },
+            q10: { type: 'single', ans: 'B', pts: 3.5 },
+            q11: { type: 'single', ans: 'A', pts: 3.5 },
+            q12: { type: 'single', ans: 'A', pts: 4.0 },
+            q13: { type: 'single', ans: 'C', pts: 3.5 },
+            q14: { type: 'single', ans: 'A', pts: 4.0 },
+            q15: { type: 'single', ans: 'A', pts: 4.0 },
+            q16: { type: 'multi', ans: ['A', 'C', 'D', 'E'], pts: 4.5 },
+            q17: { type: 'match', ans: { A: '2', B: '1', C: '3' }, pts: 4.5 },
+            
+            q18: { type: 'single', ans: 'C', pts: 4.0 },
+            q19: { type: 'single', ans: 'B', pts: 4.0 },
+            q20: { type: 'multi', ans: ['A', 'B', 'C', 'D', 'E'], pts: 4.5 },
+            q21: { type: 'single', ans: 'A', pts: 4.0 },
+            q22: { type: 'single', ans: 'B', pts: 4.0 },
+            q23: { type: 'single', ans: 'A', pts: 4.0 },
+            q24: { type: 'multi', ans: ['A', 'B', 'C', 'E'], pts: 4.5 },
+            q25: { type: 'single', ans: 'C', pts: 6.0 }
         };
 
         const TEACHER_PASS = "tku2026";
-        const STORAGE_KEY = "TKU_ECON_STAGE_QUIZ_2026";
+        const STORAGE_KEY = "TKU_ECON_STAGE_QUIZ_25Q_2026";
 
-        // 學生提交試卷
+        // 學生提交測驗並自動計分
         function handleFormSubmit(e) {
             e.preventDefault();
 
@@ -439,35 +736,63 @@
                 return;
             }
 
-            // 自動計算總分與各階段得分
             let totalScore = 0;
-            const stageScores = {};
-            const stageChoices = {};
+            let correctCount = 0;
+            const wrongQuestions = [];
+            const userDetails = {};
 
-            ['s1', 's2', 's3', 's4', 's5'].forEach(s => {
-                const selected = document.querySelector(`input[name="${s}"]:checked`);
-                if (selected) {
-                    const choice = selected.value;
-                    const score = scoreMatrix[s][choice] || 0;
-                    stageChoices[s] = choice;
-                    stageScores[s] = score;
-                    totalScore += score;
+            // 逐題自動比對答案
+            for (let i = 1; i <= 25; i++) {
+                const qKey = 'q' + i;
+                const qConfig = answerKey[qKey];
+                let isCorrect = false;
+
+                if (qConfig.type === 'single') {
+                    const selected = document.querySelector(`input[name="${qKey}"]:checked`);
+                    const val = selected ? selected.value : '';
+                    userDetails[qKey] = val;
+                    if (val === qConfig.ans) isCorrect = true;
+
+                } else if (qConfig.type === 'multi') {
+                    const selectedList = Array.from(document.querySelectorAll(`input[name="${qKey}"]:checked`)).map(el => el.value);
+                    userDetails[qKey] = selectedList.sort().join(',');
+                    const targetStr = qConfig.ans.sort().join(',');
+                    if (userDetails[qKey] === targetStr) isCorrect = true;
+
+                } else if (qConfig.type === 'match') {
+                    const valA = document.getElementById(`${qKey}_A`).value;
+                    const valB = document.getElementById(`${qKey}_B`).value;
+                    const valC = document.getElementById(`${qKey}_C`).value;
+                    userDetails[qKey] = `A:${valA},B:${valB},C:${valC}`;
+
+                    if (valA === qConfig.ans.A && valB === qConfig.ans.B && valC === qConfig.ans.C) {
+                        isCorrect = true;
+                    }
                 }
-            });
 
-            // 打包寫入紀錄
+                if (isCorrect) {
+                    totalScore += qConfig.pts;
+                    correctCount++;
+                } else {
+                    wrongQuestions.push(i);
+                }
+            }
+
+            // 四捨五入至小數點第一位
+            totalScore = Math.round(totalScore * 10) / 10;
+
             const record = {
                 stuId: stuId,
                 stuName: stuName,
                 totalScore: totalScore,
-                stageChoices: stageChoices,
-                stageScores: stageScores,
+                correctCount: correctCount,
+                wrongQuestions: wrongQuestions.join(','),
+                userDetails: userDetails,
                 timestamp: new Date().toLocaleString()
             };
 
+            // 存入 LocalStorage
             let existingRecords = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-            
-            // 覆蓋舊紀錄或新增
             const existingIndex = existingRecords.findIndex(r => r.stuId === stuId);
             if (existingIndex >= 0) {
                 existingRecords[existingIndex] = record;
@@ -477,7 +802,7 @@
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(existingRecords));
 
-            // 彈出成功 Modal (完全隱藏成績)
+            // 彈出提交成功視窗 (完全隱藏分數)
             document.getElementById('studentSuccessModal').style.display = 'flex';
         }
 
@@ -514,7 +839,7 @@
 
             const tbody = document.getElementById('gradesTableBody');
             if (records.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--text-secondary);">目前尚無測驗紀錄</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-secondary);">目前尚無測驗紀錄</td></tr>';
                 return;
             }
 
@@ -528,18 +853,15 @@
                         <td><b>${r.stuId}</b></td>
                         <td>${r.stuName}</td>
                         <td><span class="score-pill ${badgeClass}">${r.totalScore} 分</span></td>
-                        <td>${r.stageChoices.s1} (${r.stageScores.s1}分)</td>
-                        <td>${r.stageChoices.s2} (${r.stageScores.s2}分)</td>
-                        <td>${r.stageChoices.s3} (${r.stageScores.s3}分)</td>
-                        <td>${r.stageChoices.s4} (${r.stageScores.s4}分)</td>
-                        <td>${r.stageChoices.s5} (${r.stageScores.s5}分)</td>
+                        <td>${r.correctCount} / 25 題</td>
+                        <td style="color:var(--rose); font-weight:600;">${r.wrongQuestions ? '第 ' + r.wrongQuestions + ' 題' : '全對'}</td>
                         <td style="font-size:0.8rem; color:var(--text-secondary);">${r.timestamp}</td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // 一鍵匯出 CSV 格式成績單 (給 Excel 直接開啟)
+        // 匯出帶有 BOM 的 UTF-8 CSV 成績單
         function downloadCSVGradebook() {
             const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
             if (records.length === 0) {
@@ -547,18 +869,17 @@
                 return;
             }
 
-            // 加入 BOM 避免 Excel 開啟中文亂碼
-            let csvContent = "\uFEFF學號,姓名,總得分,階段1得分,階段2得分,階段3得分,階段4得分,階段5得分,提交時間\n";
+            let csvContent = "\uFEFF學號,姓名,總得分,答對題數,答錯題號,提交時間\n";
 
             records.forEach(r => {
-                csvContent += `"${r.stuId}","${r.stuName}",${r.totalScore},${r.stageScores.s1},${r.stageScores.s2},${r.stageScores.s3},${r.stageScores.s4},${r.stageScores.s5},"${r.timestamp}"\n`;
+                csvContent += `"${r.stuId}","${r.stuName}",${r.totalScore},${r.correctCount},"${r.wrongQuestions}", "${r.timestamp}"\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `淡江經濟_AI與經濟分析_成績單_${new Date().toISOString().slice(0,10)}.csv`;
+            a.download = `淡江經濟_AI與經濟分析_25題階段測驗成績單_${new Date().toISOString().slice(0,10)}.csv`;
             a.click();
         }
 
