@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淡江大學經濟系 - AI 與經濟分析 階段實做測驗</title>
+    
+    <!-- MathJax 公式渲染 -->
+    <script>
+      MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --navy-dark: #0f172a;
+            --navy-main: #1e3a8a;
+            --blue-accent: #2563eb;
+            --blue-light: #eff6ff;
+            --emerald: #059669;
+            --rose: #e11d48;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-slate); color: var(--text-primary); line-height: 1.6; padding-bottom: 4rem; }
+
+        header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .teacher-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .teacher-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card h2 { color: var(--navy-main); font-size: 1.3rem; margin-bottom: 1rem; border-bottom: 2px solid var(--bg-slate); padding-bottom: 0.5rem; }
+
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        label { font-weight: 600; font-size: 0.92rem; color: var(--navy-dark); display: block; margin-bottom: 0.4rem; }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        input:focus, textarea:focus { border-color: var(--blue-accent); }
+
+        .q-num { background: var(--navy-main); color: white; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; margin-right: 0.5rem; }
+        
+        .option-group { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .option-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; background: var(--bg-slate); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid var(--border); }
+        .option-label:hover { background: var(--blue-light); }
+
+        .btn-submit {
+            background: var(--emerald);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: #047857; }
+
+        /* 成功提示與教師專區 Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-body {
+            background: white; border-radius: 12px; padding: 2rem; max-width: 800px; width: 90%; max-height: 85vh; overflow-y: auto;
+        }
+
+        .badge-score { background: #dcfce7; color: #15803d; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div>
+                <h1>AI 與經濟分析：階段實做測驗</h1>
+                <p style="color:#93c5fd; font-size:0.95rem;">淡江大學經濟學系 | AREMOS 數據檢索、AI Prompt 與總體經濟判讀</p>
+            </div>
+            <button class="teacher-btn" onclick="openTeacherModal()">🎓 教師專區 (登入)</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 學生資訊區 -->
+        <div class="card">
+            <h2>📋 考生基本資料</h2>
+            <div class="student-info-grid">
+                <div>
+                    <label for="stuId">學號 *</label>
+                    <input type="text" id="stuId" placeholder="例如：411001234" required>
+                </div>
+                <div>
+                    <label for="stuName">姓名 *</label>
+                    <input type="text" id="stuName" placeholder="例如：王小明" required>
+                </div>
+            </div>
+        </div>
+
+        <form id="quizForm" onsubmit="handleFormSubmit(event)">
+
+            <!-- 第一部份：基礎選擇與代碼題 (自動計分 40%) -->
+            <div class="card">
+                <h2>第一部份：AREMOS 檢索與經濟學理 (共 40 分)</h2>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <p><span class="q-num"> Q1 </span> 在 AREMOS 網頁版中，若要調取「消費者物價總指數 - 年增率 (YoY)」，應該優先至哪一個資料庫模組中尋找？ (10分)</p>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q1" value="A"> A) BCI (景氣對策信號)</label>
+                        <label class="option-label"><input type="radio" name="q1" value="B"> B) PRICE / CPI (物價統計與指數)</label>
+                        <label class="option-label"><input type="radio" name="q1" value="C"> C) TRADE (海關進出口貿易)</label>
+                        <label class="option-label"><input type="radio" name="q1" value="D"> D) ENG (能源與電力消費)</label>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <p><span class="q-num"> Q2 </span> 當貨幣供給出現「M1B 年增率 > M2 年增率（黃金交叉/剪刀差）」時，在經濟學上最可能代表以下何種現象？ (10分)</p>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q2" value="A"> A) 民眾大量將活期存款轉存為定期存款，市場資金趨於冷凍</label>
+                        <label class="option-label"><input type="radio" name="q2" value="B"> B) 民眾解約定期存款轉入活期存款，市場熱錢充沛，通常為股市動能強勁之訊號</label>
+                        <label class="option-label"><input type="radio" name="q2" value="C"> C) 中央銀行正在實施大幅度的緊縮性貨幣政策並提高重貼現率</label>
+                        <label class="option-label"><input type="radio" name="q2" value="D"> D) 台灣實質 GDP 成長率即將面臨連續兩季負成長</label>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <p><span class="q-num"> Q3 </span> 下列關於「名目薪資」與「實質薪資」的敘述，何者正確？ (10分)</p>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q3" value="A"> A) 實質薪資 = 名目薪資 $\times$ CPI 指數</label>
+                        <label class="option-label"><input type="radio" name="q3" value="B"> B) 當名目薪資成長率低於 CPI 通膨年增率時，實質薪資為負成長，代表民眾購買力受侵蝕</label>
+                        <label class="option-label"><input type="radio" name="q3" value="C"> C) 只要名目薪資有增加，民眾的購買力就一定會隨之提升</label>
+                        <label class="option-label"><input type="radio" name="q3" value="D"> D) AREMOS 中的薪資資料只能下載年資料，無法調取月資料</label>
+                    </div>
+                </div>
+
+                <div>
+                    <p><span class="q-num"> Q4 </span> 主計總處發布的季資料（Q）中，最新歷史正式發布數據通常更新至前一年第4季，而當年前幾季主要包含模型預測值。這是因為統計資料具備何種特性？ (10分)</p>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="q4" value="A"> A) 時間滯後性 (Lag Effect) 與數據驗證修正期</label>
+                        <label class="option-label"><input type="radio" name="q4" value="B"> B) 隨機漫步特性 (Random Walk)</label>
+                        <label class="option-label"><input type="radio" name="q4" value="C"> C) 菲利浦曲線置換效應</label>
+                        <label class="option-label"><input type="radio" name="q4" value="D"> D) 外部性失靈現象</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二部份：AI Prompt 實做與數據填空 (30%) -->
+            <div class="card">
+                <h2>第二部份：AI Prompt 實做設計 (30 分)</h2>
+
+                <div style="margin-bottom: 1.2rem;">
+                    <label for="qPrompt">請貼上你在 ChatGPT / Gemini 中，用來讓 AI 根據 AREMOS 數據繪製「CPI 通膨 vs. M1B/M2 雙 Y 軸互動圖表」的完整 Prompt (提示詞)： *</label>
+                    <textarea id="qPrompt" rows="5" placeholder="請包含：1. 角色設定  2. 雙 Y 軸顏色與規格限制  3. 真實數據輸入格式..." required></textarea>
+                </div>
+            </div>
+
+            <!-- 第三部份：總體經濟分析與判讀 (30%) -->
+            <div class="card">
+                <h2>第三部份：總體經濟觀察短評 (30 分)</h2>
+
+                <div style="margin-bottom: 1.2rem;">
+                    <label for="qAnalysis">請根據你調取到的 CPI 年增率與 M1B/M2 數據，撰寫約 150-200 字的總體短評（分析通膨警戒線 2% 或是貨幣剪刀差對台灣經濟的影響）： *</label>
+                    <textarea id="qAnalysis" rows="5" placeholder="例如：觀察 2021-2024 年數據，CPI 曾多次突破 2% 警戒線，反映輸入型通膨與外食價格壓力..." required></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">🚀 提交試卷 (Submit)</button>
+        </form>
+    </div>
+
+    <!-- 學生提交成功 Modal -->
+    <div id="studentSuccessModal" class="modal-overlay">
+        <div class="modal-body" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+            <h2 style="color: var(--emerald); margin-bottom: 0.5rem;">試卷提交成功！</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">您的答題紀錄、Prompt 與分析短評已安全加密存入系統中。<br>分數與評分成果將由授課老師統一查閱處理。</p>
+            <button onclick="closeStudentModal()" style="background:var(--navy-main); color:white; border:none; padding:0.6rem 1.5rem; border-radius:6px; cursor:pointer;">確定關閉</button>
+        </div>
+    </div>
+
+    <!-- 教師專區 Modal -->
+    <div id="teacherModal" class="modal-overlay">
+        <div class="modal-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:2px solid var(--bg-slate); padding-bottom:0.5rem;">
+                <h2 style="color:var(--navy-main);">🎓 教師後台評分專區</h2>
+                <button onclick="closeTeacherModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+            </div>
+
+            <!-- 密碼驗證 -->
+            <div id="authBox">
+                <p style="margin-bottom: 0.8rem; color:var(--text-secondary);">請輸入教師專屬解鎖密碼（預設：<code style="color:var(--rose);">tku2026</code>）：</p>
+                <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                    <input type="password" id="teacherPass" placeholder="輸入密碼..." style="flex:1;">
+                    <button onclick="verifyTeacherPass()" style="background:var(--blue-accent); color:white; border:none; padding:0.5rem 1rem; border-radius:6px; cursor:pointer;">驗證登入</button>
+                </div>
+                <p id="passError" style="color:var(--rose); font-size:0.85rem; display:none;">密碼錯誤，請重新輸入！</p>
+            </div>
+
+            <!-- 後台數據區 (密碼正確後顯示) -->
+            <div id="teacherContent" style="display: none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <p>已收繳試卷總數：<strong id="submissionCount" style="color:var(--blue-accent);">0</strong> 份</p>
+                    <button onclick="exportJSON()" style="background:var(--emerald); color:white; border:none; padding:0.4rem 0.8rem; border-radius:4px; font-size:0.85rem; cursor:pointer;">匯出全班 JSON 檔</button>
+                </div>
+
+                <div id="recordsList" style="display:flex; flex-direction:column; gap:1rem;">
+                    <!-- 記錄卡片會動態生成於此 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 正確答案定義 (前 4 題選擇題，一題 10 分，共 40 分)
+        const correctAnswers = {
+            q1: 'B',
+            q2: 'B',
+            q3: 'B',
+            q4: 'A'
+        };
+
+        // 教師密碼
+        const TEACHER_PASS = "tku2026";
+
+        // 本地儲存 key
+        const STORAGE_KEY = "TKU_ECON_QUIZ_RECORDS";
+
+        // 學生表單提交
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const stuId = document.getElementById('stuId').value.trim();
+            const stuName = document.getElementById('stuName').value.trim();
+            const promptVal = document.getElementById('qPrompt').value.trim();
+            const analysisVal = document.getElementById('qAnalysis').value.trim();
+
+            if (!stuId || !stuName) {
+                alert("請填寫學號與姓名！");
+                return;
+            }
+
+            // 計算第一部分客觀題得分
+            let autoScore = 0;
+            const userAnswers = {};
+
+            ['q1', 'q2', 'q3', 'q4'].forEach(q => {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected) {
+                    userAnswers[q] = selected.value;
+                    if (selected.value === correctAnswers[q]) {
+                        autoScore += 10;
+                    }
+                } else {
+                    userAnswers[q] = "未作答";
+                }
+            });
+
+            // 打包試卷紀錄
+            const record = {
+                stuId: stuId,
+                stuName: stuName,
+                timestamp: new Date().toLocaleString(),
+                autoScore: autoScore, // 選擇題得分 (滿分 40)
+                userAnswers: userAnswers,
+                prompt: promptVal,
+                analysis: analysisVal
+            };
+
+            // 存入 LocalStorage
+            let existingRecords = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            existingRecords.push(record);
+            localStorage.getItem(STORAGE_KEY);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(existingRecords));
+
+            // 彈出成功提示 (不顯示分數)
+            document.getElementById('studentSuccessModal').style.display = 'flex';
+        }
+
+        function closeStudentModal() {
+            document.getElementById('studentSuccessModal').style.display = 'none';
+            document.getElementById('quizForm').reset();
+            document.getElementById('stuId').value = '';
+            document.getElementById('stuName').value = '';
+        }
+
+        // 教師專區 Modal 邏輯
+        function openTeacherModal() {
+            document.getElementById('teacherModal').style.display = 'flex';
+        }
+
+        function closeTeacherModal() {
+            document.getElementById('teacherModal').style.display = 'none';
+        }
+
+        function verifyTeacherPass() {
+            const pass = document.getElementById('teacherPass').value;
+            if (pass === TEACHER_PASS) {
+                document.getElementById('authBox').style.display = 'none';
+                document.getElementById('teacherContent').style.display = 'block';
+                loadTeacherData();
+            } else {
+                document.getElementById('passError').style.display = 'block';
+            }
+        }
+
+        function loadTeacherData() {
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            document.getElementById('submissionCount').innerText = records.length;
+
+            const listEl = document.getElementById('recordsList');
+            if (records.length === 0) {
+                listEl.innerHTML = '<p style="color:var(--text-secondary); text-align:center;">目前尚未有學生提交試卷。</p>';
+                return;
+            }
+
+            listEl.innerHTML = records.map((r, index) => `
+                <div style="border:1px solid var(--border); padding:1rem; border-radius:8px; background:var(--bg-slate);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                        <strong>${r.stuName} (${r.stuId})</strong>
+                        <span class="badge-score">選擇題分數: ${r.autoScore} / 40 分</span>
+                    </div>
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.5rem;">提交時間：${r.timestamp}</p>
+                    
+                    <div style="font-size:0.88rem; margin-bottom:0.5rem;">
+                        <strong>選擇題作答狀況：</strong> Q1:${r.userAnswers.q1} | Q2:${r.userAnswers.q2} | Q3:${r.userAnswers.q3} | Q4:${r.userAnswers.q4}
+                    </div>
+
+                    <div style="margin-top:0.5rem;">
+                        <strong style="font-size:0.88rem; color:var(--navy-main);">AI Prompt 實做內容：</strong>
+                        <pre style="background:white; padding:0.5rem; border-radius:4px; font-size:0.82rem; border:1px solid var(--border); white-space:pre-wrap; margin-top:0.2rem;">${r.prompt}</pre>
+                    </div>
+
+                    <div style="margin-top:0.5rem;">
+                        <strong style="font-size:0.88rem; color:var(--emerald);">總體經濟短評：</strong>
+                        <p style="background:white; padding:0.5rem; border-radius:4px; font-size:0.85rem; border:1px solid var(--border); margin-top:0.2rem;">${r.analysis}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function exportJSON() {
+            const records = localStorage.getItem(STORAGE_KEY) || "[]";
+            const blob = new Blob([records], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `TKU_ECON_Quiz_Results_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
