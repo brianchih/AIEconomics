@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淡江大學《AI 與經濟分析》小組專題作品總覽 Portal</title>
+    <style>
+        :root {
+            --navy-dark: #0f172a;
+            --navy-main: #1e3a8a;
+            --blue-accent: #2563eb;
+            --blue-light: #eff6ff;
+            --emerald: #059669;
+            --rose: #e11d48;
+            --amber: #d97706;
+            --purple: #7c3aed;
+            --cyan: #0891b2;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-slate); color: var(--text-primary); line-height: 1.6; padding-bottom: 5rem; }
+
+        header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-main));
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header-content h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        .header-content p { color: #93c5fd; font-size: 1.05rem; }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .stats-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--blue-accent); }
+        .stat-label { font-size: 0.88rem; color: var(--text-secondary); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.6rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+            border-color: var(--blue-accent);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .group-badge {
+            background: var(--navy-dark);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .topic-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            color: white;
+        }
+
+        /* 主題色彩標籤 */
+        .tag-green { background: var(--emerald); }
+        .tag-amber { background: var(--amber); }
+        .tag-rose { background: var(--rose); }
+        .tag-cyan { background: var(--cyan); }
+        .tag-purple { background: var(--purple); }
+        .tag-blue { background: var(--blue-accent); }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--navy-main);
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+            text-align: justify;
+        }
+
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-pill {
+            background: var(--bg-slate);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .btn-link {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--blue-accent);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background: #1d4ed8;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>🎓 淡江大學《AI 與經濟分析》專題作品總覽 Portal</h1>
+            <p>展示 18 個小組結合 AREMOS 資料庫、AI 提示詞工程、VAR/計量模型與 GitHub Pages 成果</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 數據統計條 -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-num">18</div>
+                <div class="stat-label">小組展演專題</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">30+</div>
+                <div class="stat-label">AREMOS 子資料庫應用</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">GitHub Pages 靜態站點</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">AI + Econ</div>
+                <div class="stat-label">跨領域數據決策鏈</div>
+            </div>
+        </div>
+
+        <!-- 專題卡片網格 -->
+        <div class="grid">
+
+            <!-- 第 01 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 01 組</span>
+                        <span class="topic-tag tag-green">永續與綠色供應鏈</span>
+                    </div>
+                    <div class="card-title">綠色門票：永續是門票也是門檻</div>
+                    <div class="card-desc">當全球供應鏈要求綠色生產，拆解與分析中小企業面對碳盤查等合規固定成本的負擔（固定成本佔營收比重差距可達 10 倍以上），評估補助與訂單成長效應。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">真實數據</span>
+                        <span class="tech-pill">碳盤查成本</span>
+                        <span class="tech-pill">合規補助模擬</span>
+                    </div>
+                </div>
+                <a href="https://yan-0202.github.io/green-gateway/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 02 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 02 組</span>
+                        <span class="topic-tag tag-amber">物價與勞動市場</span>
+                    </div>
+                    <div class="card-title">探索臺灣勞動市場與動態物價轉嫁機制</div>
+                    <div class="card-desc">結合 AREMOS 總體資料庫，探討最低工資調升對餐飲業邊際人工成本與外食費 CPI 的推升轉嫁效應，並剖析基層受僱勞工實質購買力的動態變化。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">AREMOS</span>
+                        <span class="tech-pill">VAR 模型</span>
+                        <span class="tech-pill">IRF 脈衝衝擊</span>
+                        <span class="tech-pill">Python</span>
+                    </div>
+                </div>
+                <a href="https://wznno.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 03 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 03 組</span>
+                        <span class="topic-tag tag-amber">失業與總體理論</span>
+                    </div>
+                    <div class="card-title">臺灣經濟成長與失業：奧肯法則與通膨檢驗</div>
+                    <div class="card-desc">運用 2000–2021 年年度資料，觀察當經濟成長加快時失業率是否符合奧肯法則 (Okun's Law) 的負向關係，並延伸探討通膨與 M2 貨幣供給效應。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">奧肯法則</span>
+                        <span class="tech-pill">失業率</span>
+                        <span class="tech-pill">M2 貨幣供給</span>
+                    </div>
+                </div>
+                <a href="https://kimo1024cow-spec.github.io/Economics/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 04 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 04 組</span>
+                        <span class="topic-tag tag-rose">物價衝擊與彈性</span>
+                    </div>
+                    <div class="card-title">颱風過後便當突然變貴了？供給面衝擊傳導</div>
+                    <div class="card-desc">探索天災與地緣政治原物料衝擊如何從 PPI（生產者物價）傳導至 CPI（消費者物價），並比較低需求彈性（便當/原油）與高彈性商品的轉嫁與滯漲現象。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">PPI ➔ CPI 傳導</span>
+                        <span class="tech-pill">需求價格彈性</span>
+                        <span class="tech-pill">互動模擬器</span>
+                    </div>
+                </div>
+                <a href="https://cooper101157.github.io/413490458/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 05 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 05 組</span>
+                        <span class="topic-tag tag-rose">區域房價與青年購買力</span>
+                    </div>
+                    <div class="card-title">民生 CPI 波動與區域房價對青年購買力之擠壓</div>
+                    <div class="card-desc">聚焦青年集中之低薪服務業（餐飲、零售），運用 1991–2025 年季節調整資料，探討民生必需品通膨與居住成本（營造工程指數、房租）對實質薪資的跨期擠壓。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">VAR 衝擊回應</span>
+                        <span class="tech-pill">SHAP 模型</span>
+                        <span class="tech-pill">營造工程指數</span>
+                    </div>
+                </div>
+                <a href="https://shannonlee0518.github.io/Economic/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 06 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 06 組</span>
+                        <span class="topic-tag tag-cyan">交通經濟與交叉彈性</span>
+                    </div>
+                    <div class="card-title">汽油價格與公共運輸需求交叉彈性研究</div>
+                    <div class="card-desc">以臺北捷運與 Ubike 為例，探討國內汽油價格上漲對大眾運輸工具運量的替代效應，並精準分析中長程（捷運）與短程（Ubike）運量之交叉彈性差異。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">交叉彈性</span>
+                        <span class="tech-pill">邊際替代率</span>
+                        <span class="tech-pill">雙 Y 軸時序圖</span>
+                    </div>
+                </div>
+                <a href="https://413570259.github.io/AI-/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 07 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 07 組</span>
+                        <span class="topic-tag tag-purple">AI 衝擊與少子化</span>
+                    </div>
+                    <div class="card-title">產業 AI 自動化衝擊、薪資結構與少子化滯後機制</div>
+                    <div class="card-desc">結合技能偏向型技術進步與貝克育兒質量模型，運用 22 縣市資料與分佈滯後模型 (DLM)，檢驗 AI 技術替代對實質薪資、育兒時間成本與總生育率之 1–4 年滯後影響。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">分佈滯後 DLM</span>
+                        <span class="tech-pill">貝克育兒模型</span>
+                        <span class="tech-pill">縣市面板數據</span>
+                    </div>
+                </div>
+                <a href="https://aquarius950216.github.io/dinosaur/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 08 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 08 組</span>
+                        <span class="topic-tag tag-amber">通膨與薪資動態</span>
+                    </div>
+                    <div class="card-title">臺灣總體經濟動態傳導機制：通膨與薪資專題</div>
+                    <div class="card-desc">運用 1981–2024 年長跨度數據，建立 SVAR 與 HAC 模型，檢驗 CPI 年增率對經常性薪資成長的非對稱性與工資向下黏性，並提供多重情境模擬器。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">SVAR 模型</span>
+                        <span class="tech-pill">HAC 估計</span>
+                        <span class="tech-pill">非對稱黏性</span>
+                    </div>
+                </div>
+                <a href="https://5jia123.github.io/AI/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 09 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 09 組</span>
+                        <span class="topic-tag tag-purple">產業 K 型分化</span>
+                    </div>
+                    <div class="card-title">總體薪資通膨轉嫁與產業 K 型分化動態分析</div>
+                    <div class="card-desc">運用巴拉薩—薩謬爾森效應，比較外需高科技業與內需服務業在通膨轉嫁上的巨幅差異，並運用 VAR 模型生成具有 95% 信心區間之脈衝衝擊圖與互動儀表板。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">巴拉薩—薩謬爾森</span>
+                        <span class="tech-pill">K 型復甦</span>
+                        <span class="tech-pill">多產業儀表板</span>
+                    </div>
+                </div>
+                <a href="https://calistaaaaa.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 10 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 10 組</span>
+                        <span class="topic-tag tag-amber">分量迴歸與可解釋 AI</span>
+                    </div>
+                    <div class="card-title">高通膨下實質總薪資之黏性與購買力侵蝕</div>
+                    <div class="card-desc">運用分量迴歸與可解釋 AI (SHAP)，探討受僱員工名目總薪資與經常性薪資的向下黏性，並證實低所得分量 (Q0.1–Q0.25) 實質購買力受通膨侵蝕程度遠高於高所得者。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">分量迴歸</span>
+                        <span class="tech-pill">SHAP 可解釋 AI</span>
+                        <span class="tech-pill">核心 CPI/房租</span>
+                    </div>
+                </div>
+                <a href="https://shugouyu7-boop.github.io/econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 11 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 11 組</span>
+                        <span class="topic-tag tag-amber">薪資—物價螺旋</span>
+                    </div>
+                    <div class="card-title">通膨與薪資物價衝擊動態傳導機制實證</div>
+                    <div class="card-desc">探討 CPI 通膨上升是否帶動受僱員工名目薪資追趕，以及名目薪資快速成長是否透過企業勞動成本反向形成物價壓力，引發自我循環之「薪資—物價螺旋」。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">薪資追趕假說</span>
+                        <span class="tech-pill">成本推動通膨</span>
+                        <span class="tech-pill">因果檢定</span>
+                    </div>
+                </div>
+                <a href="https://angelahsu0814-bot.github.io/Hw/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 12 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 12 組</span>
+                        <span class="topic-tag tag-rose">通膨黏性與房價負擔</span>
+                    </div>
+                    <div class="card-title">通膨動態薪資調整黏性與青年房價負擔研究</div>
+                    <div class="card-desc">建構 5 年平均 CPI 通膨率與名目薪資反應儀表板，基於新凱因斯理論架構，評估物價衝擊落後期與青年族群在房價與就業選擇上的雙重壓力。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">新凱因斯架構</span>
+                        <span class="tech-pill">VAR 因果檢定</span>
+                        <span class="tech-pill">房價負擔力</span>
+                    </div>
+                </div>
+                <a href="https://cobiyen5281-droid.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 13 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 13 組</span>
+                        <span class="topic-tag tag-amber">實質購買力與就業</span>
+                    </div>
+                    <div class="card-title">通膨薪資調整與青年房價就業選擇雙專題</div>
+                    <div class="card-desc">對比通膨高漲對實質購買力的侵蝕效果，並探索青年族群面對區域高房價時在職場產業選擇上的跨期行為調適。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">實質購買力</span>
+                        <span class="tech-pill">青年就業選擇</span>
+                        <span class="tech-pill">雙主題觀測</span>
+                    </div>
+                </div>
+                <a href="https://lucaschung88520-ops.github.io/lucas/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 14 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 14 組</span>
+                        <span class="topic-tag tag-blue">股市流動性與 AI 預測</span>
+                    </div>
+                    <div class="card-title">臺股市值成交額對總體經濟之非線性傳導與 AI 預測</div>
+                    <div class="card-desc">剖析臺股成交總金額與加權指數對實體經濟的情緒溢出效應（Tobin's Q 與財富效果），並比較 XGBoost、LSTM 神經網路與傳統 VAR 在景氣轉折點上的預測精度。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">Tobin's Q 財富效果</span>
+                        <span class="tech-pill">XGBoost</span>
+                        <span class="tech-pill">LSTM 神經網路</span>
+                    </div>
+                </div>
+                <a href="https://steven-alt0322.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 15 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 15 組</span>
+                        <span class="topic-tag tag-purple">AI 浪潮與薪資追趕</span>
+                    </div>
+                    <div class="card-title">AI 浪潮下名目薪資追趕實質購買力黏性</div>
+                    <div class="card-desc">基於 AREMOS 數據，探討 AI 產業高成長推升名目薪資的同時，持續性通膨是否造成實質薪資成長率在短中期內顯著落後，以及高科技與傳統產業間的不對稱影響。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">AREMOS 時序</span>
+                        <span class="tech-pill">AI 技術紅利</span>
+                        <span class="tech-pill">購買力不對稱</span>
+                    </div>
+                </div>
+                <a href="https://a096876652.github.io/eco/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 16 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 16 組</span>
+                        <span class="topic-tag tag-purple">荷蘭病效應檢驗</span>
+                    </div>
+                    <div class="card-title">科技紅利大於實質薪資停滯？臺灣「荷蘭病」檢驗</div>
+                    <div class="card-desc">跳脫僅關注 GDP 成長的框架，聚焦電子零組件與半導體出口暴增對國內總體 CPI 的推升，檢驗出口榮景是否伴隨擠壓非科技業勞工實質購買力的「荷蘭病」側邊效應。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">荷蘭病 (Dutch Disease)</span>
+                        <span class="tech-pill">雙軌化產業</span>
+                        <span class="tech-pill">脈衝回應圖</span>
+                    </div>
+                </div>
+                <a href="https://astranin.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 18 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 18 組</span>
+                        <span class="topic-tag tag-purple">資產傳導與資本超額報酬</span>
+                    </div>
+                    <div class="card-title">AI 時代勞動力質變與非對稱性資產傳導</div>
+                    <div class="card-desc">批判傳統國民所得帳框架，論證 AI 普及致使生產力紅利轉為極少數資本與高階技術要素之超額報酬，並透過空間聚集與金融槓桿造成生活成本對中產勞工的非對稱擠壓。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">資本超額報酬</span>
+                        <span class="tech-pill">空間生活成本</span>
+                        <span class="tech-pill">自動化累進稅模擬</span>
+                    </div>
+                </div>
+                <a href="https://lshou0416-cpu.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+            <!-- 第 19 組 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="group-badge">第 19 組</span>
+                        <span class="topic-tag tag-blue">匯率與出口競爭力</span>
+                    </div>
+                    <div class="card-title">生成式 AI 對新臺幣實質有效匯率與出口之非線性影響</div>
+                    <div class="card-desc">基於巴拉薩—薩謬爾森效應，探討 AI 供應鏈全要素生產力 (TFP) 提升推升實質有效匯率 (REER)，並檢驗 AI 高附加價值跨越門檻後如何削弱升值對出口的負面抑製效果。</div>
+                    <div class="tech-badges">
+                        <span class="tech-pill">門檻迴歸模型</span>
+                        <span class="tech-pill">全要素生產力 TFP</span>
+                        <span class="tech-pill">VAR 脈衝響應</span>
+                    </div>
+                </div>
+                <a href="https://nini931214.github.io/Econ/" target="_blank" class="btn-link">開啟專題網站 ➔</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>淡江大學經濟學系《AI 與經濟分析》課程團隊製作 | Powered by GitHub Pages & AREMOS Data Platform</p>
+    </footer>
+
+</body>
+</html>
