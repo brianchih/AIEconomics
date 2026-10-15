@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>單元二：CPI消費者物價指數分析與AI簡報生成實務 - 課程筆記</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #d69e2e;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 1.5em;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .resource-box {
+            background-color: #ebf8ff;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .resource-box a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .resource-box a:hover {
+            text-decoration: underline;
+        }
+
+        .concept-card {
+            background-color: #fffaf0;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #edf2f7;
+            color: var(--primary-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .highlight {
+            background-color: #feebc8;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #718096;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>單元二：美國 CPI 消費者物價指數分析與 AI 協作簡報實務</h1>
+
+    <div class="resource-box">
+        <h3>🔗 官方與課程重要參考資源</h3>
+        <ul>
+            <li><strong>美國勞工統計局 (BLS) - CPI 最新新聞稿：</strong><br>
+                <a href="https://www.bls.gov/news.release/cpi.htm" target="_blank">https://www.bls.gov/news.release/cpi.htm</a>
+            </li>
+            <li><strong>CPI 項目相對重要性（權重）資料：</strong><br>
+                <a href="https://www.bls.gov/cpi/tables/relative-importance/" target="_blank">https://www.bls.gov/cpi/tables/relative-importance/</a>
+            </li>
+            <li><strong>2026年 權重更新比較表：</strong><br>
+                <a href="https://www.bls.gov/cpi/tables/relative-importance/weight-update-comparison-2026.htm" target="_blank">https://www.bls.gov/cpi/tables/relative-importance/weight-update-comparison-2026.htm</a>
+            </li>
+            <li><strong>iClass / 平台補充資源（講師上傳）：</strong>
+                <ul>
+                    <li><code>eservan_CPI.xlsx / .csv</code>：講師歷年預測美國 CPI 的 Excel 試算模組。</li>
+                    <li><code>CPI 權重表</code>：最新全品項相對重要性權重下載檔。</li>
+                    <li><code>美國 CPI 實例 AI Prompt 指令庫</code>：Prompt 範例集（word/pdf）。</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h2>一、 核心觀念：人與 AI (Gemini) 的正確協作心態</h2>
+    <div class="concept-card">
+        <h3>💡 講師核心觀點：「把 AI 當作小學生 / 實習助理」</h3>
+        <ul>
+            <li><strong>定位：</strong> 將 Gemini/AI 當作你的執行助理。他反應迅速、能收集與整理資料，但缺乏深度的專業判斷力。</li>
+            <li><strong>專業知識的作用：</strong> AI 無法自動產出 100 分的專業分析報告。專業知識的本質在於**「審查與給予精確指令」**。使用者必須知道哪裡需要修正、如何分段、引導什麼方向，才能產出專業簡報。</li>
+            <li><strong>溝通方式：</strong> 無需撰寫複雜程式，使用日常白話文或中文（可混搭英文）逐步引導、明確下達結構化指令即可。</li>
+            <li><strong>提示詞流程（Prompting Process）：</strong> 建立深入簡報需要「連續對話過程」。若只給單一空洞指令，產出的內容只會表面且空洞。</li>
+        </ul>
+    </div>
+
+    <h2>二、 美國 CPI 指數理論與計算背景</h2>
+    <ul>
+        <li><strong>編製單位：</strong> 美國勞工統計局 (Bureau of Labor Statistics, BLS)。</li>
+        <li><strong>計算公式方法：</strong> 採用<span class="highlight">修正型拉士培爾物價指數 (Modified Laspeyres Price Index)</span>。由 BLS 針對全美四個主要區域進行加權調查。</li>
+        <li><strong>權重調整機制：</strong> 自 2023 年起改為**每年更新權重**（例如 2026 年採用 2025 年的消費支出權重數據進行計算）。</li>
+        <li><strong>季節性調整 (Seasonally Adjusted)：</strong>
+            <ul>
+                <li>消除淡旺季等週期因素（例如 9 月旺季調降幅度修正），使其能客觀反映月增率 (MoM) 的真實物價動能。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>三、 最新（9月）CPI 數據市場實務分析</h2>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>指標分類</th>
+                    <th>實測數據 (YOY / MOM)</th>
+                    <th>市場預期</th>
+                    <th>市場影響與經濟分析</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>整體 CPI (Headline CPI)</strong></td>
+                    <td>年增率 3.7%<br>月增率 0.6%</td>
+                    <td>3.6% (高於預期 0.1%)</td>
+                    <td>主要受國際油價暴漲與能源商品（汽油月增 9.3%）拉升所致。</td>
+                </tr>
+                <tr>
+                    <td><strong>核心 CPI (Core CPI)</strong><br><em>(扣除食品與能源)</em></td>
+                    <td>年增率 2.6%<br>月增率 0.3%</td>
+                    <td>高於預期 0.1%</td>
+                    <td>月增率創近半年新高，顯示物價通膨動能出現反彈停滯。聯準會 (Fed) 年內再度升息機率大幅提升。</td>
+                </tr>
+                <tr>
+                    <td><strong>主要驅動因子</strong></td>
+                    <td colspan="3">
+                        1. <strong>居住成本 (Shelter)：</strong> 佔比高達 35.6%，市場租金與業主等效租金 (OER) 出現遞延反彈。<br>
+                        2. <strong>核心商品 (Goods)：</strong> 受到 AI 伺服器需求強勁、零組件缺貨、電子產品漲價及關稅連帶效應推升。<br>
+                        3. <strong>交通運輸服務：</strong> 受油價高企間接拉高整體運價。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>四、 課堂實作任務：製作 3 頁專業分析 PPT 簡報</h2>
+
+    <h3>任務目標</h3>
+    <p>引導 AI (Gemini) 將最新發佈的美國 CPI 資料，轉化為具備邏輯架構的三頁專業研究報告風格簡報。</p>
+
+    <h3>簡報架構指引 (3-Page Executive Summary)</h3>
+    <ol>
+        <li><strong>第一頁：數據總覽與市場落差 (Headline & Expectation Gap)</strong>
+            <ul>
+                <li>條列最新公佈之整體 CPI、核心 CPI 之 YOY 與 MOM 數據。</li>
+                <li>對比 Market Consensus（市場共識），指出高於預期 0.1% 之事實與總體股市/債市反應。</li>
+            </ul>
+        </li>
+        <li><strong>第二頁：通膨驅動因素拆解 (Core Driver Decomposition)</strong>
+            <ul>
+                <li>深入分析驅動通膨高於預期之主要因子（如能源商品暴漲、居住成本強韌性）。</li>
+                <li>說明 AI 產業鏈推升硬體成本與供應鏈關稅對核心商品價格之影響。</li>
+            </ul>
+        </li>
+        <li><strong>第三頁：貨幣政策展望與趨勢影響 (Fed Policy Outlook & Implications)</strong>
+            <ul>
+                <li>分析通膨動能停滯對聯準會 (Fed) 利率政策的潛在衝擊（增加升息或維持高利率時間之機率）。</li>
+                <li>針對未來月份（含去基期資料處理）提供前瞻性預測建議。</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>五、 常見簡報生成問題與優化評估</h2>
+    <ul>
+        <li>❌ <strong>排版字體過小：</strong> 資訊過度擠壓，未做層次化提煉。</li>
+        <li>❌ <strong>冗餘資訊疊加：</strong> 文字僅重複描述表格已有的數字，缺乏產出「分析性洞見 (Actionable Insights)」。</li>
+        <li>❌ <strong>套用空話泛論：</strong> 未將「地緣政治風險」或「供應鏈問題」具體連結至明確報告（例如引述 ICIS 或 BLS 官方數據）。</li>
+        <li>✅ <strong>優化作法：</strong> 根據初稿結果，對 AI 進行追問：「針對第 2 點原因，請依據 BLS 細項數據補充具體項目月增率與權重佔比，並精簡文字至 3 句重點。」</li>
+    </ul>
+</div>
+
+<footer>
+    <p>© 2026 AI與經濟分析課程 | 單元二 學習檔案整理</p>
+</footer>
+
+</body>
+</html>
