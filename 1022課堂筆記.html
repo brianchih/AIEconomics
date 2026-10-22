@@ -95,6 +95,16 @@
             border-radius: 0 8px 8px 0;
         }
 
+        .formula-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary-color);
+            padding: 12px 18px;
+            margin: 12px 0;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
         .table-container {
             overflow-x: auto;
             margin: 24px 0;
@@ -120,16 +130,6 @@
 
         tr:nth-child(even) {
             background-color: #f8fafc;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: #e0e7ff;
-            color: #3730a3;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
         }
 
         .alert-text {
@@ -172,21 +172,21 @@
     <div class="quote-box">
         <h3>💡 老師核心觀點：「預測大部分是錯的，但有道理的預測就是好預測」</h3>
         <ul>
-            <li><strong>預測本質：</strong> 市場上不存在百分之百準確的預測模型。評價預測優劣的關鍵在於**「是否有具說服力的邏輯與經濟道理」**。</li>
+            <li><strong>預測本質：</strong> 市場上不存在百分之百準確的預測模型。評價預測優劣的關鍵在於<strong>「是否有具說服力的邏輯與經濟道理」</strong>。</li>
             <li><strong>AI 的雙重角色：</strong>
                 <ul>
                     <li><strong>作為「助理」：</strong> 協助尋找最新數據、抓取權重、產生程式碼與製作初步 PPT 簡報。</li>
                     <li><strong>作為「老師」：</strong> 當對預測方法、理論或名詞不清楚時，主動詢問 AI「請提供三種預測 CPI 的方法並分析優缺點」，進行自主學習。</li>
                 </ul>
             </li>
-            <li><strong>提問品質（Prompting）：</strong> 指令越具體、細項拆解越明確，AI 給出的結果品質越高。這高度依賴使用者的**財經專業知識**。</li>
+            <li><strong>提問品質（Prompting）：</strong> 指令越具體、細項拆解越明確，AI 給出的結果品質越高。這高度依賴使用者的<strong>財經專業知識</strong>。</li>
         </ul>
     </div>
 
     <h2>二、 特殊資料缺口處理（基期問題）</h2>
     <p>預測 2026 年 10 月份 CPI 通膨率（年增率 YoY）時會面臨一個特殊挑戰：<span class="alert-text">去年 10 月份因美國政府關門，官方未調查並公布數據。</span></p>
     <ul>
-        <li><strong>解決方案：</strong> 可採用簡單插補法，將 **去年 9 月與 11 月的 CPI 指數相加除以 2**，推估出去年 10 月的基準指數，以利計算今年的年增率（YoY）。</li>
+        <li><strong>解決方案：</strong> 可採用簡單插補法，將<strong>去年 9 月與 11 月的 CPI 指數相加除以 2</strong>，推估出去年 10 月的基準指數，以利計算今年的年增率（YoY）。</li>
         <li><strong>官方公布現況：</strong> 官方在欠缺基期數據時通常僅公布「月增率 (MoM)」，因此市場需要自行補齊基期數據來估算年增率。</li>
     </ul>
 
@@ -240,11 +240,13 @@
 
     <h2>四、 計算邏輯與工具搭配</h2>
     <ol>
-        <li><strong>步驟一：預測各細項 10 月月增率 ($MoM_i$)</strong><br>
+        <li><strong>步驟一：預測各細項 10 月月增率 (MoM<sub>i</sub>)</strong><br>
             下達具體 Prompt 給 AI 推估 10 月各項目的變動百分比。
         </li>
-        <li><strong>步驟二：計算 10 月預測物價指數 ($CPI_{10, i}$)</strong><br>
-            $$\text{指數}_{10月} = \text{指數}_{9月} \times (1 + MoM_{10月})$$
+        <li><strong>步驟二：計算 10 月預測物價指數 (CPI<sub>10, i</sub>)</strong>
+            <div class="formula-box">
+                CPI<sub>10月, i</sub> = CPI<sub>9月, i</sub> × (1 + MoM<sub>10月, i</sub>)
+            </div>
         </li>
         <li><strong>步驟三：加權計算整體 CPI 指數與通膨率</strong><br>
             結合權重進行加權平均，求得整體與核心 CPI 指數，進而計算 YoY 年增率。
