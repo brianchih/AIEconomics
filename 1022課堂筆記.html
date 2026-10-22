@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPI 預測實務與 AI 協作應用 - 課程筆記</title>
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #2563eb;
+            --accent-color: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fef3c7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 12px;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 36px;
+            font-size: 1.4rem;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            margin-top: 24px;
+            font-size: 1.15rem;
+        }
+
+        p, li {
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .resource-box {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--secondary-color);
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .resource-box a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .resource-box a:hover {
+            text-decoration: underline;
+        }
+
+        .quote-box {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--accent-color);
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #3730a3;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .alert-text {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>單元二續：美國 10 月 CPI 與核心通膨預測實務筆記</h1>
+
+    <div class="resource-box">
+        <h3>🔗 課堂推薦輔助網站與資源</h3>
+        <ul>
+            <li><strong>GasBuddy 油價趨勢圖表（追蹤美國 50 州零售汽油平均價）：</strong><br>
+                <a href="https://www.gasbuddy.com/charts" target="_blank">https://www.gasbuddy.com/charts</a>
+            </li>
+            <li><strong>Trading Economics - 美國 CPI 通膨率：</strong><br>
+                <a href="https://tradingeconomics.com/united-states/inflation-cpi" target="_blank">https://tradingeconomics.com/united-states/inflation-cpi</a>
+            </li>
+            <li><strong>Trading Economics - 美國核心 CPI 指數：</strong><br>
+                <a href="https://tradingeconomics.com/united-states/core-consumer-prices" target="_blank">https://tradingeconomics.com/united-states/core-consumer-prices</a>
+            </li>
+        </ul>
+    </div>
+
+    <h2>一、 預測核心理念與 AI 雙重角色定位</h2>
+    
+    <div class="quote-box">
+        <h3>💡 老師核心觀點：「預測大部分是錯的，但有道理的預測就是好預測」</h3>
+        <ul>
+            <li><strong>預測本質：</strong> 市場上不存在百分之百準確的預測模型。評價預測優劣的關鍵在於**「是否有具說服力的邏輯與經濟道理」**。</li>
+            <li><strong>AI 的雙重角色：</strong>
+                <ul>
+                    <li><strong>作為「助理」：</strong> 協助尋找最新數據、抓取權重、產生程式碼與製作初步 PPT 簡報。</li>
+                    <li><strong>作為「老師」：</strong> 當對預測方法、理論或名詞不清楚時，主動詢問 AI「請提供三種預測 CPI 的方法並分析優缺點」，進行自主學習。</li>
+                </ul>
+            </li>
+            <li><strong>提問品質（Prompting）：</strong> 指令越具體、細項拆解越明確，AI 給出的結果品質越高。這高度依賴使用者的**財經專業知識**。</li>
+        </ul>
+    </div>
+
+    <h2>二、 特殊資料缺口處理（基期問題）</h2>
+    <p>預測 2026 年 10 月份 CPI 通膨率（年增率 YoY）時會面臨一個特殊挑戰：<span class="alert-text">去年 10 月份因美國政府關門，官方未調查並公布數據。</span></p>
+    <ul>
+        <li><strong>解決方案：</strong> 可採用簡單插補法，將 **去年 9 月與 11 月的 CPI 指數相加除以 2**，推估出去年 10 月的基準指數，以利計算今年的年增率（YoY）。</li>
+        <li><strong>官方公布現況：</strong> 官方在欠缺基期數據時通常僅公布「月增率 (MoM)」，因此市場需要自行補齊基期數據來估算年增率。</li>
+    </ul>
+
+    <h2>三、 五大細項拆解推估法 (5-Component Model)</h2>
+    <p>將整體 CPI 拆解為五個核心細項，分別預測其 10 月份月增率 (MoM) 後，結合 2026 年（基於 2025 年底）的權重進行加權求和：</p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>細項分類 (Component)</th>
+                    <th>9月基準指數</th>
+                    <th>2026 權重佔比</th>
+                    <th>預測指標與領先數據來源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. 食物 (Food)</strong></td>
+                    <td>350.95</td>
+                    <td>13.51%</td>
+                    <td>參考聯合國糧農組織 FAO Food Price Index（聯合國糧食價格指數）之傳導效果。</td>
+                </tr>
+                <tr>
+                    <td><strong>2. 能源商品 (Energy Commodities)</strong></td>
+                    <td>395.263</td>
+                    <td>3.11%</td>
+                    <td>參考 GasBuddy 全美 50 州零售汽油平均價（10 月價格相較 9 月回落，預期帶動 CPI 下行）。</td>
+                </tr>
+                <tr>
+                    <td><strong>3. 能源服務 (Energy Services)</strong></td>
+                    <td>300.013</td>
+                    <td>3.86%</td>
+                    <td>反映電費與天然氣公用事業費率變動。</td>
+                </tr>
+                <tr>
+                    <td><strong>4. 核心商品 (Commodities less food & energy)</strong></td>
+                    <td>169.319</td>
+                    <td>18.66%</td>
+                    <td>參考進口物價指數、二手車批發價 (Manheim Index) 及 AI 伺服器硬體零組件價格趨勢。</td>
+                </tr>
+                <tr>
+                    <td><strong>5. 核心服務 (Services less energy services)</strong></td>
+                    <td>448.49</td>
+                    <td>60.86%</td>
+                    <td>佔比最大（含居住成本 Shelter/OER、房貸利率、交通運輸服務等），具高黏性與滯後性。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>四、 計算邏輯與工具搭配</h2>
+    <ol>
+        <li><strong>步驟一：預測各細項 10 月月增率 ($MoM_i$)</strong><br>
+            下達具體 Prompt 給 AI 推估 10 月各項目的變動百分比。
+        </li>
+        <li><strong>步驟二：計算 10 月預測物價指數 ($CPI_{10, i}$)</strong><br>
+            $$\text{指數}_{10月} = \text{指數}_{9月} \times (1 + MoM_{10月})$$
+        </li>
+        <li><strong>步驟三：加權計算整體 CPI 指數與通膨率</strong><br>
+            結合權重進行加權平均，求得整體與核心 CPI 指數，進而計算 YoY 年增率。
+        </li>
+        <li><strong>工具選擇提醒：</strong><br>
+            純文字模型（如 Gemini）在處理精確多步驟乘加運算時易產生浮點數誤差或權重加總非 100% 之問題。<strong>建議將 AI 輸出的數值與權重拉入 Excel 試算表進行精確計算。</strong>
+        </li>
+    </ol>
+
+    <h2>五、 10 月通膨趨勢與市場觀測重點</h2>
+    <ul>
+        <li><strong>整體 CPI 趨勢：</strong> 由於 10 月全美油價明顯回落（可由 GasBuddy 驗證），能源商品項將拉低整體 CPI，預期整體通膨呈現下滑趨勢。</li>
+        <li><strong>核心 CPI 趨勢：</strong> 扣除油價與食品後，核心服務（特別是居住成本租金與 OER）具備滯後性與黏性，預估 10 月核心通膨仍將維持在 2.6% 附近盤整，不易大幅下降。</li>
+        <li><strong>市場情境評估：</strong>
+            <ul>
+                <li>若公布數據大幅偏離預期（高於 3.7% 或核心高於 2.6%），將構成市場「驚嚇（Shock）」，可能引發股市與債市劇烈波動。</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<footer>
+    <p>© 2026 AI與經濟分析課程 | 課堂實作與預測模型整理</p>
+</footer>
+
+</body>
+</html>
