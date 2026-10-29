@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 時代下的總體經濟分析與 CPI 預測報告架構</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .slide-glow {
+            box-shadow: 0 10px 30px -10px rgba(3, 105, 161, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">AI 總經分析與 CPI 預測課堂筆記</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">課程實作：美國 CPI 分析與 5 頁 PPT 架構設計</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="themeToggle" class="p-2 rounded-lg bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-500 transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                <a href="#ppt-structure" class="hidden sm:inline-flex items-center space-x-2 text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white px-3.5 py-2 rounded-lg transition-all shadow-sm">
+                    <i class="fa-solid fa-file-powerpoint"></i>
+                    <span>查看 5 頁簡報</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- Banner / Hero Section -->
+        <section class="rounded-2xl bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-950 text-white p-6 md:p-8 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white pointer-events-none">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <div class="relative z-10 max-w-3xl">
+                <span class="px-3 py-1 bg-brand-500/30 text-brand-200 text-xs font-medium rounded-full border border-brand-400/30">AI 協作時代的工作流變革</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold mt-3 mb-2 leading-tight">從自然的文字對話，到精準的總經報告</h2>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+                    在 AI 時代，我們不需要從頭撰寫程式碼，而是學會與 AI 進行自然語言深度對話，快速生成初稿與邏輯分析。然而，最終的專業把關、細節微調與內容增刪，仍需依賴人類專業經驗手動修飾。
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 1: AI Workflow & Core Concepts -->
+        <section class="space-y-4">
+            <div class="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+                <i class="fa-solid fa-sliders text-brand-600 dark:text-brand-500 text-xl"></i>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">一、 AI 簡報製作核心工作流程與理念</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h4 class="font-bold text-base mb-2 text-slate-900 dark:text-white">1. 自然語言溝通 (Prompting)</h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        無需撰寫複雜程式，直接使用中文文字對話與 AI 互動。將 AI 視為老師或助理，重複追問「為什麼會這樣」、「背後的核心重點是什麼」。
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-window-restore"></i>
+                    </div>
+                    <h4 class="font-bold text-base mb-2 text-slate-900 dark:text-white">2. 展開瀏覽器檢視 (Preview)</h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        將 AI 生成的內容或簡報架構匯出，直接打開瀏覽器或編輯器展開檢視。快速審視整體邏輯、排版佈局與資料完整度。
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow border-l-4 border-l-brand-600">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <h4 class="font-bold text-base mb-2 text-slate-900 dark:text-white">3. 手工直接微調 (Manual Refinement)</h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        <strong>最核心關鍵！</strong> AI 生診治或版面生成目前仍有極限，最漂亮且具說服力的成果必須靠人工進行小白板位置、大小、內容增刪與遣詞用字的手工修正。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: CPI Analysis Methodology & Data Missing Handling -->
+        <section class="space-y-4">
+            <div class="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+                <i class="fa-solid fa-calculator text-brand-600 dark:text-brand-500 text-xl"></i>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">二、 美國 CPI 分析法與特殊狀況（政府關門/資料缺失）處理</h3>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 shadow-sm space-y-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-chart text-brand-600"></i>
+                            預測邏輯鏈：從細項累積到總體預測
+                        </h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            單純預測總體 CPI 容易失真，理想的預測機制是根據「細項拆解」進行個別估算。主要細項包含：
+                        </p>
+                        <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside pl-2">
+                            <li><strong class="text-slate-800 dark:text-slate-200">核心商品 (Core Commodities)：</strong> 大宗商品、中古車等，目前呈現下行通縮壓制趨勢。</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">居住成本 (Shelter / Housing)：</strong> 占 CPI 重置權重極高，雖然長期呈下降趨勢，但近期具備黏性。</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">核心服務 (Core Services)：</strong> 受薪資與高利率傳導影響，依然維持相對強勁。</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">能源與油價 (Energy & Oil)：</strong> 外部波動主要來源，近期油價有所波動對整體 CPI 造成干擾。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-100 dark:bg-slate-800/60 rounded-lg p-4 border border-slate-200 dark:border-slate-700 space-y-3">
+                        <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+                            特殊情況處理：政府關門與數據缺失 (Data Imputation)
+                        </h4>
+                        <div class="text-xs text-slate-600 dark:text-slate-300 space-y-2 leading-relaxed">
+                            <p><strong>問題情境：</strong> 若遇到美國政府機構關門（如 10 月份），導致歷史數據缺失，無法取得當期原始資料。</p>
+                            <p><strong>課堂實務解法：</strong></p>
+                            <div class="bg-white dark:bg-slate-900 p-3 rounded border border-slate-200 dark:border-slate-800 font-mono text-xs text-brand-700 dark:text-brand-300">
+                                10 月份推估值 = ( 9 月份數據 + 11 月份數據 ) / 2
+                            </div>
+                            <p class="text-slate-500">
+                                利用 Excel 計算鄰近月份（如 9 月與 11 月）之移動平均數（Moving Average）進行插補，進而推算總體 CPI 與核心 CPI 之年增率（例如預測目標 3.92% 或 3.9%）。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 5-Slide Presentation Architecture -->
+        <section id="ppt-structure" class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-file-powerpoint text-brand-600 dark:text-brand-500 text-xl"></i>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">三、 CPI 分析與預測：簡報 5 頁（Slide 1 ~ 5）結構與說服邏輯</h3>
+                </div>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full">課堂小組展示指定</span>
+            </div>
+
+            <!-- Slide Navigation / Overview Timeline -->
+            <div class="grid grid-cols-5 gap-2 text-center text-xs font-medium">
+                <div class="p-2 rounded-t-lg bg-blue-600 text-white font-bold">P1. 現狀對比</div>
+                <div class="p-2 rounded-t-lg bg-indigo-600 text-white font-bold">P2. 商品下行</div>
+                <div class="p-2 rounded-t-lg bg-purple-600 text-white font-bold">P3. 居住黏性</div>
+                <div class="p-2 rounded-t-lg bg-amber-600 text-white font-bold">P4. 外部報告</div>
+                <div class="p-2 rounded-t-lg bg-emerald-600 text-white font-bold">P5. 預測結果</div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Slide 1 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm slide-glow border-t-4 border-t-blue-600 space-y-4">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Page 1 • 起頭與基線</span>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">最新公佈 CPI 資料與市場預期對比</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">核心重點：定調現狀</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">主要呈現內容</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">最新公佈之 9 月份 CPI 與核心 CPI 數據，列出市場前瞻預期值與實際公佈值之差距（Actual vs. Expected）。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">數據與指標</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">整體 CPI 年增率（YoY）、月增率（MoM）、核心 CPI 年增率（如 3.7% ~ 4.1% 區間對比）。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">報告口述重點</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">「首先看最新公佈的 9 月數據，公佈值與預期相減得出顯著差異，這是我們後續預測的起點...」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm slide-glow border-t-4 border-t-indigo-600 space-y-4">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Page 2 • 細項分析 (一)</span>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">商品角度與下行因素（大宗與核心商品）</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">核心重點：通縮拉動力</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">主要呈現內容</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">分析核心商品（Core Commodities）價格走勢，說明供應鏈修復與二手車/大宗商品價格下行對 CPI 的壓制作用。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">數據與指標</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">核心商品月增率 MoM 變動、油價近期回升衝擊與商品下行力量之抵銷估算。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">報告口述重點</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">「從商品角度來看，核心商品確實開始出現顯著下行壓制通撓的效果，但近期油價的反彈為此帶來變數...」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm slide-glow border-t-4 border-t-purple-600 space-y-4">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">Page 3 • 細項分析 (二)</span>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">居住成本與核心服務通撓黏性</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">核心重點：通撓黏性主因</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">主要呈現內容</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">深入解析住房成本（Shelter/Rent）與核心服務（Core Services）。說明雖然租金市場出現放緩，但高利率與契約滯後性導致其回落緩慢。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">數據與指標</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">主要業主等價租金（OER）、超級核心通撓（Supercore Services）走勢圖表。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">報告口述重點</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">「居住成本佔比巨大且具強烈黏性，雖然市場租金已跌，但反應在 CPI 上仍有滯後，這是未來的潛在不利因素...」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm slide-glow border-t-4 border-t-amber-600 space-y-4">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Page 4 • 外部報告與數據修補</span>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">高盛/國際報告對照與關門數據處置</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">核心重點：預測佐證與插補</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">主要呈現內容</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">引入高盛（Goldman Sachs）、大摩等機構分析報告作交叉比對；同時說明若遇到政府關門無數據時，如何以 Excel 移動平均進行插補。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">數據與指標</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">機構預測數值對照表、Excel 算式：10 月預估值 = ( 9 月值 + 11 月值 ) / 2。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">報告口述重點</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">「虛線左側為實體歷史數據，右側為預估。針對政府關門缺失的 10 月數據，我們透過前後月均值計算，獲得合理插補...」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm slide-glow border-t-4 border-t-emerald-600 space-y-4">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Page 5 • 結論與展望</span>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">十月份 CPI 預測結論與貨幣政策展望</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">核心重點：終極結論</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">主要呈現內容</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">給出十月份 CPI 具體預測數字（如 3.92% 或 3.9%），總結高利率持續時間（Higher for longer）及美聯儲降息/升息概率分析。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">數據與指標</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">十月預測 CPI 年增率 3.92%、核心 CPI 預測值、年末 25 bps 升/降息機率估算。</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-semibold text-slate-800 dark:text-slate-200 block mb-1">報告口述重點</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">「綜合前述四頁的商品與服務拆解，我們預測十月 CPI 將略微回升至 3.92%，整體通撓將緩慢下行至明年底...」</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: AI Collaboration Reflection -->
+        <section class="glass-card rounded-2xl p-6 md:p-8 space-y-4 border-l-4 border-l-indigo-600">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                課堂總結：AI 時代報告製作的思維轉變
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-600 dark:text-slate-300">
+                <div class="space-y-2">
+                    <h5 class="font-semibold text-slate-800 dark:text-slate-200">1. 從「寫程式/繪圖」轉變為「劇本導演」</h5>
+                    <p class="leading-relaxed text-xs">
+                        現在每個人都能寫報告與製作圖表。差別在於你有沒有清晰的「邏輯劇本」。AI 負責快速給予素材，使用者必須擔任導演，決定哪 5 頁能夠形成最強烈的說服力。
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h5 class="font-semibold text-slate-800 dark:text-slate-200">2. 專業門檻依然存在：最後的修改經驗</h5>
+                    <p class="leading-relaxed text-xs">
+                        AI 生成完內容後，在小白板的位置、尺寸調整、文字精簡、專業名詞審核上，依然需要人的專業能力。生成後的直接手工修飾是不可或缺的一環。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-6 text-center text-xs text-slate-500">
+        <p>AI經濟分析課堂筆記 • AI 協作 5 頁 PPT 提案架構範本</p>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        
+        // Initialize Theme
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Toggle Event
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>
