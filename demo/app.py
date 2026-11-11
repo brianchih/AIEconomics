@@ -153,7 +153,7 @@ if fred_key:
 2. **貨幣政策立場判定**：綜合說明屬於【鷹派 (Hawkish)】、【鴿派 (Dovish)】還是【中立】。
 3. **重點分析與逐條評分表格**：使用 Markdown 表格整理各新聞標題的情緒衝擊與簡評。
 """
-                                    model = genai.GenerativeModel("gemini-1.5-flash")
+                                    model = genai.GenerativeModel("gemini-3.5-flash")
                                     response = model.generate_content(prompt)
                                     st.markdown(response.text)
                                 except Exception as e:
