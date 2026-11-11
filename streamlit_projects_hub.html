@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI與經濟分析 - 各組 Streamlit 互動Web應用成果展示</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-accent: #2563eb;
+            --streamlit-red: #ff4b4b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --border: #e2e8f0;
+            --hover-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 32px auto;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 40px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0 0 12px 0;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            margin: 0;
+            opacity: 0.88;
+            font-size: 1.1rem;
+        }
+
+        .stats-bar {
+            max-width: 1200px;
+            margin: 0 auto 24px auto;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .stat-item span {
+            color: var(--streamlit-red);
+            font-weight: 700;
+        }
+
+        .search-box {
+            max-width: 1200px;
+            margin: 0 auto 28px auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 16px 22px;
+            font-size: 1.05rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+            outline: none;
+            background-color: #ffffff;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: #cbd5e1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .group-badge {
+            background-color: #e0e7ff;
+            color: #3730a3;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .badge-active {
+            background-color: #ffe4e6;
+            color: #9f1239;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0 0 16px 0;
+            line-height: 1.4;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background-color: #fff1f2;
+            color: #9f1239;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid #fecdd3;
+            transition: all 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: var(--streamlit-red);
+            color: #ffffff;
+            border-color: var(--streamlit-red);
+            box-shadow: 0 4px 12px rgba(255, 75, 75, 0.25);
+        }
+
+        .no-link {
+            padding: 12px 16px;
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 48px auto 0 auto;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>AI與經濟分析 - 各組 Streamlit Web App 成果彙整</h1>
+    <p>提供全班各組最新建置之 Streamlit Cloud 互動式 Web 儀表板與雲端應用測試連結</p>
+</div>
+
+<div class="stats-bar">
+    <div class="stat-item">全班總組數：<span>19 組</span></div>
+    <div class="stat-item">已上線 Streamlit App：<span>9 組</span></div>
+    <div class="stat-item">系統狀態：<span>動態監測中</span></div>
+</div>
+
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 輸入組別 (例: 02, 09, 14, 19) 或關鍵字進行搜尋..." onkeyup="filterCards()">
+</div>
+
+<div class="grid" id="cardGrid">
+
+    <div class="card" data-group="第 01 組" data-title="CPI 視角與分析透視" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 01 組</span>
+                
+            </div>
+            <div class="card-title">CPI 視角與分析透視</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 02 組" data-title="CPI 通膨預測與分析系統" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 02 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 通膨預測與分析系統</div>
+        </div>
+        <div>
+    <a href="https://7uhdtvzwbxkrtvgcnjkqv2.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 03 組" data-title="美國 CPI 通膨分析" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 03 組</span>
+                
+            </div>
+            <div class="card-title">美國 CPI 通膨分析</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 04 組" data-title="Gemini CPI 分析與預測" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 04 組</span>
+                
+            </div>
+            <div class="card-title">Gemini CPI 分析與預測</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 05 組" data-title="CPI 預測模型與成果" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 05 組</span>
+                
+            </div>
+            <div class="card-title">CPI 預測模型與成果</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 06 組" data-title="通膨分析與 Web 儀表板" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 06 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨分析與 Web 儀表板</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-h9lkbm3ntao3rxhfjstuag.streamlit.app" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 07 組" data-title="美國 CPI 分析應用系統" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 07 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 分析應用系統</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-8mhobhy7ejh5mxnhwpwji4.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 08 組" data-title="通膨數據分析與 Streamlit 專案" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 08 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨數據分析與 Streamlit 專案</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-reqisrhcwi824dwwkl9aje.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 09 組" data-title="CPI 分析與 AI 互動應用" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 09 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 分析與 AI 互動應用</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-dtundpn9cnpxnxslwehcnp.streamlit.app/#ai" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 10 組" data-title="美國 CPI 預測儀表板" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 10 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 預測儀表板</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-kk8tsfxjl4yrhgdsd2ysha.streamlit.app/#6d8c6ef7" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 11 組" data-title="通膨與 CPI 數據預測" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 11 組</span>
+                
+            </div>
+            <div class="card-title">通膨與 CPI 數據預測</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 12 組" data-title="CPI 分析研究應用" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 12 組</span>
+                
+            </div>
+            <div class="card-title">CPI 分析研究應用</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 13 組" data-title="通膨預測模型展演" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 13 組</span>
+                
+            </div>
+            <div class="card-title">通膨預測模型展演</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 14 組" data-title="通膨分析與 Web 視覺化" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 14 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨分析與 Web 視覺化</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-gah7ytkgxxj4alvjxy8y2b.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 15 組" data-title="CPI 預測與經濟分析 App" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 15 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 預測與經濟分析 App</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-vcnx5lptcle6snddtgumre.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 16 組" data-title="美國 CPI 預測分析網頁" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 16 組</span>
+                
+            </div>
+            <div class="card-title">美國 CPI 預測分析網頁</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 17 組" data-title="成果檔案準備中" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 17 組</span>
+                
+            </div>
+            <div class="card-title">成果檔案準備中</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 18 組" data-title="美國 CPI 通膨預測報告" data-has-app="false">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 18 組</span>
+                
+            </div>
+            <div class="card-title">美國 CPI 通膨預測報告</div>
+        </div>
+        <div>
+    <div class="no-link">⏳ 雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+    
+    <div class="card" data-group="第 19 組" data-title="CPI 專案報告與應用展示" data-has-app="true">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 19 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 專案報告與應用展示</div>
+        </div>
+        <div>
+    <a href="https://aieconomics-cbgcewhiolfytcyqgq6ivu.streamlit.app/" target="_blank" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+    
+</div>
+
+<footer>
+    <p>© 2026 AI與經濟分析課程 | 各組 Streamlit Web 應用展示 Hub</p>
+</footer>
+
+<script>
+function filterCards() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.getElementsByClassName('card');
+    
+    for (let i = 0; i < cards.length; i++) {
+        const group = cards[i].getAttribute('data-group').toLowerCase();
+        const title = cards[i].getAttribute('data-title').toLowerCase();
+        const text = cards[i].innerText.toLowerCase();
+        
+        if (group.includes(input) || title.includes(input) || text.includes(input)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+</body>
+</html>
