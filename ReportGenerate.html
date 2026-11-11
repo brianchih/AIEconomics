@@ -214,7 +214,7 @@
         <ul>
             <li><b>多源數據整合</b>：同時串接 FRED 官方總經數據 (CPI, 美債殖利率, 失業率, 聯邦基金利率) 與 yfinance 金融走勢 (S&P 500, 台股, 原油, 匯率)。</li>
             <li><b>新聞輿論動態抓取</b>：使用 Python <code>feedparser</code> 搭配 <code>urllib.parse.quote</code> 安全轉碼，即時擷取動態關鍵字新聞。</li>
-            <li><b>LLM 鷹鴿派情緒標籤化</b>：運用 Prompt 工程與最新 Gemini API (<code>gemini-2.5-flash</code>)，輸出 0~100 市場情緒分數與逐條新聞衝擊剖析。</li>
+            <li><b>LLM 鷹鴿派情緒標籤化</b>：運用 Prompt 工程與最新 Gemini API (<code>gemini-3.5-flash</code>)，輸出 0~100 市場情緒分數與逐條新聞衝擊剖析。</li>
             <li><b>資安防護最佳實踐</b>：貫徹 <code>st.secrets</code> 機制，確保 <code>FRED_API_KEY</code> 與 <code>GEMINI_API_KEY</code> 不暴露於 GitHub 開放原始碼中。</li>
         </ul>
     </section>
@@ -264,7 +264,7 @@
         <div class="warning-box">
             <div class="box-title" style="color:#b45309;">⚠️ 問題 2：Gemini API 404 Model Not Found Error</div>
             <p><b>現象</b>：呼叫 <code>gemini-1.5-flash</code> 時回傳 404 模型未找到或版本不支援。</p>
-            <p><b>解法</b>：更新模型名稱至最新版代號 <code>gemini-2.5-flash</code>（或通用別名 <code>gemini-flash</code>）。</p>
+            <p><b>解法</b>：更新模型名稱至最新版代號 <code>gemini-3.5-flash</code>（或通用別名 <code>gemini-flash</code>）。</p>
         </div>
 
         <div class="tip-box">
@@ -429,8 +429,8 @@ if fred_key:
                                              f"2. 貨幣政策立場判定 (鷹派/鴿派/中立)\n" \
                                              f"3. 重點分析與逐條評分表格 (Markdown Format)"
                                     
-                                    # 使用最新 Gemini 2.5 Flash 模型
-                                    model = genai.GenerativeModel("gemini-2.5-flash")
+                                    # 使用最新 Gemini 3.5 Flash 模型
+                                    model = genai.GenerativeModel("gemini-3.5-flash")
                                     response = model.generate_content(prompt)
                                     st.markdown(response.text)
                                 except Exception as e:
