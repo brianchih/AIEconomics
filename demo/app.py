@@ -5,6 +5,7 @@ import yfinance as yf
 from fredapi import Fred
 import feedparser
 import google.generativeai as genai
+from urllib.parse import quote  # 引入 URL 轉碼套件
 
 # ==========================================
 # 1. 頁面配置與側邊欄設定
@@ -65,7 +66,9 @@ def get_market_data():
 
 @st.cache_data(ttl=1800)
 def fetch_google_news(keyword="Federal Reserve Inflation"):
-    url = f"https://news.google.com/rss/search?q={keyword}&hl=en-US"
+    # 使用 quote 做 URL Safe 轉碼，解決空白與特殊字元問題
+    safe_keyword = quote(keyword)
+    url = f"https://news.google.com/rss/search?q={safe_keyword}&hl=en-US"
     feed = feedparser.parse(url)
     return [entry.title for entry in feed.entries[:8]]
 
@@ -96,7 +99,7 @@ if fred_key:
 
         st.write("---")
 
-        # 第二區塊：分頁儀表板 (新增第 3 個 NLP 分頁)
+        # 第二區塊：分頁儀表板
         tab1, tab2, tab3 = st.tabs([
             "📈 金融市場走勢 (yfinance)", 
             "🏛️ 總體經濟趨勢 (FRED)", 
@@ -126,17 +129,21 @@ if fred_key:
 
             with nlp_col1:
                 st.markdown("### 📌 最新財經新聞標題 (RSS)")
-                for i, title in enumerate(news_titles, 1):
-                    st.write(f"**{i}.** {title}")
+                if news_titles:
+                    for i, title in enumerate(news_titles, 1):
+                        st.write(f"**{i}.** {title}")
+                else:
+                    st.warning("查無相關新聞標題，請嘗試更換關鍵字。")
 
             with nlp_col2:
                 st.markdown("### 🤖 Gemini AI 鷹鴿派與情緒打分")
                 if gemini_key:
                     if st.button("🚀 開始分析新聞市場情緒", type="primary"):
-                        with st.spinner("Gemini 正在剖析文本立場與鷹鴿情緒中..."):
-                            try:
-                                news_text = "\n".join([f"- {t}" for t in news_titles])
-                                prompt = f"""
+                        if news_titles:
+                            with st.spinner("Gemini 正在剖析文本立場與鷹鴿情緒中..."):
+                                try:
+                                    news_text = "\n".join([f"- {t}" for t in news_titles])
+                                    prompt = f"""
 你是一位專業的總體經濟分析師。請針對以下 8 條新聞標題進行市場情緒與貨幣政策立場剖析：
 
 {news_text}
@@ -146,11 +153,13 @@ if fred_key:
 2. **貨幣政策立場判定**：綜合說明屬於【鷹派 (Hawkish)】、【鴿派 (Dovish)】還是【中立】。
 3. **重點分析與逐條評分表格**：使用 Markdown 表格整理各新聞標題的情緒衝擊與簡評。
 """
-                                model = genai.GenerativeModel("gemini-1.5-flash")
-                                response = model.generate_content(prompt)
-                                st.markdown(response.text)
-                            except Exception as e:
-                                st.error(f"AI 分析時發生錯誤: {e}")
+                                    model = genai.GenerativeModel("gemini-1.5-flash")
+                                    response = model.generate_content(prompt)
+                                    st.markdown(response.text)
+                                except Exception as e:
+                                    st.error(f"AI 分析時發生錯誤: {e}")
+                        else:
+                            st.warning("尚無新聞數據可供分析。")
                 else:
                     st.warning("👈 請在側邊欄輸入 Gemini API Key（或設定在 Secrets 中）以啟用 AI 文本情緒分析功能。")
 
