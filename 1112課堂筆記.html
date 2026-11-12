@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI與經濟分析 - 課堂實錄與實戰講義 (2026/11/12)</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #2563eb;
+            --accent-light: #eff6ff;
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.75;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+        }
+
+        header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.45rem;
+            margin-top: 44px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.18rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        p, li {
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Group Showcase Table */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.94rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .tag-ok { background: var(--success-bg); color: var(--success); border: 1px solid #bbf7d0; }
+        .tag-warn { background: var(--warning-bg); color: var(--warning); border: 1px solid #fde68a; }
+        .tag-err { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+
+        /* Cards & Callouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .callout-info {
+            background-color: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding: 18px 22px;
+            border-radius: 0 10px 10px 0;
+            margin: 24px 0;
+        }
+
+        .callout-warn {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning);
+            padding: 18px 22px;
+            border-radius: 0 10px 10px 0;
+            margin: 24px 0;
+        }
+
+        .callout-showcase {
+            background: linear-gradient(to right, #f8fafc, #eff6ff);
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #2563eb;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+
+        .code-snippet {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 18px 22px;
+            border-radius: 10px;
+            font-family: "Fira Code", Monaco, Consolas, monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        .homework-box {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 28px;
+            border-radius: 14px;
+            margin-top: 36px;
+        }
+
+        .homework-box h3 {
+            color: #60a5fa;
+            margin-top: 0;
+        }
+
+        footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.88rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">AI與經濟分析課程實錄與教學講義</span>
+        <h1>期中儀表板觀摩講評 & NLP 市場輿論情緒分析實戰</h1>
+        <p class="subtitle">結合結構化總經/金融指標與非結構化即時新聞，打造 AI 驅動之量化與質化分析應用</p>
+    </header>
+
+    <!-- 第一部分：各組作品觀摩講評 -->
+    <section>
+        <h2>🏆 一、各組數據儀表板作品觀摩與點評</h2>
+        <p>課堂中針對已繳交的各組 Streamlit 雲端應用進行了實機展示與互評投票（記名投票，每人票選 3 組，請注意勿投給尚未繳交作品之組別）：</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 90px;">組別</th>
+                        <th>作品特色與功能亮點</th>
+                        <th>API Key 與 AI 報告狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>第 19 組</strong></td>
+                        <td>具備美債殖利率倒掛觀察、互動式圖表縮放還原、匯率每日變動相關係數矩陣、財經新聞與央行動向追蹤，並支援<strong>瀏覽器端歷史摘要紀錄保存</strong>。</td>
+                        <td><span class="tag tag-ok">FRED 內建</span> <span class="tag tag-warn">AI 摘要待調整</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 18 組</strong></td>
+                        <td>完整呈現全球總經指標、10年期與2年期公債利差、日本公債殖利率及金融市場即時報價。</td>
+                        <td><span class="tag tag-ok">FRED 內建</span> <span class="tag tag-ok">Gemini 2.5 短評成功</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 16 組</strong></td>
+                        <td>金融市場新增<strong>比特幣 (Bitcoin)</strong>、道瓊與納斯達克指數；總經新增核心 CPI 及 3個月、5年、30年期美債與美日公債利差。</td>
+                        <td><span class="tag tag-ok">FRED 內建</span> <span class="tag tag-ok">具備總經摘要功能</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 15 組</strong></td>
+                        <td>涵蓋美國核心總經指標、美日公債利差、S&P 500、台股加權、原油與黃金報價。</td>
+                        <td><span class="tag tag-warn">需自行輸入 Key</span> <span class="tag tag-err">Gemini 模型版本呼叫失敗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 14 組</strong></td>
+                        <td>具備核心總經指標 (CPI、美債、失業率、聯邦基金利率) 與基礎摘要模組（建議可進一步導入即時新聞追蹤）。</td>
+                        <td><span class="tag tag-warn">需自行輸入 Key</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 13 組</strong></td>
+                        <td>版面設計具特色，整合黃金、日本公債與<strong>美債殖利率倒掛警示燈號</strong>（顯示利差偏小），並繪製 10 年期與 2 年期殖利率對比圖。</td>
+                        <td><span class="tag tag-ok">視覺化燈號警示佳</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 10 組</strong></td>
+                        <td>聚焦 10 年期與 2 年期美債殖利率走勢，整合 CPI、失業率、日債殖利率、黃金走勢圖與經濟摘要生成器。</td>
+                        <td><span class="tag tag-ok">具備經濟摘要功能</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 09 組</strong></td>
+                        <td>雙軌呈現金融市場與總體經濟指標，能穩定針對上方即時數據產出<strong>總經與金融市場即時觀點短評</strong>（受邀於課堂分享指令設計經驗）。</td>
+                        <td><span class="tag tag-ok">Gemini 2.5 穩定生成</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 08 組</strong></td>
+                        <td>包含黃金、原油、美元、S&P 500（註：S&P 500 屬股市指數而非大宗商品）及 10 年期與 2 年期國債利差繪圖。</td>
+                        <td><span class="tag tag-ok">FRED 內建</span> <span class="tag tag-warn">Gemini Key 未內建</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 07 組</strong></td>
+                        <td>完整呈現布蘭特原油、美元、S&P 500、台灣加權指數與四大核心總經指標。</td>
+                        <td><span class="tag tag-warn">尚未加入 AI 摘要</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 06 組</strong></td>
+                        <td>整合 5 項金融市場指標與 7 項總體經濟指標，數據維度豐富。</td>
+                        <td><span class="tag tag-ok">FRED 內建</span> <span class="tag tag-err">AI 生成呼叫失敗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 05 組</strong></td>
+                        <td>包含市場金融走勢與總經指標，並額外獨立設立<strong>美債利差專頁</strong>。</td>
+                        <td><span class="tag tag-warn">尚未加入即時短評</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 04 組</strong></td>
+                        <td>新增<strong>報告參數設定（可選擇 5 年歷史觀察範圍）</strong>，並製作核心 CPI、失業率與利率之就業與利率聯動分析。</td>
+                        <td><span class="tag tag-err">呼叫舊版 1.5 模型失敗</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>第 02 組</strong></td>
+                        <td>具備關鍵總體指標、市場走勢圖，並額外設計了利差分析模組。</td>
+                        <td><span class="tag tag-err">AI 短評呼叫失敗</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout-warn">
+            <strong>🔧 課堂共通除錯重點（Gemini API 模型版本問題）：</strong><br>
+            多數小組點擊 AI 摘要失敗的原因，是因為程式碼中仍呼叫已廢棄的 <code>gemini-1.5-flash</code>。目前實測最穩定的模型代號為 <strong><code>gemini-2.5-flash</code></strong>（<code>gemini-3.5</code> 偶有不穩定情況），請各組務必至程式碼中更新模型名稱，並將 API Key 妥善存放在 <strong>Streamlit Secrets</strong> 中（切勿直接寫死上傳至 GitHub）。
+        </div>
+    </section>
+
+    <!-- 第二部分：本週核心教學 NLP 市場情緒分析 -->
+    <section>
+        <h2>📰 二、本週核心教學：NLP 應用與市場輿論情緒分析</h2>
+        <p>過去我們使用 API 抓取的 FRED 與 yfinance 數據皆為<strong>「結構化數字」</strong>；本週我們跨入<strong>「非結構化文本（NLP 自然語言處理）」</strong>，透過抓取市場即時新聞與官方聲明，讓 AI 協助判斷市場樂觀/悲觀情緒，以及央行的<strong>鷹派（Hawkish，傾向升息緊縮）</strong>或<strong>鴿派（Dovish，傾向降息寬鬆）</strong>立場。</p>
+
+        <h3>1. 免費與開放的財經文本與情緒數據源</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>🏛️ 聯準會 FOMC 官方聲明 (免 Key)</h4>
+                <p>判斷央行貨幣政策立場（鷹派 vs 鴿派）最權威的指標，可直接擷取官方聲明文本交由 AI 分析政策風向轉變。</p>
+            </div>
+            <div class="card">
+                <h4>😱 Crypto Fear & Greed Index (免 Key Open API)</h4>
+                <p>提供市場恐慌與貪婪指數的開放 API，可直接透過連線取得量化的市場情緒分數（0~100分）。</p>
+            </div>
+            <div class="card">
+                <h4>📡 Google News / Yahoo News RSS (免 Key)</h4>
+                <p>透過 RSS 串流技術，輸入指定關鍵字（如 <code>Federal Reserve Inflation</code>、<code>TSMC</code>、<code>台積電</code>），即可自動下載最新相關新聞標題。</p>
+            </div>
+            <div class="card">
+                <h4>📊 Finnhub / Alpha Vantage API</h4>
+                <p>專業財經新聞 API，部分原生提供情緒標籤，適合作為與我們自己設計的 Gemini AI 情緒評分進行<strong>交叉驗證</strong>的基準。</p>
+            </div>
+        </div>
+
+        <h3>2. 課堂實機示範解析（以「聯準會通膨」新聞為例）</h3>
+        <div class="callout-info">
+            <p><strong>示範流程：</strong>透過 RSS 抓取最新 8 條與 <code>Federal Reserve Inflation</code> 相關的新聞標題 ➔ 傳送給 <code>gemini-2.5-flash</code> 進行綜合剖析：</p>
+            <ul>
+                <li><strong>整體情緒分數判定：</strong>產出 <strong>86 分</strong>（高分代表劇烈看空債市與風險資產、強烈鷹派）。</li>
+                <li><strong>貨幣政策立場研判：</strong>多條新聞提及通膨數據高於預期，連立場較溫和的官員也坦言令人不安，市場預期聯準會為控制通膨將採取升息措施，無任何放緩或鴿派訊號。</li>
+                <li><strong>結構化輸出：</strong>自動生成逐條新聞標題的獨立情緒評分與簡評表格，並允許使用者在前端介面<strong>自訂提示詞（Prompt）與分析師角色</strong>（如總經分析師、股票分析師），加入個人主觀觀點進行客製化報告生成。</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 第三部分：進階同學實作分享 -->
+    <section>
+        <h2>🚀 三、進階實作分享：多代理人協作系統 (Multi-Agent System)</h2>
+        <div class="callout-showcase">
+            <h4 style="margin-top:0; color:#1e3a8a; font-size:1.15rem;">👨‍💻 宗諺同學進階架構分享（HTML 前端 + Render 後端 + 多 Agent 協作）</h4>
+            <p>除了課堂基礎的單一 Streamlit 儀表板外，宗諺同學展示了結合 AI 協同編程工具（GPT Codex / CLI）與 <strong>Render 雲端平台</strong>建置的進階多代理人（Multi-Agent）研究系統：</p>
+            <ul>
+                <li><strong>五位 AI 專業主理人分工架構：</strong>
+                    <ol>
+                        <li><strong>總管 Agent：</strong>負責任務規劃、整合各方證據、協調各 Agent 意見分歧並做出最終報告取捨。</li>
+                        <li><strong>市場主理人：</strong>專責追蹤大盤指數（如加權指數、電子類股指數）與即時價格波動。</li>
+                        <li><strong>總經主理人：</strong>負責分析景氣循環、利率水準與總體經濟數據。</li>
+                        <li><strong>財報主理人：</strong>專門研讀個股（如台積電 2026 季度財報）歷史財務數據與基本面。</li>
+                        <li><strong>風險主理人：</strong>負責檢視潛在風險缺口與市場系統性風險警示。</li>
+                    </ol>
+                </li>
+                <li><strong>Skill 模組化與資料驗證：</strong>透過撰寫結構化的 Markdown 規範與工具腳本（Skills），賦予不同 Agent 專屬的知識庫（RAG）與交叉驗證能力，使用者只需在介面輸入研究問題（如查詢特定公司季報），系統即自動分派任務並生成深度分析。</li>
+                <li><strong>平台部署與資安提醒：</strong>將專案託管於 GitHub 並連動 <strong>Render</strong> 進行前後端部署（支援帳號登入驗證與後端環境變數儲存 API Key）；老師也特別提醒，系統功能越強大，越需注意 <strong>API Key 權限控管與資安防護</strong>，避免金鑰外洩。</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 第四部分：完整程式碼參考 -->
+    <section>
+        <h2>💻 四、Streamlit 整合版參考程式碼 (<code>app.py</code>)</h2>
+        <p>同學可參考以下完整範例，在既有的 FRED 與 yfinance 儀表板中，加入「NLP 市場新聞與鷹鴿情緒分析」分頁：</p>
+
+        <div class="code-snippet">
+<pre><code>import streamlit as st
+import pandas as pd
+import plotly.express as px
+import yfinance as yf
+from fredapi import Fred
+import feedparser
+import google.generativeai as genai
+from urllib.parse import quote  # 解決搜尋關鍵字包含空白字元導致的 URL 錯誤
+
+st.set_page_config(page_title="總體經濟、金融與 NLP 市場情緒儀表板", layout="wide")
+st.title("🌐 總體經濟、金融指標與 AI 輿論情緒即時儀表板")
+
+# 1. 側邊欄：安全讀取 Secrets 金鑰
+st.sidebar.header("⚙️ 設定與金鑰")
+fred_key = st.secrets["FRED_API_KEY"] if "FRED_API_KEY" in st.secrets else st.sidebar.text_input("請輸入 FRED API Key:", type="password")
+
+gemini_key = None
+if "GEMINI_API_KEY" in st.secrets:
+    gemini_key = st.secrets["GEMINI_API_KEY"]
+    genai.configure(api_key=gemini_key)
+else:
+    gemini_input = st.sidebar.text_input("請輸入 Gemini API Key:", type="password")
+    if gemini_input:
+        gemini_key = gemini_input
+        genai.configure(api_key=gemini_key)
+
+# 2. RSS 新聞抓取函式 (支援中英文關鍵字與空白轉碼)
+@st.cache_data(ttl=1800)
+def fetch_google_news(keyword="Federal Reserve Inflation"):
+    safe_keyword = quote(keyword)
+    url = f"https://news.google.com/rss/search?q={safe_keyword}&hl=en-US"
+    feed = feedparser.parse(url)
+    return [entry.title for entry in feed.entries[:8]]
+
+# 3. NLP 市場新聞情緒分析介面設計範例
+st.subheader("📰 即時財經新聞與 LLM 鷹鴿派情緒分析")
+col_kw, col_role = st.columns([1, 1])
+with col_kw:
+    search_kw = st.text_input("🔍 輸入關注關鍵字 (例: Federal Reserve Inflation, TSMC):", value="Federal Reserve Inflation")
+with col_role:
+    analyst_role = st.selectbox("🎭 選擇 AI 分析師視角:", ["專業總體經濟分析師", "華爾街股票投資分析師", "風險控管經理人"])
+
+custom_prompt = st.text_input("✍️ 自訂額外分析指令 (選填):", placeholder="例如：請特別評估對台灣科技股與匯率的潛在衝擊...")
+
+news_titles = fetch_google_news(search_kw)
+c1, c2 = st.columns([1, 1])
+
+with c1:
+    st.markdown("### 📌 最新相關新聞標題 (RSS)")
+    for i, title in enumerate(news_titles, 1):
+        st.write(f"**{i}.** {title}")
+
+with c2:
+    st.markdown("### 🤖 Gemini AI 情緒評分與報告")
+    if gemini_key and st.button("🚀 開始分析市場情緒", type="primary"):
+        with st.spinner("AI 正在閱讀新聞並進行鷹鴿派與情緒評估..."):
+            news_text = "\n".join([f"- {t}" for t in news_titles])
+            prompt = f"你是一位【{analyst_role}】。請針對以下 8 條關於「{search_kw}」的新聞標題進行剖析：\n{news_text}\n\n" \
+                     f"額外分析要求：{custom_prompt if custom_prompt else '無'}\n" \
+                     f"請以繁體中文輸出結構化報告：\n" \
+                     f"1. **整體市場情緒分數**（0~100分，並說明多空/鷹鴿含義）\n" \
+                     f"2. **政策或市場立場判定**（鷹派 / 鴿派 / 樂觀 / 悲觀）\n" \
+                     f"3. **逐條新聞情緒評分與簡評**（以 Markdown 表格呈現）"
+            
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            response = model.generate_content(prompt)
+            st.markdown(response.text)
+</code></pre>
+        </div>
+    </section>
+
+    <!-- 第五部分：課後實作任務 -->
+    <div class="homework-box">
+        <h3>📝 本週實作任務與下週觀摩預告</h3>
+        <ol>
+            <li><strong>個人化主題設計：</strong>每位同學可根據自己關心的領域（例如：總體經濟趨勢、特定產業如半導體/台積電 TSMC、原物料或個別股票），建立屬於自己的專屬分析儀表板。</li>
+            <li><strong>三合一數據整合：</strong>將「<strong>市場/總經指數</strong>」＋「<strong>即時相關新聞 (RSS)</strong>」＋「<strong>客製化 AI 情緒與趨勢報告</strong>」整合進同一個 Web 應用中（確保所有數據與報告皆有所本，源自真實市場與新聞）。</li>
+            <li><strong>小組推舉與下週展示：</strong>每位同學完成個人版本後，請在小組內互相討論與比較，選出組內<strong>設計最完整、最具巧思的作品</strong>，將該組代表作品網址提交至課程問卷連結，<strong>下週課堂將進行各組進階作品觀摩！</strong></li>
+        </ol>
+    </div>
+
+    <footer>
+        <p>© 2026 AI與經濟分析課程 | 課堂實錄與 NLP 市場情緒分析實戰講義</p>
+    </footer>
+</div>
+
+</body>
+</html>
