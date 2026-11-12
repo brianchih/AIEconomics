@@ -3,469 +3,546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>總體經濟、金融指標與 NLP 市場輿論情緒分析整合實戰講義</title>
+    <title>AI與經濟分析 - 各組 Streamlit 互動Web應用成果展示</title>
     <style>
         :root {
             --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #2563eb;
-            --accent-light: #eff6ff;
-            --success: #16a34a;
-            --warning: #d97706;
-            --danger: #dc2626;
+            --primary-accent: #2563eb;
+            --streamlit-red: #ff4b4b;
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text: #334155;
             --border: #e2e8f0;
+            --hover-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.75;
-            color: var(--text);
             background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 24px;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1040px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 32px auto;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 40px 24px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        header {
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 24px;
-            margin-bottom: 32px;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: #dbeafe;
-            color: #1e40af;
-            font-size: 0.85rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 2rem;
+        .header h1 {
             margin: 0 0 12px 0;
-            letter-spacing: -0.5px;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
         }
 
-        .subtitle {
-            color: #64748b;
-            font-size: 1.05rem;
+        .header p {
             margin: 0;
+            opacity: 0.88;
+            font-size: 1.1rem;
         }
 
-        h2 {
-            color: var(--primary);
-            font-size: 1.4rem;
-            margin-top: 40px;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--accent-light);
+        .stats-bar {
+            max-width: 1200px;
+            margin: 0 auto 24px auto;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        h3 {
-            color: var(--secondary);
-            font-size: 1.15rem;
-            margin-top: 24px;
-            margin-bottom: 12px;
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
 
-        p, li {
+        .stat-item span {
+            color: var(--streamlit-red);
+            font-weight: 700;
+        }
+
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 28px auto;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px;
             font-size: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+            outline: none;
+            background-color: #ffffff;
         }
 
-        ul, ol {
-            padding-left: 24px;
+        .search-box input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
 
-        li {
-            margin-bottom: 8px;
+        .filter-btn {
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background-color: #ffffff;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .resource-grid {
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 24px 0;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 22px;
         }
 
         .card {
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: #cbd5e1;
         }
 
-        .card-tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        .tag-free { background-color: #dcfce7; color: #15803d; }
-        .tag-api { background-color: #fef3c7; color: #b45309; }
-        .tag-rss { background-color: #e0e7ff; color: #4338ca; }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 8px 0;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: #64748b;
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 12px;
         }
 
-        .code-snippet {
-            background-color: #0f172a;
-            color: #f8fafc;
-            padding: 16px 20px;
-            border-radius: 8px;
-            font-family: "Fira Code", Monaco, Consolas, monospace;
-            font-size: 0.88rem;
-            overflow-x: auto;
-            line-height: 1.6;
-            margin: 16px 0;
-        }
-
-        .tip-box {
-            background-color: #eff6ff;
-            border-left: 4px solid var(--accent);
-            padding: 16px 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 24px 0;
-        }
-
-        .warning-box {
-            background-color: #fffbeb;
-            border-left: 4px solid var(--warning);
-            padding: 16px 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 24px 0;
-        }
-
-        .box-title {
-            margin: 0 0 8px 0;
+        .group-badge {
+            background-color: #e0e7ff;
+            color: #3730a3;
             font-weight: 700;
-            font-size: 1.05rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
 
-        .requirements-box {
+        .badge-active {
+            background-color: #ffe4e6;
+            color: #9f1239;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+        }
+
+        .timestamp {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background-color: #fff1f2;
+            color: #9f1239;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid #fecdd3;
+            transition: all 0.2s ease;
+        }
+
+        .link-item:hover {
+            background-color: var(--streamlit-red);
+            color: #ffffff;
+            border-color: var(--streamlit-red);
+            box-shadow: 0 4px 12px rgba(255, 75, 75, 0.25);
+        }
+
+        .no-link {
+            padding: 12px 16px;
             background-color: #f1f5f9;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px 20px;
-            font-family: monospace;
-            margin: 16px 0;
+            color: #94a3b8;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
         }
 
         footer {
-            margin-top: 48px;
+            max-width: 1200px;
+            margin: 48px auto 0 auto;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
             padding-top: 24px;
             border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 0.88rem;
-            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <span class="badge">AI與經濟分析實戰講義</span>
-        <h1>總體經濟、金融指標與 NLP 市場輿論情緒分析整合實戰</h1>
-        <p class="subtitle">結合 FRED 即時數據、yfinance 市場走勢、RSS 財經新聞擷取與 Gemini AI 鷹鴿情緒評分</p>
-    </header>
-
-    <section>
-        <h2>📌 1. 本單元核心學習目標</h2>
-        <p>本單元帶領大家完成從<b>「結構化數據（數字）」</b>到<b>「非結構化數據（文字）」</b>的全方位整合，建構出兼具經濟指標監測與 AI 市場情緒分析的現代化 Streamlit Web 應用：</p>
-        <ul>
-            <li><b>多源數據整合</b>：同時串接 FRED 官方總經數據 (CPI, 美債殖利率, 失業率, 聯邦基金利率) 與 yfinance 金融走勢 (S&P 500, 台股, 原油, 匯率)。</li>
-            <li><b>新聞輿論動態抓取</b>：使用 Python <code>feedparser</code> 搭配 <code>urllib.parse.quote</code> 安全轉碼，即時擷取動態關鍵字新聞。</li>
-            <li><b>LLM 鷹鴿派情緒標籤化</b>：運用 Prompt 工程與最新 Gemini API (<code>gemini-3.5-flash</code>)，輸出 0~100 市場情緒分數與逐條新聞衝擊剖析。</li>
-            <li><b>資安防護最佳實踐</b>：貫徹 <code>st.secrets</code> 機制，確保 <code>FRED_API_KEY</code> 與 <code>GEMINI_API_KEY</code> 不暴露於 GitHub 開放原始碼中。</li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>🌐 2. 輿論與新聞文本數據源彙整</h2>
-        <div class="resource-grid">
-            <div class="card">
-                <span class="card-tag tag-free">免 Key / 官方文本</span>
-                <div class="card-title">聯準會 FOMC 官方聲明</div>
-                <div class="card-desc">判定央行貨幣政策立場（鷹派 vs 鴿派）最具權威性與指標性的文本來源。</div>
-                <div style="font-size:0.85rem; color:#2563eb;">適合：鷹鴿派專題深度分析</div>
-            </div>
-
-            <div class="card">
-                <span class="card-tag tag-free">免 Key / Open API</span>
-                <div class="card-title">Crypto Fear & Greed Index</div>
-                <div class="card-desc">提供全自動化情緒分數 API（0~100），支援 CORS，免金鑰即可直接連線。</div>
-                <div style="font-size:0.85rem; color:#2563eb;">Endpoint: alternative.me/fng/</div>
-            </div>
-
-            <div class="card">
-                <span class="card-tag tag-rss">RSS 動態搜尋</span>
-                <div class="card-title">Google / Yahoo News RSS</div>
-                <div class="card-desc">輸入任意關鍵字（如 CPI, Fed Rate, TSMC）即時擷取新聞標題與摘要。</div>
-                <div style="font-size:0.85rem; color:#2563eb;">工具：feedparser + quote 轉碼</div>
-            </div>
-
-            <div class="card">
-                <span class="card-tag tag-api">專業開放 API</span>
-                <div class="card-title">Finnhub / Alpha Vantage</div>
-                <div class="card-desc">結構化財經新聞 API，原生提供情緒標籤，適合用於交叉驗證 AI 分析結果。</div>
-                <div style="font-size:0.85rem; color:#2563eb;">管理：Streamlit Secrets</div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>🛠️ 3. 常見部署問題與修復建議</h2>
-        
-        <div class="warning-box">
-            <div class="box-title" style="color:#b45309;">⚠️ 問題 1：URL 包含非法空白字元 (Control Characters Error)</div>
-            <p><b>現象</b>：當搜尋關鍵字含有空白（如 <code>Federal Reserve Inflation</code>）時，HTTP 請求會因非法控制字元而失敗。</p>
-            <p><b>解法</b>：引入 <code>from urllib.parse import quote</code>，使用 <code>quote(keyword)</code> 將空白自動安全轉碼為 <code>%20</code>。</p>
-        </div>
-
-        <div class="warning-box">
-            <div class="box-title" style="color:#b45309;">⚠️ 問題 2：Gemini API 404 Model Not Found Error</div>
-            <p><b>現象</b>：呼叫 <code>gemini-1.5-flash</code> 時回傳 404 模型未找到或版本不支援。</p>
-            <p><b>解法</b>：更新模型名稱至最新版代號 <code>gemini-3.5-flash</code>（或通用別名 <code>gemini-flash</code>）。</p>
-        </div>
-
-        <div class="tip-box">
-            <div class="box-title" style="color:#1d4ed8;">💡 建議 3：動態關鍵字搜尋設計</div>
-            <p>程式碼中的 <code>Federal Reserve Inflation</code> 僅為初始預設值（Default Value）。前端搭配 <code>st.text_input</code> 讓使用者可自由輸入 <code>Taiwan Stock Market</code>、<code>TSMC</code> 或中文 <code>聯準會 降息</code>，即時串接分析。</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>💻 4. 完整 Streamlit 整合版程式碼 (app.py)</h2>
-        <p>將以下程式碼儲存為 <code>app.py</code>，即可獲得完整三區塊（KPI 卡片、金融與總經線圖、NLP 新聞情緒分析）的整合儀表板：</p>
-
-        <div class="code-snippet">
-<pre><code>import streamlit as st
-import pandas as pd
-import plotly.express as px
-import yfinance as yf
-from fredapi import Fred
-import feedparser
-import google.generativeai as genai
-from urllib.parse import quote  # 解決 URL 空白字元轉碼問題
-
-# ==========================================
-# 1. 頁面配置與側邊欄金鑰設定
-# ==========================================
-st.set_page_config(page_title="總體經濟、金融與 NLP 市場情緒儀表板", layout="wide")
-st.title("🌐 總體經濟、金融指標與 AI 輿論情緒即時儀表板")
-
-st.sidebar.header("⚙️ 設定與金鑰")
-
-# 1.1 檢查 FRED API Key
-if "FRED_API_KEY" in st.secrets:
-    fred_key = st.secrets["FRED_API_KEY"]
-    st.sidebar.success("已自動讀取 FRED API Key！")
-else:
-    fred_key = st.sidebar.text_input("請輸入 FRED API Key:", type="password")
-
-# 1.2 檢查 Gemini API Key (NLP 情緒分析用)
-gemini_key = None
-if "GEMINI_API_KEY" in st.secrets:
-    gemini_key = st.secrets["GEMINI_API_KEY"]
-    genai.configure(api_key=gemini_key)
-    st.sidebar.success("已自動讀取 Gemini API Key！")
-else:
-    gemini_input = st.sidebar.text_input("請輸入 Gemini API Key (情緒分析用):", type="password")
-    if gemini_input:
-        gemini_key = gemini_input
-        genai.configure(api_key=gemini_key)
-
-if st.sidebar.button("手動刷新數據"):
-    st.cache_data.clear()
-
-# ==========================================
-# 2. 數據抓取函式 (FRED, yfinance, RSS 新聞)
-# ==========================================
-@st.cache_data(ttl=3600)
-def get_fred_data(api_key):
-    fred = Fred(api_key=api_key)
-    data = {
-        "CPI 物價指數": fred.get_series("CPIAUCSL"),
-        "10年期美債殖利率": fred.get_series("DGS10"),
-        "美國失業率": fred.get_series("UNRATE"),
-        "聯邦基金利率": fred.get_series("FEDFUNDS")
-    }
-    df = pd.DataFrame(data).ffill().tail(365)
-    return df
-
-@st.cache_data(ttl=600)
-def get_market_data():
-    tickers = {
-        "S&P 500": "^GSPC",
-        "台灣加權指數": "^TWII",
-        "布蘭特原油": "BZ=F",
-        "美元/台幣匯率": "TWD=X"
-    }
-    df = yf.download(list(tickers.values()), period="1y")["Close"]
-    df.rename(columns={v: k for k, v in tickers.items()}, inplace=True)
-    return df
-
-@st.cache_data(ttl=1800)
-def fetch_google_news(keyword="Federal Reserve Inflation"):
-    # 使用 quote 轉碼，確保包含空白或特殊字元之關鍵字連線成功
-    safe_keyword = quote(keyword)
-    url = f"https://news.google.com/rss/search?q={safe_keyword}&hl=en-US"
-    feed = feedparser.parse(url)
-    return [entry.title for entry in feed.entries[:8]]
-
-# ==========================================
-# 3. 頁面渲染邏輯
-# ==========================================
-if fred_key:
-    try:
-        macro_df = get_fred_data(fred_key)
-        market_df = get_market_data()
-
-        # 第一區塊：核心總經 KPI 卡片
-        st.subheader("📊 關鍵總體經濟指標 (FRED)")
-        col1, col2, col3, col4 = st.columns(4)
-        
-        latest_cpi = macro_df["CPI 物價指數"].dropna().iloc[-1]
-        col1.metric("CPI 物價指數", f"{latest_cpi:.1f}")
-        
-        latest_rate = macro_df["10年期美債殖利率"].dropna().iloc[-1]
-        rate_prev = macro_df["10年期美債殖利率"].dropna().iloc[-2]
-        col2.metric("10年美債殖利率", f"{latest_rate:.2f}%", f"{latest_rate - rate_prev:+.2f}%")
-        
-        latest_unemp = macro_df["美國失業率"].dropna().iloc[-1]
-        col3.metric("美國失業率", f"{latest_unemp:.1f}%")
-        
-        latest_fed = macro_df["聯邦基金利率"].dropna().iloc[-1]
-        col4.metric("聯邦基金利率", f"{latest_fed:.2f}%")
-
-        st.write("---")
-
-        # 第二區塊：分頁儀表板
-        tab1, tab2, tab3 = st.tabs([
-            "📈 金融市場走勢 (yfinance)", 
-            "🏛️ 總體經濟趨勢 (FRED)", 
-            "📰 NLP 市場新聞與鷹鴿情緒分析"
-        ])
-        
-        # 頁籤 1: 金融市場
-        with tab1:
-            market_choice = st.selectbox("選擇金融市場標的：", market_df.columns)
-            fig1 = px.line(market_df, y=market_choice, title=f"{market_choice} 近一年走勢")
-            st.plotly_chart(fig1, use_container_width=True)
-            
-        # 頁籤 2: 總體經濟
-        with tab2:
-            macro_choice = st.selectbox("選擇總體經濟指標：", macro_df.columns)
-            fig2 = px.line(macro_df, y=macro_choice, title=f"{macro_choice} 近一年走勢")
-            st.plotly_chart(fig2, use_container_width=True)
-
-        # 頁籤 3: NLP 市場新聞與情緒分析
-        with tab3:
-            st.subheader("📰 即時財經新聞與 LLM 鷹鴿派情緒分析")
-            
-            search_kw = st.text_input("🔍 輸入新聞關鍵字 (預設: Federal Reserve Inflation):", value="Federal Reserve Inflation")
-            news_titles = fetch_google_news(search_kw)
-
-            nlp_col1, nlp_col2 = st.columns([1, 1])
-
-            with nlp_col1:
-                st.markdown("### 📌 最新財經新聞標題 (RSS)")
-                if news_titles:
-                    for i, title in enumerate(news_titles, 1):
-                        st.write(f"**{i}.** {title}")
-                else:
-                    st.warning("查無相關新聞標題，請嘗試更換關鍵字。")
-
-            with nlp_col2:
-                st.markdown("### 🤖 Gemini AI 鷹鴿派與情緒打分")
-                if gemini_key:
-                    if st.button("🚀 開始分析新聞市場情緒", type="primary"):
-                        if news_titles:
-                            with st.spinner("Gemini 正在剖析文本立場與鷹鴿情緒中..."):
-                                try:
-                                    news_text = "\n".join([f"- {t}" for t in news_titles])
-                                    prompt = f"你是一位專業總體經濟分析師。請分析以下 8 條新聞標題：\n{news_text}\n\n" \
-                                             f"請以繁體中文輸出結構化報告：\n" \
-                                             f"1. 整體市場情緒分數 (0~100)\n" \
-                                             f"2. 貨幣政策立場判定 (鷹派/鴿派/中立)\n" \
-                                             f"3. 重點分析與逐條評分表格 (Markdown Format)"
-                                    
-                                    # 使用最新 Gemini 3.5 Flash 模型
-                                    model = genai.GenerativeModel("gemini-3.5-flash")
-                                    response = model.generate_content(prompt)
-                                    st.markdown(response.text)
-                                except Exception as e:
-                                    st.error(f"AI 分析時發生錯誤: {e}")
-                        else:
-                            st.warning("尚無新聞數據可供分析。")
-                else:
-                    st.warning("👈 請在側邊欄輸入 Gemini API Key（或設定在 Secrets 中）以啟用 AI 文本情緒分析功能。")
-
-    except Exception as e:
-        st.error(f"數據讀取失敗，請確認 FRED API Key 是否正確。錯誤訊息: {e}")
-else:
-    st.info("👈 請在左側輸入您的 FRED API Key 以開啟儀表板。")
-</code></pre>
-        </div>
-    </section>
-
-    <section>
-        <h2>📦 5. 依賴套件清單 (requirements.txt)</h2>
-        <p>上傳至 Streamlit Cloud 部署時，請確保專案根目錄下有 <code>requirements.txt</code>：</p>
-        <div class="requirements-box">
-streamlit<br>
-pandas<br>
-plotly<br>
-yfinance<br>
-fredapi<br>
-feedparser<br>
-google-generativeai
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 AI與經濟分析課程 | 總體經濟、金融指標與 NLP 市場輿論情緒分析整合講義</p>
-    </footer>
+<div class="header">
+    <h1>AI與經濟分析 - 各組 Streamlit Web App 成果彙整</h1>
+    <p>全班各組最新建置之 Streamlit Cloud 互動式 Web 儀表板與雲端應用展示專區</p>
 </div>
+
+<div class="stats-bar">
+    <div class="stat-item">全班總組數：<span>19 組</span></div>
+    <div class="stat-item">已上線 Streamlit App：<span>14 組</span></div>
+    <div class="stat-item">最後資料更新：<span>2026/11/12</span></div>
+</div>
+
+<div class="controls">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 輸入組別 (例: 04, 05, 13, 18) 或關鍵字進行搜尋..." onkeyup="applyFilters()">
+    </div>
+    <button class="filter-btn active" id="btnAll" onclick="setMode('all')">全部組別 (19)</button>
+    <button class="filter-btn" id="btnActive" onclick="setMode('active')">已上線作品 (14)</button>
+    <button class="filter-btn" id="btnPending" onclick="setMode('pending')">待補交 (5)</button>
+</div>
+
+<div class="grid" id="cardGrid">
+
+    <div class="card" data-group="第 01 組" data-title="CPI 視角與分析透視" data-status="pending">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 01 組</span>
+            </div>
+            <div class="card-title">CPI 視角與分析透視</div>
+            <div class="timestamp">⏳ 尚未提交雲端連結</div>
+        </div>
+        <div>
+            <div class="no-link">雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 02 組" data-title="CPI 通膨預測與分析系統" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 02 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 通膨預測與分析系統</div>
+            <div class="timestamp">🕒 最後提交：2026/11/5 下午 2:59:01</div>
+        </div>
+        <div>
+            <a href="https://7uhdtvzwbxkrtvgcnjkqv2.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 03 組" data-title="美國 CPI 通膨分析" data-status="pending">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 03 組</span>
+            </div>
+            <div class="card-title">美國 CPI 通膨分析</div>
+            <div class="timestamp">⏳ 尚未提交雲端連結</div>
+        </div>
+        <div>
+            <div class="no-link">雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 04 組" data-title="Gemini CPI 分析與預測" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 04 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">Gemini CPI 分析與預測</div>
+            <div class="timestamp">🕒 最後提交：2026/11/11 下午 10:16:59</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-mxd93ekmuszocdpq8syma9.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 05 組" data-title="CPI 預測模型與成果" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 05 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 預測模型與成果</div>
+            <div class="timestamp">🕒 最後提交：2026/11/12 上午 8:53:37</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-k6euw5jzwh8kz4ml64w2ma.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 06 組" data-title="通膨分析與 Web 儀表板" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 06 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨分析與 Web 儀表板</div>
+            <div class="timestamp">🕒 最後提交：2026/11/5 下午 2:57:48</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-h9lkbm3ntao3rxhfjstuag.streamlit.app" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 07 組" data-title="美國 CPI 分析應用系統" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 07 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 分析應用系統</div>
+            <div class="timestamp">🕒 最後提交：2026/11/6 下午 5:44:47</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-8mhobhy7ejh5mxnhwpwji4.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 08 組" data-title="通膨數據分析與 Streamlit 專案" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 08 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨數據分析與 Streamlit 專案</div>
+            <div class="timestamp">🕒 最後提交：2026/11/5 下午 2:41:13</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-reqisrhcwi824dwwkl9aje.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 09 組" data-title="CPI 分析與 AI 互動應用" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 09 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 分析與 AI 互動應用</div>
+            <div class="timestamp">🕒 最後提交：2026/11/10 下午 3:07:36</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-dtundpn9cnpxnxslwehcnp.streamlit.app/#ai" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 10 組" data-title="美國 CPI 預測儀表板" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 10 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 預測儀表板</div>
+            <div class="timestamp">🕒 最後提交：2026/11/10 下午 4:48:39</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-kk8tsfxjl4yrhgdsd2ysha.streamlit.app/#6d8c6ef7" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 11 組" data-title="通膨與 CPI 數據預測" data-status="pending">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 11 組</span>
+            </div>
+            <div class="card-title">通膨與 CPI 數據預測</div>
+            <div class="timestamp">⏳ 尚未提交雲端連結</div>
+        </div>
+        <div>
+            <div class="no-link">雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 12 組" data-title="CPI 分析研究應用" data-status="pending">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 12 組</span>
+            </div>
+            <div class="card-title">CPI 分析研究應用</div>
+            <div class="timestamp">⏳ 尚未提交雲端連結</div>
+        </div>
+        <div>
+            <div class="no-link">雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 13 組" data-title="總體經濟儀表板與模型展演" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 13 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">總體經濟儀表板與模型展演</div>
+            <div class="timestamp">🕒 最後提交：2026/11/11 下午 10:46:06</div>
+        </div>
+        <div>
+            <a href="https://lucas-economic-dashboard.streamlit.app" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 14 組" data-title="通膨分析與 Web 視覺化" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 14 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">通膨分析與 Web 視覺化</div>
+            <div class="timestamp">🕒 最後提交：2026/11/6 上午 11:35:38</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-gah7ytkgxxj4alvjxy8y2b.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 15 組" data-title="CPI 預測與經濟分析 App" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 15 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 預測與經濟分析 App</div>
+            <div class="timestamp">🕒 最後提交：2026/11/5 下午 2:38:07</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-vcnx5lptcle6snddtgumre.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 16 組" data-title="美國 CPI 預測分析網頁" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 16 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 預測分析網頁</div>
+            <div class="timestamp">🕒 最後提交：2026/11/11 下午 9:31:02</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-3mpwxibcvz7rod9wkn8rre.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 17 組" data-title="成果檔案準備中" data-status="pending">
+        <div>
+            <div class="card-header">
+                <span class="group-badge">第 17 組</span>
+            </div>
+            <div class="card-title">成果檔案準備中</div>
+            <div class="timestamp">⏳ 尚未提交雲端連結</div>
+        </div>
+        <div>
+            <div class="no-link">雲端 App 部署中 / 待新增連結</div>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 18 組" data-title="美國 CPI 通膨預測報告" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 18 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">美國 CPI 通膨預測報告</div>
+            <div class="timestamp">🕒 最後提交：2026/11/11 下午 8:52:07</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-qcwgresbordcbmbm3erc8v.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+    <div class="card" data-group="第 19 組" data-title="CPI 專案報告與應用展示" data-status="active">
+        <div>
+            <div class="card-header">
+                <span class="group-badge badge-active">第 19 組</span>
+                <span style="font-size: 0.85rem; color: #e11d48; font-weight: 600;">👑 Streamlit App</span>
+            </div>
+            <div class="card-title">CPI 專案報告與應用展示</div>
+            <div class="timestamp">🕒 最後提交：2026/11/6 下午 2:52:28</div>
+        </div>
+        <div>
+            <a href="https://aieconomics-cbgcewhiolfytcyqgq6ivu.streamlit.app/" target="_blank" rel="noopener noreferrer" class="link-item"><span>🚀 開啟 Streamlit App 專頁</span> <span>→</span></a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 AI與經濟分析課程 | 各組 Streamlit Web 應用展示 Hub</p>
+</footer>
+
+<script>
+let currentMode = 'all';
+
+function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('btnAll').classList.toggle('active', mode === 'all');
+    document.getElementById('btnActive').classList.toggle('active', mode === 'active');
+    document.getElementById('btnPending').classList.toggle('active', mode === 'pending');
+    applyFilters();
+}
+
+function applyFilters() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.getElementsByClassName('card');
+    
+    for (let i = 0; i < cards.length; i++) {
+        const group = cards[i].getAttribute('data-group').toLowerCase();
+        const title = cards[i].getAttribute('data-title').toLowerCase();
+        const status = cards[i].getAttribute('data-status');
+        const text = cards[i].innerText.toLowerCase();
+        
+        const matchesSearch = group.includes(input) || title.includes(input) || text.includes(input);
+        const matchesMode = (currentMode === 'all') || (currentMode === status);
+        
+        cards[i].style.display = (matchesSearch && matchesMode) ? "" : "none";
+    }
+}
+</script>
 
 </body>
 </html>
