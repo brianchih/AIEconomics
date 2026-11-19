@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 與經濟研究報告 — 第 10 週課堂作品講評與期末公告</title>
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-color: #1e3a8a;
+            --accent-color: #2563eb;
+            --highlight-bg: #f1f5f9;
+            --tag-bg: #e0e7ff;
+            --tag-text: #1e40af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 2.5rem 1rem;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        th {
+            background-color: var(--highlight-bg);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .group-badge {
+            display: inline-block;
+            font-weight: 700;
+            color: var(--tag-text);
+            background: var(--tag-bg);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .status-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status-tag.warn {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .status-tag.good {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 與經濟研究報告 — 第 10 週課堂作品講評與期末公告</h1>
+            <p>課堂重點摘要、各組平台檢視回饋與期末成果展評分規範</p>
+        </header>
+
+        <h2 class="section-title">一、課程進度與期末成果展規範</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>📅 課程階段與師資安排</h3>
+                <ul>
+                    <li><strong>目前進度</strong>：已完成第三單元（第 10 週）。</li>
+                    <li><strong>第 11 – 13 週</strong>：由<strong>順發老師</strong>接續帶領後續課程單元。</li>
+                    <li><strong>第 14 – 16 週</strong>：<strong>期末分組上台報告成果展</strong>，由兩位老師共同擔任評審。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>📊 學期成績評量配分（無期末考）</h3>
+                <ul>
+                    <li><strong>平時單元練習（40%）</strong>：共四次單元作業與課堂實作表現。</li>
+                    <li><strong>期末成果報告（40%）</strong>：期末上台簡報與平台展示表現。</li>
+                    <li><strong>組內貢獻度調整（20%）</strong>：依組員實際分工與貢獻度進行加權調整。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🎤 期末報告執行規則與技術提醒</h3>
+            <ul>
+                <li><strong>簡報形式</strong>：每組進行 <strong>12 分鐘</strong>簡報，需利用平台自動生成 <strong>5 頁精簡報告內容</strong>，並聚焦於核心分析主題。</li>
+                <li><strong>隨機抽點機制</strong>：報告時將由老師<strong>隨機抽點組員</strong>上台報告或回答問題，全組每位成員皆須熟悉平台運作與分析邏輯。</li>
+                <li><strong>Streamlit 休眠喚醒機制</strong>：免費伺服器在閒置一段時間後會自動進入休眠模式（Sleep Mode）以節省資源，開啟網頁時點擊喚醒（Wake up）稍候即可恢復正常運作。</li>
+                <li><strong>平台命名與聚焦</strong>：建議為平台取一個<strong>響亮且具辨識度的專屬名稱</strong>（避免僅使用「AI Economics」等通泛名稱），並明確定義分析焦點。</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">二、各組作品檢視與教授講評回饋</h2>
+        <div class="card">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 12%;">組別</th>
+                            <th style="width: 22%;">平台狀態與亮點</th>
+                            <th style="width: 66%;">講評內容與優化建議</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="group-badge">第 1 組</span></td>
+                            <td><span class="status-tag">基礎架構完成</span></td>
+                            <td>具備總體經濟摘要功能，但目前尚缺乏新聞抓取與情緒分析模組，建議盡快補齊。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 2 組</span></td>
+                            <td><span class="status-tag">基礎模板階段</span></td>
+                            <td>目前架構與課堂基礎模板相同，建議進一步聚焦特定經濟或金融主題，並發想具特色的平台名稱。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 4 組</span></td>
+                            <td><span class="status-tag good">多模型切換彈性</span></td>
+                            <td>具備觀察年份區間設定（近 3 年至 10 年）及 <strong>AI 模型選擇功能</strong>。建議可在程式中透過提示詞設定自動備援機制（Fallback），當主模型無法使用時自動切換。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 5 組</span></td>
+                            <td><span class="status-tag warn">無法開啟</span></td>
+                            <td>課堂展示時網頁無法正常開啟，請組員檢查部署狀態與伺服器日誌。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 6 組</span></td>
+                            <td><span class="status-tag good">台美個股與大盤</span></td>
+                            <td>聚焦於<strong>台灣與美國市場</strong>，支援自訂輸入股票名稱查詢個股技術分析與營運概況。建議可結合個股新聞進行 AI 研判，發展為投資人即時建議工具。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 7 組</span></td>
+                            <td><span class="status-tag warn">缺乏 AI 分析</span></td>
+                            <td>目前僅有基礎金融總體數據，尚未看到 AI 分析功能，若有技術困難應盡快尋求協助。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 8 組</span></td>
+                            <td><span class="status-tag">多資產與利率</span></td>
+                            <td>涵蓋指數、大宗商品與殖利率數據，但版面分類較為雜亂，建議將指標歸納為明確的類別（籃子）以提升可讀性。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 9 組</span></td>
+                            <td><span class="status-tag good">科技股與加密貨幣</span></td>
+                            <td>命名為「戰情室控制台」，聚焦於<strong>科技類股與區塊鏈（比特幣）</strong>並結合短期技術指標。建議可擴充台灣或亞洲市場指標，並確保預測模型與資料來源（Yahoo Finance）之邏輯嚴謹性。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 10 組</span></td>
+                            <td><span class="status-tag">三階段標準流程</span></td>
+                            <td>完整呈現數據抓取、AI 解讀與新聞鴿派/鷹派情緒追蹤，惟內容較貼近課堂標準進度，建議加入小組原創的分析視角。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 12 組</span></td>
+                            <td><span class="status-tag">最新補交</span></td>
+                            <td>課堂現場補交，目前已具備總體經濟摘要功能，但尚缺新聞抓取與情緒分析模組。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 13 組</span></td>
+                            <td><span class="status-tag good">自訂 AI 分析角色</span></td>
+                            <td>創新加入 <strong>AI 角色切換功能</strong>（如總經分析師、股票分析師、風險控管管理人）及自訂額外指令，建議將主題與角色功能做更深度的結合。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 14 組</span></td>
+                            <td><span class="status-tag good">NVIDIA 與多空辯論</span></td>
+                            <td>設有 <strong>NVIDIA 專區</strong>與「華爾街多空對決辯論賽」。建議改為「以 AI 制 AI」，設計正方 AI 與反方 AI 自動進行辯論呈現，提升自動化程度。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 15 組</span></td>
+                            <td><span class="status-tag good">指標字典與下載</span></td>
+                            <td>命名為「經濟專家」（建議加上更具體的形容詞），新增<strong>經濟指標意義解讀字典</strong>與<strong>資料下載功能</strong>。需修正 FRED 資料顯示為 NaN（未抓到資料）的問題，並重新整理指標與行情的分類。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 16 組</span></td>
+                            <td><span class="status-tag good">美日匯率與央行政策</span></td>
+                            <td>高度聚焦於<strong>美國與日本市場</strong>，包含每日利差、美日公債、換匯購買力試算及美日央行貨幣政策新聞情緒分析，主題明確實用。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 18 組</span></td>
+                            <td><span class="status-tag good">跨資產相關性熱力圖</span></td>
+                            <td>新增<strong>跨資產相關係數熱力圖</strong>（可切換近 250 日等區間，以暖色/冷色呈現市場正負聯動關係）及<strong>總體經濟分析聊天機器人</strong>，具備良好互動性。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="group-badge">第 19 組</span></td>
+                            <td><span class="status-tag good">市場漲跌與匯率換算</span></td>
+                            <td>具備市場漲跌幅視覺化長條圖（建議正名圖表名稱避免與熱力圖混淆）、<strong>互動式匯率買賣試算工具</strong>，以及<strong>自訂關鍵字與 2 分鐘自動更新新聞設定</strong>，功能貼心。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="section-title">三、課堂學生設計理念分享紀錄</h2>
+        <div class="card">
+            <ul>
+                <li><strong>第 9 組分享</strong>：設計理念源自日常投資觀察，透過 Yahoo Finance 抓取市場數據並結合短期技術指標與預測模型，輔助判斷市場買賣時機。</li>
+                <li><strong>第 18 組分享</strong>：透過相關係數熱力圖呈現不同資產間的連動程度，並支援調整交易日區間（如近 250 日、近 60 日等），搭配新聞與 AI 聊天機器人提供即時分析。</li>
+                <li><strong>第 19 組分享</strong>：長條圖主要用於視覺化呈現市場近期的漲跌幅幅度（紅色代表漲幅較大、綠色代表漲幅較小或下跌），協助使用者快速掌握市場熱度變化。</li>
+            </ul>
+        </div>
+
+        <footer>
+            AI 與經濟研究報告 — 第 10 週課程紀錄整理 &copy; 2026
+        </footer>
+    </div>
+</body>
+</html>
