@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 與經濟研究報告 — 11/26 課程筆記與作業指南</title>
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-color: #1e3a8a;
+            --accent-color: #2563eb;
+            --highlight-bg: #f1f5f9;
+            --warn-bg: #fef2f2;
+            --warn-border: #fecaca;
+            --warn-text: #991b1b;
+            --info-bg: #eff6ff;
+            --info-border: #bfdbfe;
+            --info-text: #1e40af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 2.5rem 1rem;
+            line-height: 1.75;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 2.2rem 0 1rem 0;
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .callout {
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warn {
+            background-color: var(--warn-bg);
+            border: 1px solid var(--warn-border);
+            color: var(--warn-text);
+        }
+
+        .callout.info {
+            background-color: var(--info-bg);
+            border: 1px solid var(--info-border);
+            color: var(--info-text);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            margin-top: 0.75rem;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: var(--highlight-bg);
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 與經濟研究報告 — 11/26 課程筆記與作業指南</h1>
+            <p>整合課堂重點摘要與逐字稿校正內容（含期中成績確認、期末規範與單元四台股年線分析）</p>
+        </header>
+
+        <!-- 一、行政與成績重要公告 -->
+        <h2 class="section-title">一、行政與成績重要公告</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>📌 期中成績確認與補交（單元一至三）</h3>
+                <ul>
+                    <li><strong>計分方式</strong>：以<strong>單元一、單元二、單元三</strong>之作業上傳狀況計算（合計佔學期總成績 <strong>30%</strong>）作為期中考成績登錄於學校系統。</li>
+                    <li><strong>缺交與權限問題</strong>：部分同學尚無成績，主因為缺交或上傳檔案<strong>未開啟存取權限</strong>導致老師無法開啟檢視。</li>
+                    <li><strong>補救措施</strong>：請同學務必上網確認分數；缺交或無法開啟者，請立即轉存為<strong>可直接開啟的格式（如 PDF 或 PPT）</strong>，透過 <strong>Microsoft Teams</strong> 補交給<strong>順發老師</strong>。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🎓 期末成果報告說明（三週後登場）</h3>
+                <ul>
+                    <li><strong>報告時間與順序</strong>：每組報告時間為 <strong>12 分鐘</strong>（包含老師提問互動）；各組上台順序將於屆時<strong>抽籤決定</strong>。</li>
+                    <li><strong>研究內容要求</strong>：必須結合<strong>經濟指標</strong>進行實證研究與分析（主題若不確定可提前與老師討論）。</li>
+                    <li><strong>評分核心指標</strong>：包含報告表達的<strong>流暢性、連貫性、準確性、專業性</strong>，同時簡報設計需具備<strong>專業度與視覺美感</strong>（其餘細節標準將與池老師進一步確認）。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 二、單元四核心講義：台股加權指數與「年線下彎」分析 -->
+        <h2 class="section-title">二、單元四核心講義：台股加權指數與「年線下彎」分析</h2>
+
+        <div class="card">
+            <h3>1. 什麼是「年線」？為何市場高度關注？</h3>
+            <ul>
+                <li><strong>技術定義</strong>：年線即 <strong>240 日移動平均線（240 MA）</strong>，代表過去約一年（240 個交易日）收盤價的平均值，是判斷股市中長期多空趨勢的生命線。</li>
+                <li><strong>市場意涵</strong>：一旦年線出現「下彎」，通常意味著過去一年買進的投資人平均處於套牢狀態，市場由多轉空，可能步入<strong>長達半年至一年以上的長期熊市</strong>。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2. 當前台股回檔的兩種情境判讀</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">情境假設</th>
+                        <th style="width: 39%;">情境一：牛市中期修正（多頭回檔）</th>
+                        <th style="width: 39%;">情境二：AI 泡沫破裂（長期熊市開端）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>核心驅動因素</strong></td>
+                        <td>短線漲多獲利了結，或市場提前對 2028 年展望進行預期調整，但近期基本面依然穩健。</td>
+                        <td>AI 產業資本支出放緩，導致核心權值股（如台積電及 AI 供應鏈）未來獲利遭到實質下修。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>未來半年走勢</strong></td>
+                        <td>年線維持上揚或走平提供支撐，指數修正後將迎來反彈（惟上方有套牢賣壓，反彈力道未必強勁）。</td>
+                        <td>跌勢尚未結束，未來半年內恐出現新一波下殺，進而拖累 240 日均線正式下彎。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>投資操作應對</strong></td>
+                        <td colspan="2">在尚未確認低點前，建議趁反彈進行<strong>持股調整（汰弱留強）</strong>；若目前持股比重過高（如達七成以上），宜適度減碼控管風險。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>3. 基本面與歷史經驗的檢驗框架</h3>
+            <ul>
+                <li><strong>企業獲利與護城河（EPS 檢驗）</strong>：觀察股價是否「超跌」的關鍵在於 <strong>2027 年 EPS 是否會實質下修</strong>。目前 AI 伺服器組裝大廠（如 <strong>Dell</strong> 盤後財報與下一季財測表現優異）顯示終端需求仍強，成為支撐股價的重要護城河。</li>
+                <li><strong>歷史年線下彎的兩大成因</strong>：
+                    <ol>
+                        <li><strong>經濟與基本面循環因素</strong>：如 2008 年全球金融海嘯、2015 年中國股災、2022 年美國聯準會（Fed）激進升息循環。</li>
+                        <li><strong>非經濟突發事件衝擊</strong>：如 COVID-19 疫情爆發、重大政治突發事件（如台灣兩顆子彈事件）。</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 三、單元四課堂作業與報告呈現要求 -->
+        <h2 class="section-title">三、單元四課堂作業與報告呈現要求</h2>
+        <div class="card">
+            <div class="callout info">
+                <strong>核心研究命題：</strong>請結合資訊面、訊息面與基本面數據分析台灣加權股價指數，推論<strong>「這一波台股下跌，未來六個月內是否會出現年線下彎？」</strong>（重點在於邏輯推演與證據支持，而非單純猜測漲跌）。
+            </div>
+
+            <ul>
+                <li><strong>簡報規格與格式</strong>：製作 <strong>2 頁簡報</strong>，存成可正常開啟的 <strong>PDF、PowerPoint（.pptx）或圖片檔</strong>，上傳至指定作業區。</li>
+                <li><strong>製作規範（重要提醒）</strong>：老師明確指出，直接依賴免費 AI 生成的簡報內容常出現邏輯混亂或無根據的推論（如上次 CPI 預測作業），因此<strong>強烈建議親自使用 PowerPoint 或 Keynote 製作簡報</strong>，切勿直接貼上未經查證的 AI 生成內容。</li>
+                <li><strong>上台呈現與加分機制</strong>：採<strong>非強制性自願上台分享</strong>，凡上台報告呈現的小組皆可獲得額外加分，直接計入<strong>第四單元（佔總成績 10%）</strong>之評分中。</li>
+            </ul>
+        </div>
+
+        <footer>
+            AI 與經濟研究報告 — 11/26 課堂筆記整理 &copy; 2026
+        </footer>
+    </div>
+</body>
+</html>
